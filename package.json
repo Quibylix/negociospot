@@ -9,7 +9,10 @@
     "lint": "biome check",
     "format": "biome format --write",
     "prepare": "husky",
-    "biome:precommit": "biome check && biome format --write"
+    "biome:precommit": "biome check && biome format --write",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@mantine/core": "^8.3.9",
