@@ -23,6 +23,8 @@
     "@mantine/notifications": "^8.3.9",
     "@prisma/adapter-pg": "^7.1.0",
     "@prisma/client": "^7.1.0",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.87.1",
     "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
     "next": "16.0.8",
