@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/lib/prisma/generated/"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  role        Role         @default(CUSTOMER)
+  favorites   Favorite[]
+  reviews     Review[]
+  restaurants Restaurant[]
+}
+
+model Restaurant {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  schedule    String?
+
+  slug String @unique
+
+  logoImgUrl  String?
+  coverImgUrl String?
+
+  phone       String?
+  whatsapp    String?
+  socialMedia Json?
+
+  address String?
+  lat     Float?
+  lng     Float?
+
+  reviews     Review[]
+  favoritedBy Favorite[]
+
+  tags Tag[]
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+  menus     Menu[]
+}
+
+model Menu {
+  id           Int        @id @default(autoincrement())
+  name         String
+  isDefault    Boolean    @default(false)
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId Int
+  items        MenuItem[]
+}
+
+model MenuItem {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  price       Int
+  menu        Menu    @relation(fields: [menuId], references: [id])
+  menuId      Int
+}
+
+model Tag {
+  id          Int          @id @default(autoincrement())
+  name        String
+  restaurants Restaurant[]
+}
+
+model Review {
+  id           String     @id @default(uuid())
+  rating       Int
+  title        String
+  comment      String
+  restaurantId Int
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  profileId    String
+  profile      Profile    @relation(fields: [profileId], references: [id])
+}
+
+model Favorite {
+  profileId    String
+  restaurantId Int
+  profile      Profile    @relation(fields: [profileId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+
+  @@id([profileId, restaurantId])
+}
+
+enum Role {
+  CUSTOMER
+  BUSINESS_OWNER
+  ADMIN
+}
