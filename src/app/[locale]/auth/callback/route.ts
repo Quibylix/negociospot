@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { ErrorCodes } from "@/features/auth/error-codes";
 import { AuthService } from "@/features/auth/service";
 import { Logger } from "@/features/logger/logger";
+import { ERRORS } from "@/features/shared/constants/errors";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   if (!code) {
     Logger.warn("No code provided in authentication callback");
     return NextResponse.redirect(
-      `${origin}/login?error=${ErrorCodes.NO_CODE_PROVIDED}`,
+      `${origin}/login?error=${ERRORS.AUTH.NO_CODE_PROVIDED}`,
     );
   }
 
@@ -19,7 +19,7 @@ export async function GET(request: Request) {
   } catch (error) {
     Logger.warn("Authentication failed", { error });
     return NextResponse.redirect(
-      `${origin}/login?error=${ErrorCodes.AUTHENTICATION_FAILED}`,
+      `${origin}/login?error=${ERRORS.AUTH.SERVER_ERROR}`,
     );
   }
 
