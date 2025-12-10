@@ -26,7 +26,7 @@ export const AuthService = {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${origin}/auth/callback` },
+      options: { emailRedirectTo: `${origin}/auth/confirm` },
     });
 
     if (error) {
