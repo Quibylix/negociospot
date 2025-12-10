@@ -31,6 +31,7 @@ Renombra `.env.example` a `.env` y completa los valores según tu configuración
 DATABASE_URL="postgres://postgres.[ref]:[password]@[host]:5432/postgres?pgbouncer=true"
 NEXT_PUBLIC_SUPABASE_URL="[ref].supabase.co"
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="[your-supabase-publishable-key]"
+NEXT_PUBLIC_SITE_URL="[your-site-url]"
 ```
 
 ### 2. Configuración en Supabase Dashboard
@@ -42,3 +43,11 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="[your-supabase-publishable-key]"
 3.  En **URL Configuration** (Authentication > URL Configuration):
     - **Site URL:** `http://localhost:3000`
     - **Redirect URLs:** Agrega `http://localhost:3000/auth/callback`
+
+#### Configuración de Email
+
+1.  Ve a **Authentication** > **Notifications** > **Email**.
+2.  En la plantilla `Confirm sign up`, chambia el enlace por defecto por:
+    ```
+    {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email
+    ```
