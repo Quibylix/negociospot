@@ -12,5 +12,6 @@ export const ERRORS = {
     SERVER_ERROR: "auth.server_error",
     INVALID_CREDENTIALS: "auth.invalid_credentials",
     NO_CODE_PROVIDED: "auth.no_code_provided",
+    USER_ALREADY_EXISTS: "auth.user_already_exists",
   },
 } satisfies Record<string, Record<string, KeyPaths>>;
