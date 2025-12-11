@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   if (!code) {
     Logger.warn("No code provided in authentication callback");
     return NextResponse.redirect(
-      `${origin}/login?error=${ERRORS.AUTH.NO_CODE_PROVIDED}`,
+      `${origin}/auth/login?error=${ERRORS.AUTH.NO_CODE_PROVIDED}`,
     );
   }
 
@@ -19,7 +19,7 @@ export async function GET(request: Request) {
   } catch (error) {
     Logger.warn("Authentication failed", { error });
     return NextResponse.redirect(
-      `${origin}/login?error=${ERRORS.AUTH.SERVER_ERROR}`,
+      `${origin}/auth/login?error=${ERRORS.AUTH.SERVER_ERROR}`,
     );
   }
 
