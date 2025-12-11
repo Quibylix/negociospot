@@ -1,9 +1,11 @@
+import { Notifications } from "@mantine/notifications";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/features/i18n/routing";
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import {
   ColorSchemeScript,
   MantineProvider,
@@ -44,6 +46,7 @@ export default async function LocaleLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MantineProvider>
+          <Notifications />
           <NextIntlClientProvider>{children}</NextIntlClientProvider>
         </MantineProvider>
       </body>
