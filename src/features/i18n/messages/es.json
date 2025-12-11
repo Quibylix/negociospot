@@ -4,7 +4,8 @@
       "invalid_credentials": "Credenciales inválidas",
       "user_not_found": "Usuario no encontrado",
       "server_error": "Error del servidor",
-      "no_code_provided": "No se proporcionó ningún código"
+      "no_code_provided": "No se proporcionó ningún código",
+      "user_already_exists": "El usuario ya existe"
     }
   },
   "home": {
