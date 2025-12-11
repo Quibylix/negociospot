@@ -23,7 +23,8 @@
       "email_placeholder": "Introduce tu correo electrónico",
       "password_label": "Contraseña",
       "password_placeholder": "Introduce tu contraseña",
-      "submit_button": "Iniciar sesión"
+      "submit_button": "Iniciar sesión",
+      "success_message": "¡Inicio de sesión exitoso!"
     }
   }
 }
