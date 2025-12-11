@@ -14,4 +14,11 @@ export const ERRORS = {
     NO_CODE_PROVIDED: "auth.no_code_provided",
     USER_ALREADY_EXISTS: "auth.user_already_exists",
   },
+  GENERIC: {
+    UNKNOWN_ERROR: "generic.unknown_error",
+  },
 } satisfies Record<string, Record<string, KeyPaths>>;
+
+export const ERROR_VALUES = Object.values(ERRORS).flatMap((d) =>
+  Object.values(d),
+);
