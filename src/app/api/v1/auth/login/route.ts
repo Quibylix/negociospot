@@ -5,11 +5,11 @@ import {
 } from "@/features/auth/schemas/login.schema";
 import { AuthService } from "@/features/auth/service";
 import { Logger } from "@/features/logger/logger";
+import { ERRORS } from "@/features/shared/constants/errors";
 import {
   createTypedJsonRoute,
   typedJsonResponse,
-} from "@/features/routes/create-typed-json-route.helper";
-import { ERRORS } from "@/features/shared/constants/errors";
+} from "@/features/shared/utils/create-typed-json-route.helper";
 
 const _POST = async (req: Request) => {
   let parsedBody: z.infer<typeof loginBodySchema>;
