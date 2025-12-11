@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { AuthService } from "@/features/auth/service";
 import { Logger } from "@/features/logger/logger";
+import {
+  createTypedJsonRoute,
+  typedJsonResponse,
+} from "@/features/routes/create-typed-json-route.helper";
 import { ERRORS } from "@/features/shared/constants/errors";
 
 export const loginBodySchema = z
@@ -15,25 +19,26 @@ export const loginBodySchema = z
     }),
   );
 
-export async function POST(req: Request) {
+export const loginResponseSchema = z
+  .object({
+    error: z.string().optional(),
+  })
+  .or(z.null());
+
+const _POST = async (req: Request) => {
   let parsedBody: z.infer<typeof loginBodySchema>;
   try {
     const body = await req.json();
     parsedBody = loginBodySchema.parse(body);
   } catch {
     Logger.warn("Invalid login request body");
-    return Response.json(
-      {
-        error: ERRORS.AUTH.INVALID_CREDENTIALS,
-      },
-      { status: 400 },
-    );
+    return typedJsonResponse({ error: ERRORS.AUTH.INVALID_CREDENTIALS }, 400);
   }
 
   const { provider } = parsedBody;
   if (provider === "google") {
     Logger.warn("Google login is not implemented yet");
-    return Response.json({ message: ERRORS.AUTH.SERVER_ERROR });
+    return typedJsonResponse({ error: ERRORS.AUTH.SERVER_ERROR }, 500);
   }
 
   const { email, password } = parsedBody;
@@ -41,14 +46,12 @@ export async function POST(req: Request) {
     await AuthService.login({ email, password });
   } catch {
     Logger.warn("Failed login attempt", { email });
-    return Response.json(
-      {
-        error: ERRORS.AUTH.USER_NOT_FOUND,
-      },
-      { status: 401 },
-    );
+    return typedJsonResponse({ error: ERRORS.AUTH.USER_NOT_FOUND }, 401);
   }
 
   Logger.log("User logged in successfully", { email });
-  return new Response(null, { status: 200 });
-}
+  return typedJsonResponse(null, 200);
+};
+
+export const POST =
+  createTypedJsonRoute<z.infer<typeof loginResponseSchema>>(_POST);
