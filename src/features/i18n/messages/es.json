@@ -9,7 +9,9 @@
       "invalid_email": "Formato de correo electrónico inválido",
       "password_required": "Se requiere contraseña",
       "password_too_short": "La contraseña es demasiado corta (mínimo 6 caracteres)",
-      "password_too_long": "La contraseña es demasiado larga (máximo 100 caracteres)"
+      "password_too_long": "La contraseña es demasiado larga (máximo 100 caracteres)",
+      "confirm_password_required": "Se requiere confirmar la contraseña",
+      "passwords_do_not_match": "Las contraseñas no coinciden"
     },
     "generic": {
       "unknown_error": "Ocurrió un error desconocido"
@@ -29,6 +31,21 @@
       "password_placeholder": "Introduce tu contraseña",
       "submit_button": "Iniciar sesión",
       "success_message": "¡Inicio de sesión exitoso!"
+    }
+  },
+  "register": {
+    "title": "Crea una cuenta",
+    "already_an_account": "¿Ya tienes una cuenta?",
+    "login_here": "Inicia sesión aquí",
+    "form": {
+      "email_label": "Correo electrónico",
+      "email_placeholder": "Introduce tu correo electrónico",
+      "password_label": "Contraseña",
+      "password_placeholder": "Introduce tu contraseña",
+      "confirm_password_label": "Confirmar contraseña",
+      "confirm_password_placeholder": "Confirma tu contraseña",
+      "submit_button": "Registrarse",
+      "success_message": "¡Registro exitoso!"
     }
   }
 }
