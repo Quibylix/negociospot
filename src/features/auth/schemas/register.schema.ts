@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ERROR_VALUES } from "@/features/shared/constants/errors";
 
 export const registerBodySchema = z.object({
   email: z.email(),
@@ -7,6 +8,6 @@ export const registerBodySchema = z.object({
 
 export const registerResponseSchema = z
   .object({
-    error: z.string().optional(),
+    error: z.enum(ERROR_VALUES).optional(),
   })
   .or(z.null());

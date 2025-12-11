@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ERROR_VALUES } from "@/features/shared/constants/errors";
 
 export const loginBodySchema = z
   .object({
@@ -14,6 +15,6 @@ export const loginBodySchema = z
 
 export const loginResponseSchema = z
   .object({
-    error: z.string().optional(),
+    error: z.enum(ERROR_VALUES).optional(),
   })
   .or(z.null());
