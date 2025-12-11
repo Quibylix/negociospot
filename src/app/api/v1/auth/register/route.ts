@@ -1,4 +1,8 @@
-import { z } from "zod";
+import type { z } from "zod";
+import {
+  registerBodySchema,
+  type registerResponseSchema,
+} from "@/features/auth/schemas/register.schema";
 import { AuthService } from "@/features/auth/service";
 import { Logger } from "@/features/logger/logger";
 import {
@@ -6,17 +10,6 @@ import {
   typedJsonResponse,
 } from "@/features/routes/create-typed-json-route.helper";
 import { ERRORS } from "@/features/shared/constants/errors";
-
-export const registerBodySchema = z.object({
-  email: z.email(),
-  password: z.string().min(6).max(100),
-});
-
-export const registerResponseSchema = z
-  .object({
-    error: z.string().optional(),
-  })
-  .or(z.null());
 
 const _POST = async (req: Request) => {
   let parsedBody: z.infer<typeof registerBodySchema>;
