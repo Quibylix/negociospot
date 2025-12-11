@@ -1,10 +1,17 @@
 "use client";
 
-import { Button, Paper, PasswordInput, TextInput } from "@mantine/core";
+import {
+  Button,
+  Divider,
+  Paper,
+  PasswordInput,
+  TextInput,
+} from "@mantine/core";
+import { IconBrandGoogle } from "@tabler/icons-react";
 import { useLoginForm } from "./use-login-form.hook";
 
 export function LoginForm() {
-  const { form, t, submitHandler } = useLoginForm();
+  const { form, t, submitHandler, loginWithGoogle } = useLoginForm();
 
   return (
     <Paper
@@ -35,6 +42,18 @@ export function LoginForm() {
       />
       <Button type="submit" fullWidth mt="xl" radius="md">
         {t("submit_button")}
+      </Button>
+      <Divider my="lg" label={t("divider")} labelPosition="center" />
+      <Button
+        onClick={loginWithGoogle}
+        type="button"
+        fullWidth
+        mb="md"
+        radius="md"
+        variant="outline"
+        leftSection={<IconBrandGoogle size={18} />}
+      >
+        {t("google_button")}
       </Button>
     </Paper>
   );

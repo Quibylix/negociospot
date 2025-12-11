@@ -7,6 +7,7 @@ import {
 } from "@/features/auth/schemas/login.schema";
 import { useRouter } from "@/features/i18n/navigation";
 import { notifyError, notifySuccess } from "@/features/notifications/notify";
+import { createClient } from "@/lib/supabase/client";
 import { getValidators } from "./validators";
 
 export function useLoginForm() {
@@ -47,5 +48,15 @@ export function useLoginForm() {
       });
   }
 
-  return { form, t, submitHandler };
+  function loginWithGoogle() {
+    const supabase = createClient();
+    supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  }
+
+  return { form, t, submitHandler, loginWithGoogle };
 }
