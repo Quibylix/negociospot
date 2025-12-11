@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Paper, PasswordInput, TextInput, Title } from "@mantine/core";
+import { Button, Paper, PasswordInput, TextInput } from "@mantine/core";
 import { useLoginForm } from "./use-login-form.hook";
 
 export function LoginForm() {
