@@ -7,6 +7,7 @@
       "no_code_provided": "No se proporcionó ningún código",
       "user_already_exists": "El usuario ya existe",
       "invalid_email": "Formato de correo electrónico inválido",
+      "password_required": "Se requiere contraseña",
       "password_too_short": "La contraseña es demasiado corta (mínimo 6 caracteres)",
       "password_too_long": "La contraseña es demasiado larga (máximo 100 caracteres)"
     },

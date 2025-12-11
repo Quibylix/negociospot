@@ -9,7 +9,7 @@ export const getValidators = (
   email: schemaToValidator(z.email(t("auth.invalid_email"))),
   password: schemaToValidator(
     z
-      .string()
+      .string(t("auth.password_required"))
       .min(6, t("auth.password_too_short"))
       .max(100, t("auth.password_too_long")),
   ),
