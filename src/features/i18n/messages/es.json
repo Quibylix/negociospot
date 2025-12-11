@@ -30,7 +30,9 @@
       "password_label": "Contraseña",
       "password_placeholder": "Introduce tu contraseña",
       "submit_button": "Iniciar sesión",
-      "success_message": "¡Inicio de sesión exitoso!"
+      "success_message": "¡Inicio de sesión exitoso!",
+      "divider": "O usa tus redes sociales",
+      "google_button": "Iniciar sesión con Google"
     }
   },
   "register": {
@@ -45,7 +47,9 @@
       "confirm_password_label": "Confirmar contraseña",
       "confirm_password_placeholder": "Confirma tu contraseña",
       "submit_button": "Registrarse",
-      "success_message": "¡Registro exitoso!"
+      "success_message": "¡Registro exitoso!",
+      "divider": "O usa tus redes sociales",
+      "google_button": "Registrarse con Google"
     }
   },
   "confirm_email": {
