@@ -1,5 +1,12 @@
 import { useForm } from "@mantine/form";
 import { useTranslations } from "next-intl";
+import type { z } from "zod";
+import {
+  type loginBodySchema,
+  loginResponseSchema,
+} from "@/features/auth/schemas/login.schema";
+import { useRouter } from "@/features/i18n/navigation";
+import { notifyError, notifySuccess } from "@/features/notifications/notify";
 import { getValidators } from "./validators";
 
 export function useLoginForm() {
@@ -12,9 +19,32 @@ export function useLoginForm() {
     },
     validate: getValidators(errorsT),
   });
+  const router = useRouter();
 
   function submitHandler(values: typeof form.values) {
-    console.log("Form submitted with values:", values);
+    fetch("/api/v1/auth/login", {
+      method: "POST",
+      body: JSON.stringify({
+        provider: "email",
+        ...values,
+      } satisfies z.infer<typeof loginBodySchema>),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((r) => r.json())
+      .then((data) => loginResponseSchema.parse(data))
+      .then((res) => {
+        if (res?.error) {
+          return notifyError(errorsT(res.error), errorsT(res.error));
+        }
+        notifySuccess(t("success_message"), t("success_message"));
+        return router.replace("/");
+      })
+      .catch(() => {
+        notifyError(
+          errorsT("generic.unknown_error"),
+          errorsT("generic.unknown_error"),
+        );
+      });
   }
 
   return { form, t, submitHandler };
