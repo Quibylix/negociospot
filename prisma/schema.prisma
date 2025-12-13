@@ -8,12 +8,14 @@ datasource db {
 }
 
 model Profile {
-  id          String       @id @default(uuid())
-  email       String       @unique
-  role        Role         @default(CUSTOMER)
-  favorites   Favorite[]
-  reviews     Review[]
-  restaurants Restaurant[]
+  id        String     @id @default(uuid())
+  email     String     @unique
+  favorites Favorite[]
+  reviews   Review[]
+
+  createdRestaurants Restaurant[]
+
+  administeredRestaurants RestaurantAdmin[]
 }
 
 model Restaurant {
@@ -40,27 +42,37 @@ model Restaurant {
 
   tags Tag[]
 
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId String
-  menus     Menu[]
+  createdBy   Profile? @relation(fields: [createdById], references: [id])
+  createdById String?  @map("creatorId")
+
+  menus          Menu[]
+  administrators RestaurantAdmin[]
 }
 
 model Menu {
-  id           Int        @id @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   name         String
-  isDefault    Boolean    @default(false)
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  isDefault    Boolean        @default(false)
+  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId Int
-  items        MenuItem[]
+  categories   MenuCategory[]
+}
+
+model MenuCategory {
+  id        Int        @id @default(autoincrement())
+  name      String
+  menuItems MenuItem[]
+  menu      Menu       @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId    Int
 }
 
 model MenuItem {
-  id          Int     @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String?
   price       Int
-  menu        Menu    @relation(fields: [menuId], references: [id])
-  menuId      Int
+  category    MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  Int
 }
 
 model Tag {
@@ -75,22 +87,26 @@ model Review {
   title        String
   comment      String
   restaurantId Int
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   profileId    String
-  profile      Profile    @relation(fields: [profileId], references: [id])
+  profile      Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model RestaurantAdmin {
+  id           String     @id @default(uuid())
+  profileId    String
+  restaurantId Int
+  profile      Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, restaurantId])
 }
 
 model Favorite {
   profileId    String
   restaurantId Int
-  profile      Profile    @relation(fields: [profileId], references: [id])
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  profile      Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
   @@id([profileId, restaurantId])
-}
-
-enum Role {
-  CUSTOMER
-  BUSINESS_OWNER
-  ADMIN
 }
