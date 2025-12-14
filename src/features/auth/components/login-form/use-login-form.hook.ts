@@ -38,7 +38,8 @@ export function useLoginForm() {
           return notifyError(errorsT(res.error), errorsT(res.error));
         }
         notifySuccess(t("success_message"), t("success_message"));
-        return router.replace("/");
+        router.replace("/");
+        router.refresh();
       })
       .catch(() => {
         notifyError(
