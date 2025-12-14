@@ -39,7 +39,8 @@ export function useRegisterForm() {
           return notifyError(errorsT(res.error), errorsT(res.error));
         }
         notifySuccess(t("success_message"), t("success_message"));
-        return router.replace("/auth/confirm-email");
+        router.replace("/auth/confirm-email");
+        router.refresh();
       })
       .catch(() => {
         notifyError(
