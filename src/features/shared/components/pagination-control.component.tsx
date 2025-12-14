@@ -3,8 +3,7 @@
 import { Center, Pagination } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { usePathname, useRouter } from "@/features/i18n/navigation";
-
-export const PAGE_SEARCH_PARAM = "page";
+import { PAGE_SEARCH_PARAM } from "@/features/shared/constants/page-search-param.constant";
 
 export function PaginationControl({ totalPages }: { totalPages: number }) {
   const router = useRouter();
