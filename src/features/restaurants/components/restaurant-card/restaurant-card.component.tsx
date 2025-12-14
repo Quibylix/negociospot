@@ -43,8 +43,9 @@ export function RestaurantCard({
             src={coverImgUrl || "https://placehold.co/600x400"}
             width={600}
             height={400}
-            h="100%"
+            style={{ aspectRatio: "3 / 2" }}
             w="100%"
+            h="auto"
             fit="cover"
             alt={name}
             radius="md"
