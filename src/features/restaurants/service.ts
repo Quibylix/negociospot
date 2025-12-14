@@ -20,4 +20,23 @@ export const RestaurantsService = {
 
     return { restaurants, totalCount };
   },
+
+  getRestaurantBySlug: async (slug: string) => {
+    return prisma.restaurant.findUnique({
+      where: { slug },
+      include: {
+        tags: true,
+        reviews: { include: { profile: true } },
+        menus: {
+          where: { isDefault: true },
+          include: {
+            categories: {
+              orderBy: { id: "asc" },
+              include: { menuItems: true },
+            },
+          },
+        },
+      },
+    });
+  },
 };
