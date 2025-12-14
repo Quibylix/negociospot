@@ -18,7 +18,13 @@
     }
   },
   "app_shell": {
-    "app_name": "NegocioSpot"
+    "app_name": "NegocioSpot",
+    "navbar": {
+      "home": "Inicio",
+      "login": "Iniciar sesión",
+      "register": "Registrarse",
+      "logout": "Cerrar sesión"
+    }
   },
   "home": {
     "title": "NegocioSpot"
