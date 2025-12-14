@@ -64,6 +64,19 @@
   "restaurant": {
     "card": {
       "view_restaurant": "Ver restaurante"
+    },
+    "detail": {
+      "reviews_count": "{count, plural, =0 {# reseñas} one {# reseña} other {# reseñas}}",
+      "information": "Información",
+      "no_description": "Sin descripción",
+      "no_address": "Sin dirección",
+      "no_schedule": "Horario no disponible",
+      "call": "Llamar",
+      "whatsapp": "WhatsApp",
+      "menu": "Menú",
+      "reviews": "Reseñas",
+      "no_menu": "Este lugar aún no ha subido su menú.",
+      "be_the_first_review": "Sé el primero en opinar."
     }
   }
 }
