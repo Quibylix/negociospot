@@ -46,6 +46,8 @@ export function RestaurantCard({
             style={{ aspectRatio: "3 / 2" }}
             w="100%"
             h="auto"
+            mih="100%"
+            mah="100%"
             fit="cover"
             alt={name}
             radius="md"
