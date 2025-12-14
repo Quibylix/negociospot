@@ -11,6 +11,7 @@ import {
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
+import { AppShell } from "@/features/ui/app-shell/app-shell.component";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,7 +48,9 @@ export default async function LocaleLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MantineProvider>
           <Notifications />
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            <AppShell>{children}</AppShell>
+          </NextIntlClientProvider>
         </MantineProvider>
       </body>
     </html>
