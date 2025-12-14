@@ -17,6 +17,9 @@
       "unknown_error": "Ocurrió un error desconocido"
     }
   },
+  "app_shell": {
+    "app_name": "NegocioSpot"
+  },
   "home": {
     "title": "NegocioSpot"
   },
