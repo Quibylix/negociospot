@@ -14,6 +14,10 @@ export const ERRORS = {
     NO_CODE_PROVIDED: "auth.no_code_provided",
     USER_ALREADY_EXISTS: "auth.user_already_exists",
   },
+  RESTAURANTS: {
+    INVALID_CREATION_DATA: "restaurants.invalid_creation_data",
+    UNAUTHORIZED_CREATION: "restaurants.unauthorized_creation",
+  },
   GENERIC: {
     UNKNOWN_ERROR: "generic.unknown_error",
   },
