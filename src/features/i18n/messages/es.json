@@ -102,7 +102,10 @@
       "address_placeholder": "Calle 123",
       "cover_img_url_label": "URL de la imagen de portada",
       "cover_img_url_placeholder": "https://example.com/cover.jpg",
-      "default_name": "Nombre del Restaurante"
+      "default_name": "Nombre del Restaurante",
+      "form_title": "Detalles del Restaurante",
+      "preview_title": "Vista Previa",
+      "show_preview_button": "Mostrar Vista Previa"
     }
   }
 }
