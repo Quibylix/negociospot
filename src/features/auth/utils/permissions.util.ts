@@ -8,6 +8,13 @@ const POLICIES = {
   Session: {
     create: (u) => u === null,
   },
+  Restaurant: {
+    create: (u) => u !== null,
+    edit: (u) => (r: RestaurantPermissionContext) =>
+      u !== null && (r.admins.length === 0 || r.admins.includes(u.id)),
+    delete: (u) => (r: RestaurantPermissionContext) =>
+      u !== null && r.admins.includes(u.id),
+  },
 } satisfies PoliciesSchema;
 
 export function check(user: UserPermissionContext) {
