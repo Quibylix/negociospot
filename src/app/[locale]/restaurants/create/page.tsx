@@ -3,7 +3,7 @@ import { CreateRestaurantForm } from "@/features/restaurants/components/create-r
 
 export default function CreateRestaurantPage() {
   return (
-    <Container size="xl" py="xl">
+    <Container size={1500} py="xl">
       <CreateRestaurantForm />
     </Container>
   );
