@@ -39,4 +39,25 @@ export const RestaurantsService = {
       },
     });
   },
+
+  createRestaurant: async (data: {
+    name: string;
+    slug: string;
+    address?: string;
+    description?: string;
+    coverImgUrl?: string;
+    creatorId: string;
+  }) => {
+    return prisma.restaurant.create({
+      select: { id: true },
+      data: {
+        name: data.name,
+        slug: data.slug,
+        address: data.address ?? null,
+        description: data.description ?? null,
+        coverImgUrl: data.coverImgUrl ?? null,
+        createdById: data.creatorId,
+      },
+    });
+  },
 };
