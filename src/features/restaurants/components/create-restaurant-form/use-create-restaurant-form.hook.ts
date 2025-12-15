@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "@mantine/form";
+import { useDebouncedState } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/features/i18n/navigation";
 import { notifyError, notifySuccess } from "@/features/notifications/notify";
@@ -13,15 +14,26 @@ import { getValidators } from "./validators";
 export function useCreateRestaurantForm() {
   const errorsT = useTranslations("errors");
   const t = useTranslations("create_restaurant.form");
+
+  const initialValues = {
+    name: "",
+    description: "",
+    address: "",
+    coverImgUrl: "",
+  };
+
+  const [debouncedValues, setDebouncedValues] = useDebouncedState(
+    initialValues,
+    300,
+  );
   const form = useForm({
-    initialValues: {
-      name: "",
-      description: "",
-      address: "",
-      coverImgUrl: "",
-    },
+    initialValues,
     validate: getValidators(errorsT),
+    onValuesChange: (values) => {
+      setDebouncedValues(values);
+    },
   });
+
   const router = useRouter();
 
   function submitHandler(values: typeof form.values) {
@@ -57,5 +69,5 @@ export function useCreateRestaurantForm() {
       });
   }
 
-  return { form, t, submitHandler };
+  return { form, t, submitHandler, debouncedValues };
 }
