@@ -13,6 +13,11 @@
       "confirm_password_required": "Se requiere confirmar la contraseña",
       "passwords_do_not_match": "Las contraseñas no coinciden"
     },
+    "restaurants": {
+      "invalid_creation_data": "Datos de creación de restaurante inválidos",
+      "unauthorized_creation": "No estás autorizado para crear un restaurante",
+      "name_required": "El nombre del restaurante es obligatorio"
+    },
     "generic": {
       "unknown_error": "Ocurrió un error desconocido"
     }
