@@ -28,7 +28,8 @@
       "home": "Inicio",
       "login": "Iniciar sesión",
       "register": "Registrarse",
-      "logout": "Cerrar sesión"
+      "logout": "Cerrar sesión",
+      "create_restaurant": "Crear restaurante"
     }
   },
   "home": {

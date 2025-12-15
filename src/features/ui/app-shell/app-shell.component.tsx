@@ -16,5 +16,9 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
     navbarLinks.push(baseNavbarLinks.REGISTER);
   }
 
+  if (check(user).can("create", "Restaurant").verify()) {
+    navbarLinks.push(baseNavbarLinks.CREATE_RESTAURANT);
+  }
+
   return <AppShellView navbarLinks={navbarLinks}>{children}</AppShellView>;
 }
