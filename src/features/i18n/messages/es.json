@@ -115,5 +115,27 @@
       "preview_title": "Vista Previa",
       "show_preview_button": "Mostrar Vista Previa"
     }
+  },
+  "update_restaurant": {
+    "form": {
+      "success_message": "¡Restaurante actualizado con éxito!",
+      "submit_button": "Actualizar restaurante",
+      "name_label": "Nombre del restaurante",
+      "name_placeholder": "Mi Restaurante",
+      "description_label": "Descripción",
+      "description_placeholder": "El mejor restaurante de la ciudad",
+      "address_label": "Dirección",
+      "address_placeholder": "Calle 123",
+      "schedule_label": "Horario",
+      "schedule_placeholder": "Lun-Vie 9am-9pm",
+      "tags_label": "Etiquetas",
+      "tags_placeholder": "Italiana, Mexicana, Vegetariana",
+      "cover_img_url_label": "URL de la imagen de portada",
+      "cover_img_url_placeholder": "https://example.com/cover.jpg",
+      "default_name": "Nombre del Restaurante",
+      "form_title": "Detalles del Restaurante",
+      "preview_title": "Vista Previa",
+      "show_preview_button": "Mostrar Vista Previa"
+    }
   }
 }
