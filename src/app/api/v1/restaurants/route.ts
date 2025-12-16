@@ -37,7 +37,8 @@ export const POST = createTypedJsonRoute<
     );
   }
 
-  const { name, address, description, coverImgUrl } = parsedBody;
+  const { name, address, description, schedule, tagIds, coverImgUrl } =
+    parsedBody;
 
   const randomSlugSuffix = Math.random().toString(36).substring(2, 8);
   const slug = createSlug(name, randomSlugSuffix);
@@ -50,8 +51,10 @@ export const POST = createTypedJsonRoute<
       name,
       slug,
       address,
+      schedule,
       description,
       coverImgUrl,
+      tagIds,
       creatorId: user.id,
     });
   } catch (err) {
