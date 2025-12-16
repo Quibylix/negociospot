@@ -16,7 +16,10 @@
     "restaurants": {
       "invalid_creation_data": "Datos de creación de restaurante inválidos",
       "unauthorized_creation": "No estás autorizado para crear un restaurante",
-      "name_required": "El nombre del restaurante es obligatorio"
+      "invalid_restaurant_id": "ID de restaurante inválido",
+      "name_required": "El nombre del restaurante es obligatorio",
+      "invalid_edition_data": "Datos de edición de restaurante inválidos",
+      "unauthorized_edition": "No estás autorizado para editar este restaurante"
     },
     "generic": {
       "unknown_error": "Ocurrió un error desconocido"
