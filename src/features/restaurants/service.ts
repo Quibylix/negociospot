@@ -49,6 +49,15 @@ export const RestaurantsService = {
     });
   },
 
+  getRestaurantAdminsBySlug: async (slug: string) => {
+    return prisma.restaurant.findUnique({
+      where: { slug },
+      select: {
+        administrators: { select: { profile: true } },
+      },
+    });
+  },
+
   createRestaurant: async (data: {
     name: string;
     slug: string;
