@@ -17,6 +17,9 @@ export const ERRORS = {
   RESTAURANTS: {
     INVALID_CREATION_DATA: "restaurants.invalid_creation_data",
     UNAUTHORIZED_CREATION: "restaurants.unauthorized_creation",
+    UNAUTHORIZED_EDITION: "restaurants.unauthorized_edition",
+    INVALID_EDITION_DATA: "restaurants.invalid_edition_data",
+    INVALID_RESTAURANT_ID: "restaurants.invalid_restaurant_id",
   },
   GENERIC: {
     UNKNOWN_ERROR: "generic.unknown_error",
