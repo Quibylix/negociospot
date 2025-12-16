@@ -21,6 +21,13 @@ export const ERRORS = {
     INVALID_EDITION_DATA: "restaurants.invalid_edition_data",
     INVALID_RESTAURANT_ID: "restaurants.invalid_restaurant_id",
   },
+  MENUS: {
+    INVALID_CREATION_DATA: "menus.invalid_creation_data",
+    UNAUTHORIZED_CREATION: "menus.unauthorized_creation",
+    UNAUTHORIZED_EDITION: "menus.unauthorized_edition",
+    INVALID_EDITION_DATA: "menus.invalid_edition_data",
+    INVALID_MENU_ID: "menus.invalid_menu_id",
+  },
   GENERIC: {
     UNKNOWN_ERROR: "generic.unknown_error",
   },
