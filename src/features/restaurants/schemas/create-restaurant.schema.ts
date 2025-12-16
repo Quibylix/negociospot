@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ERROR_VALUES } from "@/features/shared/constants/errors";
 
 export const createRestaurantBodySchema = z.object({
   name: z.string().min(1).max(100),
@@ -16,6 +17,6 @@ export const createRestaurantResponseSchema = z
   })
   .or(
     z.object({
-      error: z.string(),
+      error: z.enum(ERROR_VALUES),
     }),
   );
