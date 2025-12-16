@@ -1,5 +1,9 @@
 import { Container } from "@mantine/core";
 import { notFound } from "next/navigation";
+import type { Locale } from "next-intl";
+import { AuthService } from "@/features/auth/service";
+import { check } from "@/features/auth/utils/permissions.util";
+import { redirect } from "@/features/i18n/navigation/server";
 import { Logger } from "@/features/logger/logger";
 import { UpdateRestaurantForm } from "@/features/restaurants/components/update-restaurant-form/update-restaurant-form.component";
 import { RestaurantsService } from "@/features/restaurants/service";
@@ -8,9 +12,40 @@ import { TagService } from "@/features/tags/service";
 export default async function EditRestaurantPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: Locale }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+
+  const user = await AuthService.getCurrentUser().catch((e) => {
+    Logger.error("Failed to fetch current user", { error: e });
+    return null;
+  });
+  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
+    slug,
+  )
+    .then((res) => res?.administrators.map((admin) => admin.profile.id) ?? [])
+    .catch((e) => {
+      Logger.error("Failed to fetch restaurant admins", {
+        restaurantSlug: slug,
+        error: e,
+      });
+      return null;
+    });
+
+  if (restaurantAdmins === null) {
+    redirect({ href: "/", locale });
+    return;
+  }
+
+  if (
+    !check(user)
+      .can("edit", "Restaurant")
+      .verify({ admins: restaurantAdmins }) ||
+    !user
+  ) {
+    redirect({ href: "/", locale });
+    return;
+  }
 
   const restaurant = await RestaurantsService.getRestaurantBySlug(slug).catch(
     (error) => {
