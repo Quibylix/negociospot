@@ -2,7 +2,7 @@ export type UserPermissionContext = {
   id: string;
 } | null;
 
-export type RestaurantPermissionContext = { id: string; admins: string[] };
+export type RestaurantPermissionContext = { admins: string[] };
 
 const POLICIES = {
   Session: {
