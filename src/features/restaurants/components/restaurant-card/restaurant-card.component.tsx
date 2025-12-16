@@ -61,9 +61,11 @@ export function RestaurantCard({
               </Title>
               {tags[0] && <Badge color="green">{tags[0].name}</Badge>}
             </Group>
-            <Group gap={5} mt={5} c="dimmed">
+            <Group gap={5} mt={5} c="dimmed" wrap="nowrap">
               <IconMapPin size={16} />
-              <Text size="sm">{address || "Sin dirección"}</Text>
+              <Text lineClamp={1} size="sm">
+                {address || "Sin dirección"}
+              </Text>
             </Group>
             <Text size="sm" mt="sm" lineClamp={2}>
               {description}
