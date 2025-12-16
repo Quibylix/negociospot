@@ -21,6 +21,14 @@
       "invalid_edition_data": "Datos de edición de restaurante inválidos",
       "unauthorized_edition": "No estás autorizado para editar este restaurante"
     },
+    "menus": {
+      "invalid_creation_data": "Datos de creación de menú inválidos",
+      "unauthorized_creation": "No estás autorizado para crear un menú",
+      "invalid_menu_id": "ID de menú inválido",
+      "name_required": "El nombre del menu es obligatorio",
+      "invalid_edition_data": "Datos de edición de menú inválidos",
+      "unauthorized_edition": "No estás autorizado para editar este menú"
+    },
     "generic": {
       "unknown_error": "Ocurrió un error desconocido"
     }
