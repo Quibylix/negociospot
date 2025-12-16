@@ -17,7 +17,7 @@ export async function createMenu(data: {
       categories: {
         create: data.categories.map((category) => ({
           name: category.name,
-          items: {
+          menuItems: {
             create: category.items.map((item) => ({
               name: item.name,
               description: item.description ?? null,
