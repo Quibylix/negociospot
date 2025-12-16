@@ -64,7 +64,7 @@ export function useCreateRestaurantForm() {
           return;
         }
 
-        throw new Error();
+        notifyError(errorsT(data.error), errorsT(data.error));
       })
       .catch(() => {
         notifyError(
