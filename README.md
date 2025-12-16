@@ -1,31 +1,29 @@
 # NegocioSpot
 
-NegocioSpot es una plataforma web que permite a los usuarios descubrir y conectar con negocios
-locales de manera fácil y eficiente. Construida con Next.js, Supabase y Prisma, ofrece una
-experiencia rápida y segura tanto para usuarios como para administradores de negocios.
+NegocioSpot is a web platform that allows users to discover and connect with local businesses easily and efficiently. Built with Next.js, Supabase, and Prisma, it offers a fast and secure experience for both users and business administrators.
 
-## 🚀 Tecnologías Utilizadas
+## 🚀 Technologies Used
 
-- **Next.js**: Framework de React para aplicaciones web rápidas y optimizadas.
-- **Supabase**: Backend como servicio que proporciona autenticación, base de datos y almacenamiento.
-- **Prisma**: ORM para gestionar la base de datos de manera eficiente y segura.
-- **Mantine**: Biblioteca de componentes UI para React.
-- **TypeScript**: Superset de JavaScript que añade tipado estático.
+- **Next.js**: React framework for fast and optimized web applications.
+- **Supabase**: Backend as a service providing authentication, database, and storage.
+- **Prisma**: ORM for efficient and secure database management.
+- **Mantine**: UI component library for React.
+- **TypeScript**: Superset of JavaScript that adds static typing.
 
-## Capacidades Principales
+## Main Features
 
-- Registro e inicio de sesión de usuarios mediante Google OAuth.
-- Gestión de perfiles de usuario y negocios.
-- Búsqueda y filtrado de negocios locales.
-- Subdominios personalizados para cada negocio.
-- Panel de administración para dueños de negocios.
-- Interfaz de usuario moderna y responsiva.
+- User registration and login via Google OAuth.
+- User and business profile management.
+- Search and filter local businesses.
+- Custom subdomains for each business.
+- Admin panel for business owners.
+- Modern and responsive user interface.
 
-## 🛠 Configuración y Variables de Entorno
+## 🛠 Setup and Environment Variables
 
-### 1. Variables de Entorno (`.env`)
+### 1. Environment Variables (`.env`)
 
-Renombra `.env.example` a `.env` y completa los valores según tu configuración de Supabase:
+Rename `.env.example` to `.env` and fill in the values according to your Supabase setup:
 
 ```bash
 DATABASE_URL="postgres://postgres.[ref]:[password]@[host]:5432/postgres?pgbouncer=true"
@@ -34,28 +32,28 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="[your-supabase-publishable-key]"
 NEXT_PUBLIC_SITE_URL="[your-site-url]"
 ```
 
-### 2. Configuración en Supabase Dashboard
+### 2. Supabase Dashboard Configuration
 
-#### Autenticación (Google OAuth)
+#### Authentication (Google OAuth)
 
-1.  Ve a **Authentication** > **Providers** > **Google**.
-2.  Habilítalo e ingresa tus credenciales de Google Cloud Console.
-3.  En **URL Configuration** (Authentication > URL Configuration):
+1.  Go to **Authentication** > **Providers** > **Google**.
+2.  Enable it and enter your Google Cloud Console credentials.
+3.  In **URL Configuration** (Authentication > URL Configuration):
     - **Site URL:** `http://localhost:3000`
-    - **Redirect URLs:** Agrega `http://localhost:3000/auth/callback`
+    - **Redirect URLs:** Add `http://localhost:3000/auth/callback`
 
-#### Configuración de Email
+#### Email Configuration
 
-1.  Ve a **Authentication** > **Notifications** > **Email**.
-2.  En la plantilla `Confirm sign up`, chambia el enlace por defecto por:
+1.  Go to **Authentication** > **Notifications** > **Email**.
+2.  In the `Confirm sign up` template, change the default link to:
     ```
     {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email
     ```
 
-### Configuración de Trigger para sincronización de perfiles
+#### Profile Synchronization Trigger Setup
 
-1.  Ve a **Database** > **SQL Editor** en Supabase Dashboard.
-2.  Ejecuta el siguiente script para crear un trigger que sincronice los perfiles de usuario:
+1.  Go to **Database** > **SQL Editor** in the Supabase Dashboard.
+2.  Run the following script to create a trigger that synchronizes user profiles:
 
 ```sql
 create function public.handle_new_user()
