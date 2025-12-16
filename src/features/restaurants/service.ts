@@ -68,4 +68,31 @@ export const RestaurantsService = {
       },
     });
   },
+
+  updateRestaurant: async (
+    { id }: { id: number },
+    data: {
+      name: string;
+      address?: string;
+      description?: string;
+      schedule?: string;
+      coverImgUrl?: string;
+      tagIds?: number[];
+    },
+  ) => {
+    return prisma.restaurant.update({
+      where: { id },
+      select: { id: true, slug: true },
+      data: {
+        name: data.name,
+        address: data.address ?? null,
+        description: data.description ?? null,
+        schedule: data.schedule ?? null,
+        coverImgUrl: data.coverImgUrl ?? null,
+        tags: {
+          set: data.tagIds?.map((tagId) => ({ id: tagId })),
+        },
+      },
+    });
+  },
 };
