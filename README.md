@@ -105,3 +105,39 @@ create trigger on_auth_user_updated
   after update of email on auth.users
   for each row execute procedure public.handle_user_update();
 ```
+
+### 3. Configure Business Available Tags
+
+1. Run the following SQL script in the Supabase SQL Editor to populate the `Tag` table with initial tags, for example:
+
+```sql
+-- Clean table if needed
+-- TRUNCATE TABLE "Tag" RESTART IDENTITY CASCADE;
+
+INSERT INTO "Tag" ("name") VALUES
+('Italiana'), ('Mexicana'), ('Salvadoreña'), ('China'), ('Japonesa'),
+('Americana'), ('Francesa'), ('Española'), ('India'), ('Tailandesa'),
+('Peruana'), ('Argentina'), ('Coreana'), ('Vietnamita'), ('Libanesa'),
+('Mediterránea'), ('Caribeña'), ('Brasileña'), ('Turca'), ('Griega'),
+('Alemana'), ('Fusión'), ('Internacional'), ('Asiática'), ('Latina'),
+('Hamburguesas'), ('Pizza'), ('Tacos'), ('Sushi'), ('Mariscos'),
+('Carnes'), ('Asados'), ('Pollo'), ('Alitas'), ('Pupusas'),
+('Postres'), ('Café'), ('Panadería'), ('Pastelería'), ('Heladería'),
+('Donas'), ('Crepas'), ('Waffles'), ('Sandwiches'), ('Ensaladas'),
+('Sopas'), ('Ramen'), ('Poke'), ('Tapas'), ('Ceviche'),
+('Pasta'), ('Burritos'), ('Chocolatería'), ('Smoothies'), ('Bubble Tea'),
+('Desayunos'), ('Almuerzos'), ('Cenas'), ('Brunch'), ('Buffet'),
+('Fast Food'), ('Gourmet'), ('Comida Callejera'), ('Food Court'), ('Fine Dining'),
+('Cafetería'), ('Bar'), ('Pub'), ('Gastrobar'), ('Sports Bar'),
+('Food Truck'), ('Restaurante de Hotel'), ('Bistro'), ('Steakhouse'),
+('Vegano'), ('Vegetariano'), ('Sin Gluten'), ('Keto'), ('Saludable'),
+('Orgánico'), ('Pescatariano'), ('Bajo en Calorías'),
+('Familiar'), ('Romántico'), ('Negocios'), ('Amigos'), ('Pareja'),
+('Ideal para Niños'), ('Grupos Grandes'), ('Solo'), ('Elegante'), ('Casual'),
+('Instagrameable'), ('Tradicional'), ('Moderno'), ('Rústico'),
+('Terraza'), ('Aire Libre'), ('Rooftop'), ('Vista Panorámica'), ('Jardín'),
+('Pet Friendly'), ('WiFi Gratis'), ('Estacionamiento'), ('Drive-thru'), ('Delivery'),
+('Para Llevar'), ('Reservas'), ('24 Horas'), ('Abierto Tarde'), ('Música en Vivo'),
+('Pantallas / Deportes'), ('Accesibilidad Silla de Ruedas'), ('Aire Acondicionado'), ('Zona de Juegos'), ('Eventos Privados'),
+('Coctelería de Autor'), ('Carta de Vinos'), ('Cerveza Artesanal');
+```
