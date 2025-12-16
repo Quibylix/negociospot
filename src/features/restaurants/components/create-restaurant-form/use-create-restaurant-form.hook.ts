@@ -52,9 +52,9 @@ export function useCreateRestaurantForm() {
       .then((r) => r.json())
       .then((data) => createRestaurantResponseSchema.parseAsync(data))
       .then((data) => {
-        if ("id" in data) {
+        if ("slug" in data) {
           notifySuccess(t("success_message"), t("success_message"));
-          router.replace(`/restaurants/${data.id}`);
+          router.replace(`/restaurants/${data.slug}`);
           router.refresh();
           return;
         }

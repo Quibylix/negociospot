@@ -62,5 +62,5 @@ export const POST = createTypedJsonRoute<
     return typedJsonResponse({ error: ERRORS.GENERIC.UNKNOWN_ERROR }, 500);
   }
 
-  return typedJsonResponse({ id: restaurant.id });
+  return typedJsonResponse({ id: restaurant.id, slug });
 });

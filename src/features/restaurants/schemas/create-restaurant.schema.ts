@@ -12,6 +12,7 @@ export const createRestaurantBodySchema = z.object({
 export const createRestaurantResponseSchema = z
   .object({
     id: z.number(),
+    slug: z.string(),
   })
   .or(
     z.object({
