@@ -28,7 +28,6 @@ export const RestaurantsService = {
         tags: true,
         reviews: { include: { profile: true } },
         menus: {
-          where: { isDefault: true },
           include: {
             categories: {
               orderBy: { id: "asc" },
