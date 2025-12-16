@@ -19,13 +19,16 @@ export function useCreateRestaurantForm() {
     name: "",
     description: "",
     address: "",
+    schedule: "",
     coverImgUrl: "",
+    tags: [] as string[],
   };
 
   const [debouncedValues, setDebouncedValues] = useDebouncedState(
-    initialValues,
+    { ...initialValues, tags: [] as string[] },
     300,
   );
+
   const form = useForm({
     initialValues,
     validate: getValidators(errorsT),
@@ -43,8 +46,10 @@ export function useCreateRestaurantForm() {
         createRestaurantBodySchema.parse({
           name: values.name,
           description: values.description.trim() || undefined,
+          schedule: values.schedule.trim() || undefined,
           address: values.address.trim() || undefined,
           coverImgUrl: values.coverImgUrl.trim() || undefined,
+          tagIds: values.tags.map((tag) => Number(tag)),
         }),
       ),
       headers: { "Content-Type": "application/json" },

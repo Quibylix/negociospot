@@ -6,18 +6,32 @@ import {
   Drawer,
   Grid,
   GridCol,
+  MultiSelect,
   Paper,
   Textarea,
   TextInput,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useMemo } from "react";
 import { RestaurantDetail } from "../restaurant-detail/restaurant-detail.component";
 import { useCreateRestaurantForm } from "./use-create-restaurant-form.hook";
 
-export function CreateRestaurantForm() {
+export function CreateRestaurantForm({
+  availableTags,
+}: {
+  availableTags: { id: number; name: string }[];
+}) {
   const { form, t, submitHandler, debouncedValues } = useCreateRestaurantForm();
   const [opened, { open, close }] = useDisclosure(false);
+
+  const tagIdToNameMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    availableTags.forEach((tag) => {
+      map[tag.id.toString()] = tag.name;
+    });
+    return map;
+  }, [availableTags]);
 
   const restaurantPreview = (
     <RestaurantDetail
@@ -25,10 +39,13 @@ export function CreateRestaurantForm() {
       description={debouncedValues.description}
       address={debouncedValues.address}
       coverImgUrl={debouncedValues.coverImgUrl}
-      tags={[]}
+      tags={debouncedValues.tags.map((tagId) => ({
+        id: parseInt(tagId, 10),
+        name: tagIdToNameMap[tagId],
+      }))}
       reviews={[]}
       menus={[]}
-      schedule=""
+      schedule={debouncedValues.schedule}
       phone=""
       whatsapp=""
     />
@@ -67,10 +84,28 @@ export function CreateRestaurantForm() {
               {...form.getInputProps("address")}
             />
             <TextInput
+              label={t("schedule_label")}
+              placeholder={t("schedule_placeholder")}
+              mt="md"
+              {...form.getInputProps("schedule")}
+            />
+            <TextInput
               label={t("cover_img_url_label")}
               placeholder={t("cover_img_url_placeholder")}
               mt="md"
               {...form.getInputProps("coverImgUrl")}
+            />
+            <MultiSelect
+              searchable
+              limit={10}
+              data={availableTags.map((tag) => ({
+                value: tag.id.toString(),
+                label: tag.name,
+              }))}
+              label={t("tags_label")}
+              placeholder={t("tags_placeholder")}
+              mt="md"
+              {...form.getInputProps("tags")}
             />
             <Button type="submit" fullWidth mt="lg">
               {t("submit_button")}
