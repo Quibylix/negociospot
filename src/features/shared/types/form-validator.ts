@@ -1,4 +1,6 @@
 export type FormValidator = (value: unknown, values?: unknown) => string | null;
 export type FormValidators = {
-  [key: string]: (value: unknown, values?: unknown) => string | null;
+  [key: string | symbol]:
+    | FormValidators
+    | ((value: unknown, values?: unknown) => string | null);
 };
