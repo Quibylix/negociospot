@@ -48,7 +48,7 @@ export const PUT = createTypedJsonRoute<
     !user
   ) {
     return typedJsonResponse(
-      { error: ERRORS.RESTAURANTS.UNAUTHORIZED_EDITION },
+      { error: ERRORS.MENUS.UNAUTHORIZED_CREATION },
       403,
     );
   }
