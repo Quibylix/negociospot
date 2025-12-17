@@ -45,9 +45,7 @@ export const POST = createTypedJsonRoute<
   }
 
   if (
-    !check(user)
-      .can("edit", "Restaurant")
-      .verify({ admins: restaurantAdmins }) ||
+    !check(user).can("create", "Menu").verify({ admins: restaurantAdmins }) ||
     !user
   ) {
     return typedJsonResponse(

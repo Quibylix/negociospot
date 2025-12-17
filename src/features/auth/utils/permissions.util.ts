@@ -4,6 +4,11 @@ export type UserPermissionContext = {
 
 export type RestaurantPermissionContext = { admins: string[] };
 
+export type MenuPermissionContext = {
+  restaurantAdmins: string[];
+  belongsToRestaurant: boolean;
+};
+
 const POLICIES = {
   Session: {
     create: (u) => u === null,
@@ -14,6 +19,16 @@ const POLICIES = {
       u !== null && (r.admins.length === 0 || r.admins.includes(u.id)),
     delete: (u) => (r: RestaurantPermissionContext) =>
       u !== null && r.admins.includes(u.id),
+  },
+  Menu: {
+    create: (u) => (r: RestaurantPermissionContext) =>
+      u !== null && (r.admins.length === 0 || r.admins.includes(u.id)),
+    edit: (u) => (m: MenuPermissionContext) =>
+      u !== null &&
+      m.belongsToRestaurant &&
+      (m.restaurantAdmins.length === 0 || m.restaurantAdmins.includes(u.id)),
+    delete: (u) => (m: MenuPermissionContext) =>
+      u !== null && m.belongsToRestaurant && m.restaurantAdmins.includes(u.id),
   },
 } satisfies PoliciesSchema;
 
