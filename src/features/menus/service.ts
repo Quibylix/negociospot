@@ -30,6 +30,18 @@ export async function createMenu(data: {
   });
 }
 
+export async function checkMenuBelongsToRestaurant(
+  menuId: number,
+  restaurantId: number,
+) {
+  const menu = await prisma.menu.findUnique({
+    where: { id: menuId },
+    select: { restaurantId: true },
+  });
+
+  return menu?.restaurantId === restaurantId;
+}
+
 export async function updateMenu(
   id: number,
   data: {
