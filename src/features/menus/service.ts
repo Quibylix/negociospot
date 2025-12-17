@@ -117,7 +117,7 @@ async function updateMenuCategory(
   }
 
   await tx.menuCategory.update({
-    where: { id: category.id },
+    where: { id: category.id, menuId },
     data: {
       name: category.name,
     },
@@ -129,20 +129,24 @@ async function updateMenuCategory(
 
   await tx.menuItem.deleteMany({
     where: {
-      categoryId: category.id,
+      category: {
+        id: category.id,
+        menuId,
+      },
       id: { notIn: itemsIdsToKeep },
     },
   });
 
   await Promise.all(
     category.items.map((item) =>
-      updateMenuItem(tx, category.id as number, item),
+      updateMenuItem(tx, menuId, category.id as number, item),
     ),
   );
 }
 
 async function updateMenuItem(
   tx: TransactionClient,
+  menuId: number,
   categoryId: number,
   item: {
     id?: number;
@@ -154,7 +158,9 @@ async function updateMenuItem(
   if (!item.id) {
     return await tx.menuItem.create({
       data: {
-        categoryId,
+        category: {
+          connect: { id: categoryId, menuId },
+        },
         name: item.name,
         description: item.description ?? null,
         price: item.price,
@@ -163,7 +169,13 @@ async function updateMenuItem(
   }
 
   return await tx.menuItem.update({
-    where: { id: item.id },
+    where: {
+      id: item.id,
+      category: {
+        id: categoryId,
+        menuId,
+      },
+    },
     data: {
       name: item.name,
       description: item.description ?? null,
