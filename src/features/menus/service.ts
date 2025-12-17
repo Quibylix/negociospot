@@ -2,7 +2,7 @@ import type { TransactionClient } from "@/lib/prisma/generated/internal/prismaNa
 import { prisma } from "@/lib/prisma/prisma";
 
 export async function createMenu(data: {
-  restaurantId: number;
+  restaurantSlug: string;
   name: string;
   categories: {
     name: string;
@@ -12,7 +12,9 @@ export async function createMenu(data: {
   return prisma.menu.create({
     select: { id: true },
     data: {
-      restaurantId: data.restaurantId,
+      restaurant: {
+        connect: { slug: data.restaurantSlug },
+      },
       name: data.name,
       categories: {
         create: data.categories.map((category) => ({

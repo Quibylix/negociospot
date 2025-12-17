@@ -18,24 +18,17 @@ export const POST = createTypedJsonRoute<
   z.infer<typeof createMenuResponseSchema>,
   { params: Promise<{ id: string }> }
 >(async (req, { params }) => {
-  const { id: restaurantId } = await params;
+  const { id: restaurantSlug } = await params;
 
   const user = await AuthService.getCurrentUser();
 
-  if (!Number(restaurantId)) {
-    return typedJsonResponse(
-      { error: ERRORS.RESTAURANTS.INVALID_RESTAURANT_ID },
-      400,
-    );
-  }
-
-  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsById(
-    Number(restaurantId),
+  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
+    restaurantSlug,
   )
     .then((res) => res?.administrators.map((admin) => admin.profile.id) ?? [])
     .catch(() => {
       Logger.error("Failed to fetch restaurant admins", {
-        restaurantId,
+        restaurantSlug,
       });
       return null;
     });
@@ -71,7 +64,7 @@ export const POST = createTypedJsonRoute<
   let menu: Awaited<ReturnType<typeof createMenu>>;
   try {
     menu = await createMenu({
-      restaurantId: Number(restaurantId),
+      restaurantSlug,
       name,
       categories,
     });
