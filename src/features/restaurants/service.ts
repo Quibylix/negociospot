@@ -28,10 +28,17 @@ export const RestaurantsService = {
         tags: true,
         reviews: { include: { profile: true } },
         menus: {
+          orderBy: {
+            id: "asc",
+          },
           include: {
             categories: {
               orderBy: { id: "asc" },
-              include: { menuItems: true },
+              include: {
+                menuItems: {
+                  orderBy: { id: "asc" },
+                },
+              },
             },
           },
         },
