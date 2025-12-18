@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import { AuthService } from "@/features/auth/service";
+import { check } from "@/features/auth/utils/permissions.util";
 import { Logger } from "@/features/logger/logger";
 import { RestaurantDetail } from "@/features/restaurants/components/restaurant-detail/restaurant-detail.component";
 import {
@@ -33,5 +35,54 @@ export default async function RestaurantPage({
     notFound();
   }
 
-  return <RestaurantDetail {...parsedRestaurant} />;
+  const user = await AuthService.getCurrentUser().catch((error) => {
+    Logger.warn("Error fetching current user", { error });
+    return null;
+  });
+
+  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
+    slug,
+  ).catch((error) => {
+    Logger.error(`Error fetching restaurant admins for slug "${slug}".`, error);
+    return null;
+  });
+
+  const canEdit =
+    Boolean(restaurantAdmins) &&
+    check(user)
+      .can("edit", "Restaurant")
+      .verify({
+        admins:
+          restaurantAdmins?.administrators.map((admin) => admin.profile.id) ??
+          [],
+      });
+  const canCreateMenus =
+    Boolean(restaurantAdmins) &&
+    check(user)
+      .can("create", "Menu")
+      .verify({
+        admins:
+          restaurantAdmins?.administrators.map((admin) => admin.profile.id) ??
+          [],
+      });
+  const canEditMenus =
+    Boolean(restaurantAdmins) &&
+    check(user)
+      .can("edit", "Menu")
+      .verify({
+        restaurantAdmins: restaurantAdmins?.administrators.map(
+          (admin) => admin.profile.id,
+        ) as string[],
+        belongsToRestaurant: true,
+      });
+
+  return (
+    <RestaurantDetail
+      {...parsedRestaurant}
+      canEdit={canEdit}
+      canCreateMenus={canCreateMenus}
+      canEditMenus={canEditMenus}
+      slug={slug}
+    />
+  );
 }

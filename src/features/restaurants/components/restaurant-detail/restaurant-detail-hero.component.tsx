@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ActionIcon,
   Badge,
   Box,
   Card,
@@ -12,7 +13,9 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { IconEdit } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/features/i18n/navigation";
 import type { RestaurantDetailProps } from "./service-to-detail-adapter";
 
 export type RestaurantDetailHeroProps = {
@@ -21,6 +24,8 @@ export type RestaurantDetailHeroProps = {
   tags: RestaurantDetailProps["tags"];
   reviewsCount: number;
   ratingAvg: number;
+  canEdit: boolean;
+  slug: string;
 };
 
 export function RestaurantDetailHero({
@@ -29,6 +34,8 @@ export function RestaurantDetailHero({
   tags,
   reviewsCount,
   ratingAvg,
+  slug,
+  canEdit,
 }: RestaurantDetailHeroProps) {
   const t = useTranslations("restaurant.detail");
 
@@ -48,7 +55,21 @@ export function RestaurantDetailHero({
         <Card shadow="md" radius="md" p="lg">
           <Group justify="space-between" align="start">
             <div>
-              <Title order={1}>{name}</Title>
+              <Group align="center">
+                <Title order={1}>{name}</Title>
+                {canEdit && (
+                  <ActionIcon
+                    component={Link}
+                    href={`/restaurants/${slug}/edit`}
+                    variant="outline"
+                    color="gray"
+                    title={t("edit_restaurant")}
+                    aria-label={t("edit_restaurant")}
+                  >
+                    <IconEdit size={20} />
+                  </ActionIcon>
+                )}
+              </Group>
               <Group gap="xs" mt={5}>
                 {tags.map((t) => (
                   <Badge key={t.id} color="gray">

@@ -108,7 +108,10 @@
       "menu": "Menú",
       "reviews": "Reseñas",
       "no_menu": "Este lugar aún no ha subido su menú.",
-      "be_the_first_review": "Sé el primero en opinar."
+      "be_the_first_review": "Sé el primero en opinar.",
+      "edit_restaurant": "Editar restaurante",
+      "create_menu": "Crear menú",
+      "edit_menu": "Editar menú"
     }
   },
   "create_restaurant": {

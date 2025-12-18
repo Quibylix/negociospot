@@ -48,6 +48,10 @@ export function CreateRestaurantForm({
       schedule={debouncedValues.schedule}
       phone=""
       whatsapp=""
+      canEdit={false}
+      canCreateMenus={false}
+      canEditMenus={false}
+      slug="preview-restaurant"
     />
   );
 
