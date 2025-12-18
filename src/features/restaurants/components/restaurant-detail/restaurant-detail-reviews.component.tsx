@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Card, Group, Rating, Stack, Text } from "@mantine/core";
+import { Alert, Avatar, Card, Group, Rating, Stack, Text } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import type { RestaurantDetailProps } from "./service-to-detail-adapter";
 
@@ -31,9 +31,7 @@ export function RestaurantDetailReviews({
           <Text size="sm">{rev.comment}</Text>
         </Card>
       ))}
-      {reviews.length === 0 && (
-        <Text c="dimmed">{t("be_the_first_review")}</Text>
-      )}
+      {reviews.length === 0 && <Alert ta="center">{t("reviews_soon")}</Alert>}
     </Stack>
   );
 }
