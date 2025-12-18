@@ -31,11 +31,14 @@ export default async function CreateMenuPage({
     },
   );
 
+  if (admins === null)
+    return redirect({ href: `/restaurants/${slug}`, locale });
+
   if (
     !check(user)
       .can("create", "Menu")
       .verify({
-        admins: admins?.administrators.map((admin) => admin.profile.id) ?? [],
+        admins: admins.administrators.map((admin) => admin.profile.id),
       })
   ) {
     return redirect({ href: `/restaurants/${slug}`, locale });
