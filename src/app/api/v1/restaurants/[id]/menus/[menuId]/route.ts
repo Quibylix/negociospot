@@ -21,26 +21,20 @@ export const PUT = createTypedJsonRoute<
   z.infer<typeof updateMenuResponseSchema>,
   { params: Promise<{ id: string; menuId: string }> }
 >(async (req, { params }) => {
-  const { id: restaurantId, menuId } = await params;
+  const { id: restaurantSlug, menuId } = await params;
 
   const user = await AuthService.getCurrentUser();
-
-  if (!Number(restaurantId))
-    return typedJsonResponse(
-      { error: ERRORS.RESTAURANTS.INVALID_RESTAURANT_ID },
-      400,
-    );
 
   if (!Number(menuId))
     return typedJsonResponse({ error: ERRORS.MENUS.INVALID_MENU_ID }, 400);
 
-  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsById(
-    Number(restaurantId),
+  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
+    restaurantSlug,
   )
     .then((res) => res?.administrators.map((admin) => admin.profile.id) ?? [])
     .catch(() => {
       Logger.error("Failed to fetch restaurant admins", {
-        restaurantId,
+        restaurantSlug,
       });
       return null;
     });
@@ -51,11 +45,11 @@ export const PUT = createTypedJsonRoute<
 
   const belongsToRestaurant = await checkMenuBelongsToRestaurant(
     Number(menuId),
-    Number(restaurantId),
+    restaurantSlug,
   ).catch(() => {
     Logger.error("Failed to verify menu ownership", {
       menuId,
-      restaurantId,
+      restaurantSlug,
     });
     return null;
   });
