@@ -175,5 +175,23 @@
       "add_item_button": "Agregar ítem",
       "delete_item_aria_label": "Eliminar ítem"
     }
+  },
+  "update_menu": {
+    "title": "Editar menú",
+    "form": {
+      "success_message": "¡Menú actualizado con éxito!",
+      "submit_button": "Actualizar menú",
+      "name_label": "Nombre del menú",
+      "name_placeholder": "Menú de Almuerzo",
+      "categories": "Categorías",
+      "category_placeholder": "Entradas",
+      "add_category_button": "Agregar categoría",
+      "delete_category_aria_label": "Eliminar categoría",
+      "item_name_placeholder": "Ensalada César",
+      "item_price_placeholder": "9.99",
+      "item_description_placeholder": "(Opcional) Lechuga, pollo, aderezo César",
+      "add_item_button": "Agregar ítem",
+      "delete_item_aria_label": "Eliminar ítem"
+    }
   }
 }
