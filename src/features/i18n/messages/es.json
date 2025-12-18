@@ -48,6 +48,10 @@
       "create_restaurant": "Crear restaurante"
     }
   },
+  "layout": {
+    "title": "NegocioSpot - Encuentra y comparte los mejores restaurantes cerca de tí",
+    "description": "NegocioSpot es una plataforma donde puedes descubrir, reseñar y compartir tus restaurantes locales favoritos. ¡Únete a nuestra comunidad y apoya a los negocios locales hoy mismo!"
+  },
   "home": {
     "title": "NegocioSpot"
   },
