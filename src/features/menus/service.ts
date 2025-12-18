@@ -34,14 +34,18 @@ export async function createMenu(data: {
 
 export async function checkMenuBelongsToRestaurant(
   menuId: number,
-  restaurantId: number,
+  restaurantSlug: string,
 ) {
   const menu = await prisma.menu.findUnique({
     where: { id: menuId },
-    select: { restaurantId: true },
+    select: {
+      restaurant: {
+        select: { slug: true },
+      },
+    },
   });
 
-  return menu?.restaurantId === restaurantId;
+  return menu?.restaurant.slug === restaurantSlug;
 }
 
 export async function updateMenu(
