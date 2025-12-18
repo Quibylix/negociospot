@@ -35,7 +35,6 @@ export function RestaurantDetail({
     reviews.length > 0
       ? reviews.reduce((a, b) => a + b.rating, 0) / reviews.length
       : 0;
-  const activeMenu = menus[0];
 
   return (
     <>
@@ -58,18 +57,35 @@ export function RestaurantDetail({
             />
           </GridCol>
           <GridCol span={{ base: 12, md: 8 }}>
-            <Tabs defaultValue="menu" variant="outline">
+            <Tabs defaultValue="menus" variant="outline">
               <TabsList mb="md">
-                <TabsTab value="menu">{t("menu")}</TabsTab>
+                <TabsTab value="menus">{t("menu")}</TabsTab>
                 <TabsTab value="reviews">{t("reviews")}</TabsTab>
               </TabsList>
-              <TabsPanel value="menu">
-                {!activeMenu ? (
+              <TabsPanel value="menus">
+                {menus.length === 0 ? (
                   <Text c="dimmed" ta="center" py="xl">
                     {t("no_menu")}
                   </Text>
                 ) : (
-                  <RestaurantDetailMenu categories={activeMenu.categories} />
+                  <Tabs defaultValue={`menu.${menus[0].id}`} variant="default">
+                    <TabsList>
+                      {menus.map((menu) => (
+                        <TabsTab key={menu.id} value={`menu.${menu.id}`}>
+                          {menu.name}
+                        </TabsTab>
+                      ))}
+                    </TabsList>
+                    {menus.map((menu) => (
+                      <TabsPanel
+                        mt="md"
+                        key={menu.id}
+                        value={`menu.${menu.id}`}
+                      >
+                        <RestaurantDetailMenu categories={menu.categories} />
+                      </TabsPanel>
+                    ))}
+                  </Tabs>
                 )}
               </TabsPanel>
               <TabsPanel value="reviews">

@@ -26,6 +26,7 @@ export const restaurantDetailAdapterSchema = z.object({
   menus: z.array(
     z.object({
       id: z.number(),
+      name: z.string(),
       categories: z.array(
         z.object({
           id: z.number(),
