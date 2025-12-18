@@ -27,7 +27,12 @@
       "invalid_menu_id": "ID de menú inválido",
       "name_required": "El nombre del menu es obligatorio",
       "invalid_edition_data": "Datos de edición de menú inválidos",
-      "unauthorized_edition": "No estás autorizado para editar este menú"
+      "unauthorized_edition": "No estás autorizado para editar este menú",
+      "at_least_one_category": "Se requiere al menos una categoría",
+      "category_name_required": "El nombre de la categoría es obligatorio",
+      "at_least_one_item": "Se requiere al menos un ítem por categoría",
+      "item_name_required": "El nombre del ítem es obligatorio",
+      "item_price_required": "El precio del ítem es obligatorio"
     },
     "generic": {
       "unknown_error": "Ocurrió un error desconocido"
@@ -144,6 +149,24 @@
       "form_title": "Detalles del Restaurante",
       "preview_title": "Vista Previa",
       "show_preview_button": "Mostrar Vista Previa"
+    }
+  },
+  "create_menu": {
+    "title": "Crear nuevo menú",
+    "form": {
+      "success_message": "¡Menú creado con éxito!",
+      "submit_button": "Crear menú",
+      "name_label": "Nombre del menú",
+      "name_placeholder": "Menú de Almuerzo",
+      "categories": "Categorías",
+      "category_placeholder": "Entradas",
+      "add_category_button": "Agregar categoría",
+      "delete_category_aria_label": "Eliminar categoría",
+      "item_name_placeholder": "Ensalada César",
+      "item_price_placeholder": "9.99",
+      "item_description_placeholder": "(Opcional) Lechuga, pollo, aderezo César",
+      "add_item_button": "Agregar ítem",
+      "delete_item_aria_label": "Eliminar ítem"
     }
   }
 }
