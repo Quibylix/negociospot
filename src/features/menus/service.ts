@@ -1,6 +1,32 @@
 import type { TransactionClient } from "@/lib/prisma/generated/internal/prismaNamespace";
 import { prisma } from "@/lib/prisma/prisma";
 
+export async function getMenuById(id: number) {
+  return prisma.menu.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      categories: {
+        select: {
+          id: true,
+          name: true,
+          menuItems: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              price: true,
+            },
+            orderBy: { id: "asc" },
+          },
+        },
+        orderBy: { id: "asc" },
+      },
+    },
+  });
+}
+
 export async function createMenu(data: {
   restaurantSlug: string;
   name: string;
