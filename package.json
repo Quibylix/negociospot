@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@casl/ability": "^6.7.3",
+    "@googlemaps/js-api-loader": "^2.0.2",
     "@mantine/core": "^8.3.10",
     "@mantine/dates": "^8.3.10",
     "@mantine/dropzone": "^8.3.10",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
+    "@types/google.maps": "^3.58.1",
     "@types/node": "^20.19.27",
     "@types/pg": "^8.16.0",
     "@types/react": "^19.2.7",
