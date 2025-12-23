@@ -3,6 +3,7 @@
 import {
   Button,
   Card,
+  Container,
   Group,
   Stack,
   Text,
@@ -12,10 +13,12 @@ import {
 import {
   IconBrandWhatsapp,
   IconClock,
+  IconDirections,
   IconMapPin,
   IconPhone,
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
+import { useMap } from "@/lib/google-maps/use-map.hook";
 import type { RestaurantDetailProps } from "./service-to-detail-adapter";
 
 export type RestaurantDetailBasicInfoProps = {
@@ -38,6 +41,7 @@ export function RestaurantDetailBasicInfo({
   lng,
 }: RestaurantDetailBasicInfoProps) {
   const t = useTranslations("restaurant.detail");
+  const { mapRef } = useMap({ lat: lat ?? 0, lng: lng ?? 0 });
 
   return (
     <Stack>
@@ -47,12 +51,30 @@ export function RestaurantDetailBasicInfo({
         </Title>
         <Stack gap="md">
           <Text size="sm">{description || t("no_description")}</Text>
-          <Group wrap="nowrap">
-            <ThemeIcon variant="light" color="blue">
-              <IconMapPin size={18} />
-            </ThemeIcon>
-            <Text size="sm">{address || t("no_address")}</Text>
-          </Group>
+          <Stack p={0} gap="sm">
+            <Group wrap="nowrap">
+              <ThemeIcon variant="light" color="blue">
+                <IconMapPin size={18} />
+              </ThemeIcon>
+              <Text size="sm">{address || t("no_address")}</Text>
+            </Group>
+            {lat && lng && (
+              <Container p={0} m={0}>
+                <div ref={mapRef} style={{ aspectRatio: 1 }} />
+                <Button
+                  component="a"
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="subtle"
+                  fullWidth
+                  rightSection={<IconDirections size={18} />}
+                >
+                  {t("how_to_get_there")}
+                </Button>
+              </Container>
+            )}
+          </Stack>
           <Group wrap="nowrap">
             <ThemeIcon variant="light" color="orange">
               <IconClock size={18} />
