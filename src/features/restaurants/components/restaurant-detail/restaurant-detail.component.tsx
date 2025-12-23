@@ -34,6 +34,8 @@ export function RestaurantDetail({
   phone,
   whatsapp,
   menus,
+  lat,
+  lng,
   canEdit,
   canCreateMenus,
   canEditMenus,
@@ -71,6 +73,8 @@ export function RestaurantDetail({
             <RestaurantDetailBasicInfo
               description={description}
               address={address}
+              lat={lat}
+              lng={lng}
               schedule={schedule}
               phone={phone}
               whatsapp={whatsapp}

@@ -57,6 +57,8 @@ export function UpdateRestaurantForm({
       name={debouncedValues.name || t("default_name")}
       description={debouncedValues.description}
       address={debouncedValues.address}
+      lat={undefined}
+      lng={undefined}
       coverImgUrl={debouncedValues.coverImgUrl}
       tags={debouncedValues.tags.map((tagId) => ({
         id: parseInt(tagId, 10),

@@ -24,6 +24,8 @@ export type RestaurantDetailBasicInfoProps = {
   schedule: RestaurantDetailProps["schedule"];
   phone: RestaurantDetailProps["phone"];
   whatsapp: RestaurantDetailProps["whatsapp"];
+  lat: RestaurantDetailProps["lat"];
+  lng: RestaurantDetailProps["lng"];
 };
 
 export function RestaurantDetailBasicInfo({
@@ -32,6 +34,8 @@ export function RestaurantDetailBasicInfo({
   schedule,
   phone,
   whatsapp,
+  lat,
+  lng,
 }: RestaurantDetailBasicInfoProps) {
   const t = useTranslations("restaurant.detail");
 
