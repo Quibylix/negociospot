@@ -36,6 +36,8 @@ export function CreateRestaurantForm({
   const restaurantPreview = (
     <RestaurantDetail
       name={debouncedValues.name || t("default_name")}
+      lat={undefined}
+      lng={undefined}
       description={debouncedValues.description}
       address={debouncedValues.address}
       coverImgUrl={debouncedValues.coverImgUrl}
