@@ -73,6 +73,8 @@ export const RestaurantsService = {
     coverImgUrl?: string;
     creatorId: string;
     tagIds?: number[];
+    lat?: number;
+    lng?: number;
   }) => {
     return prisma.restaurant.create({
       select: { id: true },
@@ -84,6 +86,8 @@ export const RestaurantsService = {
         schedule: data.schedule ?? null,
         coverImgUrl: data.coverImgUrl ?? null,
         createdById: data.creatorId,
+        lat: data.lat ?? null,
+        lng: data.lng ?? null,
         tags: data.tagIds
           ? {
               connect: data.tagIds.map((tagId) => ({ id: tagId })),
@@ -102,6 +106,8 @@ export const RestaurantsService = {
       schedule?: string;
       coverImgUrl?: string;
       tagIds?: number[];
+      lat?: number;
+      lng?: number;
     },
   ) => {
     return prisma.restaurant.update({
@@ -113,6 +119,8 @@ export const RestaurantsService = {
         description: data.description ?? null,
         schedule: data.schedule ?? null,
         coverImgUrl: data.coverImgUrl ?? null,
+        lat: data.lat ?? null,
+        lng: data.lng ?? null,
         tags: {
           set: data.tagIds?.map((tagId) => ({ id: tagId })),
         },

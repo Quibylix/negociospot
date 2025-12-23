@@ -54,6 +54,14 @@ export const restaurantDetailAdapterSchema = z.object({
     .string()
     .nullable()
     .transform((val) => val ?? undefined),
+  lat: z
+    .number()
+    .nullable()
+    .transform((val) => val ?? undefined),
+  lng: z
+    .number()
+    .nullable()
+    .transform((val) => val ?? undefined),
   schedule: z
     .string()
     .nullable()
