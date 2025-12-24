@@ -26,7 +26,7 @@ export function useUpdateRestaurantForm(
   const t = useTranslations("update_restaurant.form");
 
   const [debouncedValues, setDebouncedValues] = useDebouncedState(
-    { ...initialValues, tags: [] as string[] },
+    { ...initialValues },
     300,
   );
 
