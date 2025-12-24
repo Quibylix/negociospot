@@ -65,8 +65,16 @@ export const PUT = createTypedJsonRoute<
     );
   }
 
-  const { name, address, description, schedule, tagIds, coverImgUrl } =
-    parsedBody;
+  const {
+    name,
+    address,
+    description,
+    schedule,
+    tagIds,
+    lat,
+    lng,
+    coverImgUrl,
+  } = parsedBody;
 
   let restaurant: Awaited<
     ReturnType<typeof RestaurantsService.updateRestaurant>
@@ -81,6 +89,8 @@ export const PUT = createTypedJsonRoute<
         description,
         coverImgUrl,
         tagIds,
+        lat,
+        lng,
       },
     );
   } catch (err) {
