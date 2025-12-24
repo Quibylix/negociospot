@@ -77,6 +77,8 @@ export default async function EditRestaurantPage({
           coverImgUrl: restaurant.coverImgUrl ?? "",
           schedule: restaurant.schedule ?? "",
           tags: restaurant.tags.map((tag) => tag.id),
+          lat: restaurant.lat,
+          lng: restaurant.lng,
         }}
         availableTags={tags}
       />
