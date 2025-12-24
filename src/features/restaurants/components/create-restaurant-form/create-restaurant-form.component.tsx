@@ -1,18 +1,22 @@
 "use client";
 
 import {
+  ActionIcon,
   Box,
   Button,
+  Container,
   Drawer,
   Grid,
   GridCol,
   MultiSelect,
   Paper,
+  Text,
   Textarea,
   TextInput,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconX } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { RestaurantDetail } from "../restaurant-detail/restaurant-detail.component";
 import { useCreateRestaurantForm } from "./use-create-restaurant-form.hook";
@@ -22,7 +26,8 @@ export function CreateRestaurantForm({
 }: {
   availableTags: { id: number; name: string }[];
 }) {
-  const { form, t, submitHandler, debouncedValues } = useCreateRestaurantForm();
+  const { form, t, submitHandler, debouncedValues, clearMarker, mapRef } =
+    useCreateRestaurantForm();
   const [opened, { open, close }] = useDisclosure(false);
 
   const tagIdToNameMap = useMemo(() => {
@@ -36,8 +41,8 @@ export function CreateRestaurantForm({
   const restaurantPreview = (
     <RestaurantDetail
       name={debouncedValues.name || t("default_name")}
-      lat={undefined}
-      lng={undefined}
+      lat={debouncedValues.lat ?? undefined}
+      lng={debouncedValues.lng ?? undefined}
       description={debouncedValues.description}
       address={debouncedValues.address}
       coverImgUrl={debouncedValues.coverImgUrl}
@@ -89,6 +94,29 @@ export function CreateRestaurantForm({
               mt="md"
               {...form.getInputProps("address")}
             />
+            <Text size="sm" mt="md" fw={500} mb="xs">
+              {t("location_label")}
+            </Text>
+            <Text size="xs" c="dimmed">
+              {t("can_change_location_note")}
+            </Text>
+            <Container pos="relative" size={400} p={0} mt="xs">
+              <ActionIcon
+                size="sm"
+                variant="filled"
+                color="red"
+                pos="absolute"
+                top={10}
+                right={10}
+                style={{ zIndex: 1 }}
+                onClick={clearMarker}
+                title={t("delete_location_button")}
+                aria-label={t("delete_location_button")}
+              >
+                <IconX size={16} />
+              </ActionIcon>
+              <div style={{ aspectRatio: 1 }} ref={mapRef}></div>
+            </Container>
             <TextInput
               label={t("schedule_label")}
               placeholder={t("schedule_placeholder")}
