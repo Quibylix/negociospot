@@ -5,6 +5,7 @@ import { useDebouncedState } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/features/i18n/navigation";
 import { notifyError, notifySuccess } from "@/features/notifications/notify";
+import { useMapPicker } from "@/lib/google-maps/use-map-picker.hook";
 import {
   updateRestaurantBodySchema,
   updateRestaurantResponseSchema,
@@ -20,6 +21,8 @@ export function useUpdateRestaurantForm(
     schedule: string;
     coverImgUrl: string;
     tags: string[];
+    lat: number | null;
+    lng: number | null;
   },
 ) {
   const errorsT = useTranslations("errors");
@@ -38,6 +41,24 @@ export function useUpdateRestaurantForm(
     },
   });
 
+  const { mapRef, clearMarker } = useMapPicker({
+    center: {
+      lat: initialValues.lat ?? 13.7,
+      lng: initialValues.lng ?? -88.9,
+    },
+    initiallySelectedPosition:
+      initialValues.lat && initialValues.lng
+        ? {
+            lat: initialValues.lat,
+            lng: initialValues.lng,
+          }
+        : undefined,
+    onChange: (pos) => {
+      form.setFieldValue("lat", pos?.lat ?? null);
+      form.setFieldValue("lng", pos?.lng ?? null);
+    },
+  });
+
   const router = useRouter();
 
   function submitHandler(values: typeof form.values) {
@@ -51,6 +72,8 @@ export function useUpdateRestaurantForm(
           address: values.address?.trim() || undefined,
           coverImgUrl: values.coverImgUrl?.trim() || undefined,
           tagIds: values.tags.map((tag) => Number(tag)),
+          lat: values.lat ?? undefined,
+          lng: values.lng ?? undefined,
         }),
       ),
       headers: { "Content-Type": "application/json" },
@@ -75,5 +98,5 @@ export function useUpdateRestaurantForm(
       });
   }
 
-  return { form, t, submitHandler, debouncedValues };
+  return { form, t, submitHandler, debouncedValues, mapRef, clearMarker };
 }
