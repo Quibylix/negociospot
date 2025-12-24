@@ -15,7 +15,7 @@ export function useMap(center: { lat: number; lng: number }) {
 
       const instance = new GoogleMap(mapRef.current, {
         center,
-        zoom: 15,
+        zoom: 14,
         disableDefaultUI: true,
         mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID,
       });
