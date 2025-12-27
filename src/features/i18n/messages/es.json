@@ -34,6 +34,9 @@
       "item_name_required": "El nombre del ítem es obligatorio",
       "item_price_required": "El precio del ítem es obligatorio"
     },
+    "image": {
+      "upload_failed": "La carga de la imagen falló"
+    },
     "generic": {
       "unknown_error": "Ocurrió un error desconocido"
     }
@@ -134,8 +137,10 @@
       "schedule_placeholder": "Lun-Vie 9am-9pm",
       "tags_label": "Etiquetas",
       "tags_placeholder": "Italiana, Mexicana, Vegetariana",
-      "cover_img_url_label": "URL de la imagen de portada",
-      "cover_img_url_placeholder": "https://example.com/cover.jpg",
+      "cover_img_label": "Imagen de portada",
+      "upload_image_label": "Arrastra y suelta una imagen aquí, o haz clic para seleccionar una",
+      "upload_image_description": "Se recomienda una imagen de al menos 1920x1080 píxeles para una mejor calidad.",
+      "remove_image": "Eliminar imagen",
       "default_name": "Nombre del Restaurante",
       "form_title": "Detalles del Restaurante",
       "preview_title": "Vista Previa",

@@ -3,9 +3,12 @@
 import { useForm } from "@mantine/form";
 import { useDebouncedState } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { useRouter } from "@/features/i18n/navigation";
 import { notifyError, notifySuccess } from "@/features/notifications/notify";
 import { useMapPicker } from "@/lib/google-maps/use-map-picker.hook";
+import { compressImage } from "@/lib/images/compress-image.util";
+import { uploadImage } from "@/lib/supabase/utils/upload-image.util";
 import {
   createRestaurantBodySchema,
   createRestaurantResponseSchema,
@@ -21,7 +24,6 @@ export function useCreateRestaurantForm() {
     description: "",
     address: "",
     schedule: "",
-    coverImgUrl: "",
     lat: null as number | null,
     lng: null as number | null,
     tags: [] as string[],
@@ -39,6 +41,9 @@ export function useCreateRestaurantForm() {
       setDebouncedValues(values);
     },
   });
+
+  const [loadingImgCompress, setLoadingImgCompress] = useState(false);
+  const [coverImg, setCoverImg] = useState<File | null>(null);
 
   const { mapRef, clearMarker } = useMapPicker({
     center: {
@@ -60,8 +65,47 @@ export function useCreateRestaurantForm() {
 
   const router = useRouter();
 
-  function submitHandler(values: typeof form.values) {
-    fetch("/api/v1/restaurants", {
+  async function dropCoverImgHandler(file: File | null) {
+    setLoadingImgCompress(true);
+
+    if (!file) {
+      setCoverImg(null);
+      setLoadingImgCompress(false);
+      return;
+    }
+
+    const compressed = await compressImage(file).catch(() =>
+      notifyError(
+        errorsT("image.upload_failed"),
+        errorsT("image.upload_failed"),
+      ),
+    );
+
+    setCoverImg(compressed ? compressed : null);
+    setLoadingImgCompress(false);
+  }
+
+  async function submitHandler(values: typeof form.values) {
+    const coverImgUrl = coverImg
+      ? await uploadImage(coverImg)
+          .then(({ data, error }) => {
+            if (error) return null;
+            return data.publicUrl;
+          })
+          .catch(() => {
+            return null;
+          })
+      : null;
+
+    if (coverImg && !coverImgUrl) {
+      notifyError(
+        errorsT("image.upload_failed"),
+        errorsT("image.upload_failed"),
+      );
+      return;
+    }
+
+    await fetch("/api/v1/restaurants", {
       method: "POST",
       body: JSON.stringify(
         createRestaurantBodySchema.parse({
@@ -69,7 +113,7 @@ export function useCreateRestaurantForm() {
           description: values.description.trim() || undefined,
           schedule: values.schedule.trim() || undefined,
           address: values.address.trim() || undefined,
-          coverImgUrl: values.coverImgUrl.trim() || undefined,
+          coverImgUrl,
           lat: values.lat ?? undefined,
           lng: values.lng ?? undefined,
           tagIds: values.tags.map((tag) => Number(tag)),
@@ -97,5 +141,15 @@ export function useCreateRestaurantForm() {
       });
   }
 
-  return { form, t, submitHandler, debouncedValues, clearMarker, mapRef };
+  return {
+    form,
+    t,
+    submitHandler,
+    debouncedValues,
+    clearMarker,
+    mapRef,
+    coverImg,
+    loadingImgCompress,
+    dropCoverImgHandler,
+  };
 }
