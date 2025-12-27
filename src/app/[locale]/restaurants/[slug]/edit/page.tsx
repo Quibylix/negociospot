@@ -5,7 +5,7 @@ import { AuthService } from "@/features/auth/service";
 import { check } from "@/features/auth/utils/permissions.util";
 import { redirect } from "@/features/i18n/navigation/server";
 import { Logger } from "@/features/logger/logger";
-import { UpdateRestaurantForm } from "@/features/restaurants/components/update-restaurant-form/update-restaurant-form.component";
+import { RestaurantForm } from "@/features/restaurants/components/restaurant-form/restaurant-form.component";
 import { RestaurantsService } from "@/features/restaurants/service";
 import { TagService } from "@/features/tags/service";
 
@@ -68,7 +68,8 @@ export default async function EditRestaurantPage({
 
   return (
     <Container size={1500} py="xl">
-      <UpdateRestaurantForm
+      <RestaurantForm
+        mode="update"
         id={restaurant.id}
         initialValues={{
           name: restaurant.name,
