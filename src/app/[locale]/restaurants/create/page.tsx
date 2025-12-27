@@ -4,7 +4,7 @@ import { AuthService } from "@/features/auth/service";
 import { check } from "@/features/auth/utils/permissions.util";
 import { redirect } from "@/features/i18n/navigation/server";
 import { Logger } from "@/features/logger/logger";
-import { CreateRestaurantForm } from "@/features/restaurants/components/create-restaurant-form/create-restaurant-form.component";
+import { RestaurantForm } from "@/features/restaurants/components/restaurant-form/restaurant-form.component";
 import { TagService } from "@/features/tags/service";
 
 export default async function CreateRestaurantPage({
@@ -34,7 +34,7 @@ export default async function CreateRestaurantPage({
 
   return (
     <Container size={1500} py="xl">
-      <CreateRestaurantForm availableTags={tags} />
+      <RestaurantForm mode="create" availableTags={tags} />
     </Container>
   );
 }
