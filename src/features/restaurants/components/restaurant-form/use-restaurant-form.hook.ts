@@ -38,7 +38,7 @@ export type RestaurantFormData = {
 
 export type UseRestaurantFormReturnType = {
   form: UseFormReturnType<RestaurantFormData["formInitialValues"]>;
-  t: ReturnType<typeof useTranslations>;
+  t: ReturnType<typeof useTranslations<"restaurant.form">>;
   submitHandler: (
     values: RestaurantFormData["formInitialValues"],
   ) => Promise<void>;
@@ -75,7 +75,7 @@ export function useRestaurantForm(
   };
 
   const errorsT = useTranslations("errors");
-  const t = useTranslations("create_restaurant.form");
+  const t = useTranslations("restaurant.form");
 
   const [debouncedValues, setDebouncedValues] = useDebouncedState(
     formInitialValues,
@@ -169,6 +169,9 @@ export function useRestaurantForm(
     const responseSchema = isUpdateMode
       ? updateRestaurantResponseSchema
       : createRestaurantResponseSchema;
+    const successMessage = isUpdateMode
+      ? t("edition_success_message")
+      : t("creation_success_message");
 
     await fetch(endpoint, {
       method: method,
@@ -190,7 +193,7 @@ export function useRestaurantForm(
       .then((data) => responseSchema.parseAsync(data))
       .then((data) => {
         if ("slug" in data) {
-          notifySuccess(t("success_message"), t("success_message"));
+          notifySuccess(successMessage, successMessage);
           router.replace(`/restaurants/${data.slug}`);
           router.refresh();
           return;
