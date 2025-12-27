@@ -8,6 +8,7 @@ import {
   Drawer,
   Grid,
   GridCol,
+  Image,
   MultiSelect,
   Paper,
   Text,
@@ -15,9 +16,11 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { MIME_TYPES } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useMemo } from "react";
+import { UploadImageField } from "@/features/shared/components/upload-image-field.component";
 import { RestaurantDetail } from "../restaurant-detail/restaurant-detail.component";
 import { useCreateRestaurantForm } from "./use-create-restaurant-form.hook";
 
@@ -26,8 +29,17 @@ export function CreateRestaurantForm({
 }: {
   availableTags: { id: number; name: string }[];
 }) {
-  const { form, t, submitHandler, debouncedValues, clearMarker, mapRef } =
-    useCreateRestaurantForm();
+  const {
+    form,
+    t,
+    submitHandler,
+    debouncedValues,
+    clearMarker,
+    mapRef,
+    coverImg,
+    loadingImgCompress,
+    dropCoverImgHandler,
+  } = useCreateRestaurantForm();
   const [opened, { open, close }] = useDisclosure(false);
 
   const tagIdToNameMap = useMemo(() => {
@@ -45,7 +57,7 @@ export function CreateRestaurantForm({
       lng={debouncedValues.lng ?? undefined}
       description={debouncedValues.description}
       address={debouncedValues.address}
-      coverImgUrl={debouncedValues.coverImgUrl}
+      coverImgUrl={coverImg ? URL.createObjectURL(coverImg) : undefined}
       tags={debouncedValues.tags.map((tagId) => ({
         id: parseInt(tagId, 10),
         name: tagIdToNameMap[tagId],
@@ -123,12 +135,53 @@ export function CreateRestaurantForm({
               mt="md"
               {...form.getInputProps("schedule")}
             />
-            <TextInput
-              label={t("cover_img_url_label")}
-              placeholder={t("cover_img_url_placeholder")}
-              mt="md"
-              {...form.getInputProps("coverImgUrl")}
-            />
+            <Text size="sm" mt="md" fw={500} mb="xs">
+              {t("cover_img_label")}
+            </Text>
+            {coverImg ? (
+              <Container pos="relative" p={0}>
+                <Image
+                  src={URL.createObjectURL(coverImg)}
+                  alt="Cover"
+                  radius="md"
+                  w="100%"
+                  mah={250}
+                />
+                <ActionIcon
+                  size="sm"
+                  variant="filled"
+                  color="red"
+                  pos="absolute"
+                  top={8}
+                  right={8}
+                  onClick={() => dropCoverImgHandler(null)}
+                  title={t("remove_image")}
+                  aria-label={t("remove_image")}
+                >
+                  <IconX size={16} />
+                </ActionIcon>
+              </Container>
+            ) : (
+              <UploadImageField
+                label={t("upload_image_label")}
+                labelDescription={t("upload_image_description")}
+                name="coverImage"
+                multiple={false}
+                loading={loadingImgCompress}
+                accept={[
+                  MIME_TYPES.png,
+                  MIME_TYPES.jpeg,
+                  MIME_TYPES.webp,
+                  MIME_TYPES.heic,
+                  MIME_TYPES.heif,
+                ]}
+                onChange={(files) => {
+                  dropCoverImgHandler(
+                    files && files.length > 0 ? files[0] : null,
+                  );
+                }}
+              />
+            )}
             <MultiSelect
               searchable
               limit={10}
