@@ -106,7 +106,23 @@ create trigger on_auth_user_updated
   for each row execute procedure public.handle_user_update();
 ```
 
-### 3. Configure Business Available Tags
+### 3. Configure Supabase Storage
+
+1. Go to **Storage** > **Buckets** in the Supabase Dashboard.
+2. Create a new bucket named `profile-images`.
+3. Set the bucket to be public for easier access to profile images.
+4. Restrict the file size and mime types as needed (e.g., max size 600KB, allowed types: `image/webp`. This app stores webp images only).
+5. Add a new policy to allow authenticated users to upload and manage their profile images:
+
+```sql
+create policy "Allow authenticated users to insert into profile-images bucket"
+    on storage.objects
+    for insert
+    to authenticated
+    with check (bucket_id = 'profile-images');
+```
+
+### 4. Configure Business Available Tags
 
 1. Run the following SQL script in the Supabase SQL Editor to populate the `Tag` table with initial tags, for example:
 
