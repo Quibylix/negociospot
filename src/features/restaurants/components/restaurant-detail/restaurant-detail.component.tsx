@@ -3,6 +3,7 @@
 import {
   ActionIcon,
   ActionIconGroup,
+  Button,
   Container,
   Grid,
   GridCol,
@@ -88,9 +89,26 @@ export function RestaurantDetail({
               </TabsList>
               <TabsPanel value="menus">
                 {menus.length === 0 ? (
-                  <Text c="dimmed" ta="center" py="xl">
-                    {t("no_menu")}
-                  </Text>
+                  <Container>
+                    <Text c="dimmed" ta="center" pt="lg" pb="sm">
+                      {t("no_menu")}
+                    </Text>
+                    {canCreateMenus && (
+                      <Group justify="center">
+                        <Button
+                          component={Link}
+                          href={`/restaurants/${slug}/menus/create`}
+                          variant="outline"
+                          color="gray"
+                          title={t("create_menu")}
+                          aria-label={t("create_menu")}
+                          rightSection={<IconPlus size={17} />}
+                        >
+                          {t("create_menu")}
+                        </Button>
+                      </Group>
+                    )}
+                  </Container>
                 ) : (
                   <Tabs
                     value={activeMenuTabId?.toString() ?? undefined}
