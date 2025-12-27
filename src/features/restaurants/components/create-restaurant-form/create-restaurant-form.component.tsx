@@ -195,7 +195,7 @@ export function CreateRestaurantForm({
               {...form.getInputProps("tags")}
             />
             <Button type="submit" fullWidth mt="lg">
-              {t("submit_button")}
+              {t("creation_submit_button")}
             </Button>
           </Paper>
         </GridCol>

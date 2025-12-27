@@ -118,12 +118,12 @@
       "edit_restaurant": "Editar restaurante",
       "create_menu": "Crear menú",
       "edit_menu": "Editar menú"
-    }
-  },
-  "create_restaurant": {
+    },
     "form": {
-      "success_message": "¡Restaurante creado con éxito!",
-      "submit_button": "Crear restaurante",
+      "creation_success_message": "¡Restaurante creado con éxito!",
+      "creation_submit_button": "Crear restaurante",
+      "edition_success_message": "¡Restaurante actualizado con éxito!",
+      "edition_submit_button": "Actualizar restaurante",
       "name_label": "Nombre del restaurante",
       "name_placeholder": "Mi Restaurante",
       "description_label": "Descripción",
@@ -141,31 +141,6 @@
       "upload_image_label": "Arrastra y suelta una imagen aquí, o haz clic para seleccionar una",
       "upload_image_description": "Se recomienda una imagen de al menos 1920x1080 píxeles para una mejor calidad.",
       "remove_image": "Eliminar imagen",
-      "default_name": "Nombre del Restaurante",
-      "form_title": "Detalles del Restaurante",
-      "preview_title": "Vista Previa",
-      "show_preview_button": "Mostrar Vista Previa"
-    }
-  },
-  "update_restaurant": {
-    "form": {
-      "success_message": "¡Restaurante actualizado con éxito!",
-      "submit_button": "Actualizar restaurante",
-      "name_label": "Nombre del restaurante",
-      "name_placeholder": "Mi Restaurante",
-      "description_label": "Descripción",
-      "description_placeholder": "El mejor restaurante de la ciudad",
-      "address_label": "Dirección",
-      "address_placeholder": "Calle 123",
-      "location_label": "Ubicación",
-      "can_change_location_note": "Puedes cambiar la ubicación haciendo clic en el mapa.",
-      "delete_location_button": "Eliminar ubicación",
-      "schedule_label": "Horario",
-      "schedule_placeholder": "Lun-Vie 9am-9pm",
-      "tags_label": "Etiquetas",
-      "tags_placeholder": "Italiana, Mexicana, Vegetariana",
-      "cover_img_url_label": "URL de la imagen de portada",
-      "cover_img_url_placeholder": "https://example.com/cover.jpg",
       "default_name": "Nombre del Restaurante",
       "form_title": "Detalles del Restaurante",
       "preview_title": "Vista Previa",
