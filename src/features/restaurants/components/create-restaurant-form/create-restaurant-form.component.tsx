@@ -22,7 +22,7 @@ import { IconX } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { UploadImageField } from "@/features/shared/components/upload-image-field.component";
 import { RestaurantDetail } from "../restaurant-detail/restaurant-detail.component";
-import { useCreateRestaurantForm } from "./use-create-restaurant-form.hook";
+import { useRestaurantForm } from "../restaurant-form/use-restaurant-form.hook";
 
 export function CreateRestaurantForm({
   availableTags,
@@ -36,10 +36,10 @@ export function CreateRestaurantForm({
     debouncedValues,
     clearMarker,
     mapRef,
-    coverImg,
+    coverImgUrl,
     loadingImgCompress,
     dropCoverImgHandler,
-  } = useCreateRestaurantForm();
+  } = useRestaurantForm("create");
   const [opened, { open, close }] = useDisclosure(false);
 
   const tagIdToNameMap = useMemo(() => {
@@ -57,7 +57,7 @@ export function CreateRestaurantForm({
       lng={debouncedValues.lng ?? undefined}
       description={debouncedValues.description}
       address={debouncedValues.address}
-      coverImgUrl={coverImg ? URL.createObjectURL(coverImg) : undefined}
+      coverImgUrl={coverImgUrl ? coverImgUrl : undefined}
       tags={debouncedValues.tags.map((tagId) => ({
         id: parseInt(tagId, 10),
         name: tagIdToNameMap[tagId],
@@ -138,10 +138,10 @@ export function CreateRestaurantForm({
             <Text size="sm" mt="md" fw={500} mb="xs">
               {t("cover_img_label")}
             </Text>
-            {coverImg ? (
+            {coverImgUrl ? (
               <Container pos="relative" p={0}>
                 <Image
-                  src={URL.createObjectURL(coverImg)}
+                  src={coverImgUrl}
                   alt="Cover"
                   radius="md"
                   w="100%"
