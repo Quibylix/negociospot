@@ -36,6 +36,18 @@ NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID="[your-google-maps-map-id]"
 
 ### 2. Supabase Dashboard Configuration
 
+#### Database Schema
+
+1. Once you have created a Supabase project and set up your environment variables, run the following command in your terminal:
+
+```bash
+pnpx prisma db push
+```
+
+This will create the necessary tables in your Supabase database.
+
+2. Enable Row Level Security (RLS) for all tables in the Supabase Dashboard.
+
 #### Authentication (Google OAuth)
 
 1.  Go to **Authentication** > **Providers** > **Google**.
