@@ -46,6 +46,7 @@ export type UseRestaurantFormReturnType = {
   clearMarker: () => void;
   mapRef: React.RefObject<HTMLDivElement | null>;
   coverImgUrl: string;
+  loading: boolean;
   loadingImgCompress: boolean;
   dropCoverImgHandler: (file: File | null) => Promise<void>;
 };
@@ -90,7 +91,9 @@ export function useRestaurantForm(
     },
   });
 
+  const [loading, setLoading] = useState(false);
   const [loadingImgCompress, setLoadingImgCompress] = useState(false);
+
   const [coverImg, setCoverImg] = useState<File | null>(null);
   const [coverImgUrl, setCoverImgUrl] = useState(
     extraInitialValues.coverImgUrl || "",
@@ -139,6 +142,8 @@ export function useRestaurantForm(
   }
 
   async function submitHandler(values: typeof form.values) {
+    setLoading(true);
+
     const finalCoverImgUrl =
       coverImgUrl && coverImg
         ? await uploadImage(coverImg)
@@ -152,6 +157,7 @@ export function useRestaurantForm(
         : coverImgUrl;
 
     if (coverImg && !finalCoverImgUrl) {
+      setLoading(false);
       notifyError(
         errorsT("image.upload_failed"),
         errorsT("image.upload_failed"),
@@ -194,6 +200,7 @@ export function useRestaurantForm(
       });
 
     if (!parsedBody) {
+      setLoading(false);
       return;
     }
 
@@ -219,6 +226,9 @@ export function useRestaurantForm(
           errorsT("generic.unknown_error"),
           errorsT("generic.unknown_error"),
         );
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -230,6 +240,7 @@ export function useRestaurantForm(
     clearMarker,
     mapRef,
     coverImgUrl,
+    loading,
     loadingImgCompress,
     dropCoverImgHandler,
   };
