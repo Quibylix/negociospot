@@ -139,16 +139,17 @@ export function useRestaurantForm(
   }
 
   async function submitHandler(values: typeof form.values) {
-    const finalCoverImgUrl = coverImg
-      ? await uploadImage(coverImg)
-          .then(({ data, error }) => {
-            if (error) return null;
-            return data.publicUrl;
-          })
-          .catch(() => {
-            return null;
-          })
-      : null;
+    const finalCoverImgUrl =
+      coverImgUrl && coverImg
+        ? await uploadImage(coverImg)
+            .then(({ data, error }) => {
+              if (error) return null;
+              return data.publicUrl;
+            })
+            .catch(() => {
+              return null;
+            })
+        : coverImgUrl;
 
     if (coverImg && !finalCoverImgUrl) {
       notifyError(
@@ -173,20 +174,32 @@ export function useRestaurantForm(
       ? t("edition_success_message")
       : t("creation_success_message");
 
+    const parsedBody = await bodySchema
+      .parseAsync({
+        name: values.name,
+        description: values.description.trim() || undefined,
+        schedule: values.schedule.trim() || undefined,
+        address: values.address.trim() || undefined,
+        coverImgUrl: finalCoverImgUrl ? finalCoverImgUrl : undefined,
+        lat: values.lat ?? undefined,
+        lng: values.lng ?? undefined,
+        tagIds: values.tags.map((tag) => Number(tag)),
+      })
+      .catch(() => {
+        notifyError(
+          errorsT("generic.unknown_error"),
+          errorsT("generic.unknown_error"),
+        );
+        return null;
+      });
+
+    if (!parsedBody) {
+      return;
+    }
+
     await fetch(endpoint, {
       method: method,
-      body: JSON.stringify(
-        bodySchema.parse({
-          name: values.name,
-          description: values.description.trim() || undefined,
-          schedule: values.schedule.trim() || undefined,
-          address: values.address.trim() || undefined,
-          coverImgUrl: finalCoverImgUrl,
-          lat: values.lat ?? undefined,
-          lng: values.lng ?? undefined,
-          tagIds: values.tags.map((tag) => Number(tag)),
-        }),
-      ),
+      body: JSON.stringify(parsedBody),
       headers: { "Content-Type": "application/json" },
     })
       .then((r) => r.json())
