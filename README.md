@@ -53,13 +53,15 @@ This will create the necessary tables in your Supabase database.
 1.  Go to **Authentication** > **Providers** > **Google**.
 2.  Enable it and enter your Google Cloud Console credentials.
 3.  In **URL Configuration** (Authentication > URL Configuration):
-    - **Site URL:** `http://localhost:3000`
-    - **Redirect URLs:** Add `http://localhost:3000/auth/callback`
+    - **Site URL:** `http://localhost:3000` (for development) or your production URL.
+    - **Redirect URLs:** Add `http://localhost:3000/auth/callback` (for development) and your production callback URL.
+      Additionally, include the url provided by Supabase for OAuth redirection: `https://[ref].supabase.co/auth/v1/callback`
 
 #### Email Configuration
 
 1.  Go to **Authentication** > **Notifications** > **Email**.
-2.  In the `Confirm sign up` template, change the default link to:
+2.  Set up your email provider (e.g., SMTP) to enable email sending.
+3.  In the `Confirm sign up` template, change the default link to:
     ```
     {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email
     ```
@@ -94,9 +96,10 @@ end;
 $$;
 
 create or replace function public.handle_user_update()
-returns trigger as $$
+returns trigger
 language plpgsql
 security definer set search_path = ''
+as $$
 begin
   if new.email <> old.email then
     update public."Profile"
