@@ -1,6 +1,5 @@
 import { Notifications } from "@mantine/notifications";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/features/i18n/routing";
@@ -9,22 +8,13 @@ import "@mantine/notifications/styles.css";
 import "@mantine/dropzone/styles.css";
 import {
   ColorSchemeScript,
+  createTheme,
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import { Logger } from "@/features/logger/logger";
 import { AppShell } from "@/features/ui/app-shell/app-shell.component";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("layout").catch(() => {
@@ -45,6 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const theme = createTheme({
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+});
+
 export default async function LocaleLayout({
   children,
   params,
@@ -62,8 +57,8 @@ export default async function LocaleLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <MantineProvider>
+      <body>
+        <MantineProvider theme={theme}>
           <Notifications />
           <NextIntlClientProvider>
             <AppShell>{children}</AppShell>
