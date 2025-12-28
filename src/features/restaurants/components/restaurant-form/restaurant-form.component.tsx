@@ -9,6 +9,7 @@ import {
   Grid,
   GridCol,
   Image,
+  LoadingOverlay,
   MultiSelect,
   Paper,
   Text,
@@ -74,6 +75,7 @@ export function RestaurantForm(props: RestaurantFormProps) {
     clearMarker,
     mapRef,
     coverImgUrl,
+    loading,
     loadingImgCompress,
     dropCoverImgHandler,
   } = useRestaurantForm(
@@ -115,6 +117,7 @@ export function RestaurantForm(props: RestaurantFormProps) {
 
   return (
     <Box pos="relative">
+      <LoadingOverlay visible={loading} />
       <Grid gutter="xl">
         <GridCol span={{ base: 12, lg: 4 }}>
           <Paper
@@ -233,7 +236,7 @@ export function RestaurantForm(props: RestaurantFormProps) {
               mt="md"
               {...form.getInputProps("tags")}
             />
-            <Button type="submit" fullWidth mt="lg">
+            <Button type="submit" fullWidth mt="lg" loading={loading}>
               {props.mode === "create"
                 ? t("creation_submit_button")
                 : t("edition_submit_button")}
