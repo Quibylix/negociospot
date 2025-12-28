@@ -38,7 +38,13 @@ export function AppShellView({ children, navbarLinks }: AppShellViewProps) {
     >
       <AppShellHeader>
         <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" />
+          <Burger
+            aria-label={t("toggle_menu")}
+            opened={opened}
+            onClick={toggle}
+            hiddenFrom="md"
+            size="sm"
+          />
           <Anchor component={Link} variant="gradient" href="/" fw={700}>
             {t("app_name")}
           </Anchor>

@@ -43,6 +43,7 @@
   },
   "app_shell": {
     "app_name": "NegocioSpot",
+    "toggle_menu": "Abrir/cerrar menú",
     "navbar": {
       "home": "Inicio",
       "login": "Iniciar sesión",
