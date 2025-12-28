@@ -30,6 +30,8 @@ DATABASE_URL="postgres://postgres.[ref]:[password]@[host]:5432/postgres?pgbounce
 NEXT_PUBLIC_SUPABASE_URL="[ref].supabase.co"
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="[your-supabase-publishable-key]"
 NEXT_PUBLIC_SITE_URL="[your-site-url]"
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="[your-google-maps-api-key]"
+NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID="[your-google-maps-map-id]"
 ```
 
 ### 2. Supabase Dashboard Configuration
@@ -157,3 +159,12 @@ INSERT INTO "Tag" ("name") VALUES
 ('Pantallas / Deportes'), ('Accesibilidad Silla de Ruedas'), ('Aire Acondicionado'), ('Zona de Juegos'), ('Eventos Privados'),
 ('Coctelería de Autor'), ('Carta de Vinos'), ('Cerveza Artesanal');
 ```
+
+### 5. Configure Google Maps API
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project or select an existing one.
+3. Enable the **Maps JavaScript API** and **Maps Embed API** for your project.
+4. Create API credentials and restrict them to your domain or localhost for development.
+5. Copy the API key and paste it into the `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` environment variable in your `.env` file.
+6. Set up a custom map in the Google Cloud Console and copy the Map ID to the `NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID` environment variable.
