@@ -59,6 +59,39 @@
   "home": {
     "title": "NegocioSpot"
   },
+  "about": {
+    "title": "Redefiniendo el comercio local en El Salvador",
+    "description": "En El Salvador, miles de comercios locales ofrecen productos y servicios excepcionales, pero carecen de una presencia en la web. NegocioSpot nace para cambiar eso.",
+    "why_title": "¿Por qué NegocioSpot?",
+    "why_text_1": "Notamos una realidad constante: la mayoría de negocios en nuestro país no cuentan con una página web propia. Esto limita su crecimiento y hace que potenciales clientes no puedan encontrarlos.",
+    "why_text_2": "NegocioSpot surge como una solución gratuita y centralizada. Nuestra meta es proporcionar a cada emprendedor, desde la pupusería de la esquina hasta el profesional independiente, un espacio digital profesional donde darse a conocer.",
+    "mission_title": "Nuestra Misión",
+    "mission_text": "Empoderar al comercio salvadoreño mediante herramientas tecnológicas accesibles que faciliten su descubrimiento y fomenten la economía local.",
+    "pillars_title": "Nuestros Pilares",
+    "pillars": {
+      "community": {
+        "title": "Comunidad",
+        "desc": "Priorizamos el crecimiento de los negocios locales."
+      },
+      "transparency": {
+        "title": "Transparencia",
+        "desc": "Reseñas reales y datos actualizados sin filtros."
+      },
+      "innovation": {
+        "title": "Innovación",
+        "desc": "Usamos tecnología de punta para una experiencia rápida."
+      },
+      "passion": {
+        "title": "Pasión",
+        "desc": "Amamos lo que El Salvador tiene para ofrecer."
+      }
+    },
+    "more_than_food_title": "Mucho más que comida",
+    "more_than_food_text": "Aunque iniciamos con el sector gastronómico, nuestra visión es expandir NegocioSpot a cada rincón de los 14 departamentos, integrando servicios profesionales, turismo y comercio en general. Queremos ser la primera opción cuando un salvadoreño o un turista necesite encontrar algo en el país.",
+    "business_owner_cta_title": "¿Eres dueño de un negocio?",
+    "business_owner_cta_text": "Únete a la plataforma y empieza a recibir clientes hoy mismo de forma gratuita.",
+    "business_owner_cta_button": "Registrar mi negocio"
+  },
   "login": {
     "title": "Iniciar sesión en tu cuenta",
     "no_account": "¿No tienes una cuenta?",
