@@ -9,14 +9,17 @@ export function typedJsonResponse<T extends ValidResponse>(
   return { data, statusCode };
 }
 
-export function createTypedJsonRoute<T extends ValidResponse, U = undefined>(
+export function createTypedJsonRoute<
+  T extends ValidResponse,
+  U = { params: Promise<Record<string, never>> },
+>(
   cb: (
     req: NextRequest,
-    params: U,
+    context: U,
   ) => Promise<ReturnType<typeof typedJsonResponse<T>>>,
 ) {
-  return async (req: NextRequest, params: U) => {
-    const result = await cb(req, params);
+  return async (req: NextRequest, context: U) => {
+    const result = await cb(req, context);
     return Response.json(result.data, {
       status: result.statusCode ?? 200,
     });
