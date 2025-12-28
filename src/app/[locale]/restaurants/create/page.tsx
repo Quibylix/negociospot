@@ -20,7 +20,7 @@ export default async function CreateRestaurantPage({
   });
 
   if (!check(user).can("create", "Restaurant").verify() || !user) {
-    redirect({ href: "/", locale });
+    redirect({ href: "/auth/register", locale });
     return;
   }
 
