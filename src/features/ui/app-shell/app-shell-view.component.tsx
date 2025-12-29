@@ -13,6 +13,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/features/i18n/navigation";
+import { Logo } from "../logo.component";
 
 const MENU_WIDTH = 300;
 
@@ -28,7 +29,7 @@ export function AppShellView({ children, navbarLinks }: AppShellViewProps) {
 
   return (
     <MantineAppShell
-      header={{ height: 60 }}
+      header={{ height: 65 }}
       navbar={{
         width: MENU_WIDTH,
         breakpoint: "md",
@@ -45,8 +46,8 @@ export function AppShellView({ children, navbarLinks }: AppShellViewProps) {
             hiddenFrom="md"
             size="sm"
           />
-          <Anchor component={Link} variant="gradient" href="/" fw={700}>
-            {t("app_name")}
+          <Anchor component={Link} href="/" fw={700} display="flex">
+            <Logo h={30} />
           </Anchor>
         </Group>
       </AppShellHeader>
