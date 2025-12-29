@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
+    "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "biome:precommit": "biome check && biome format --write",
     "prisma:generate": "prisma generate",

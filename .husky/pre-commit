@@ -1,1 +1,1 @@
-pnpm biome:precommit
+pnpm biome:precommit && pnpm typecheck
