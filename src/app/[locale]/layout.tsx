@@ -9,6 +9,7 @@ import "@mantine/dropzone/styles.css";
 import {
   ColorSchemeScript,
   createTheme,
+  type MantineColorsTuple,
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
@@ -35,9 +36,60 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const orangePalette: MantineColorsTuple = [
+  "#fff0e6",
+  "#ffdec9",
+  "#ffc29f",
+  "#ffa373",
+  "#ff8748",
+  "#ff6b00",
+  "#e65d00",
+  "#cc5000",
+  "#a63f00",
+  "#803000",
+];
+
+const neutralPalette: MantineColorsTuple = [
+  "#F8F9FA",
+  "#E9ECEF",
+  "#DEE2E6",
+  "#CED4DA",
+  "#ADB5BD",
+  "#868E96",
+  "#495057",
+  "#2C2E33",
+  "#25262b",
+  "#1A1B1E",
+];
+
 const theme = createTheme({
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+  colors: {
+    primary: orangePalette,
+    dark: neutralPalette,
+  },
+  primaryColor: "primary",
+  primaryShade: { light: 5, dark: 4 },
+  white: "#FFFFFF",
+  black: neutralPalette[7],
+  defaultRadius: "md",
+  headings: {
+    fontWeight: "700",
+    fontFamily: "Montserrat, Poppins, Inter, system-ui, sans-serif",
+  },
+  components: {
+    Button: {
+      defaultProps: {
+        fw: 600,
+      },
+    },
+    Title: {
+      defaultProps: {
+        c: "dark.7",
+      },
+    },
+  },
 });
 
 export default async function LocaleLayout({

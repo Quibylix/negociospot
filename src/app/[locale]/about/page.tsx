@@ -23,7 +23,7 @@ export default async function AboutPage() {
       <Stack gap={50}>
         <Box ta="center">
           <Text
-            gradient={{ from: "blue", to: "cyan" }}
+            gradient={{ from: "primary.6", to: "primary.3" }}
             component={Title}
             variant="gradient"
           >
