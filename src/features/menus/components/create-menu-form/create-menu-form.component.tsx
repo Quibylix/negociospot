@@ -72,28 +72,41 @@ export function CreateMenuForm({ restaurantSlug }: { restaurantSlug: string }) {
                 </Text>
               )}
               {cat.items.map((item, j) => (
-                <Group key={item.key} align="flex-start" gap="xs">
-                  <TextInput
-                    placeholder={t("item_name_placeholder")}
-                    style={{ flex: 2 }}
-                    {...form.getInputProps(`categories.${i}.items.${j}.name`)}
-                  />
-                  <TextInput
-                    placeholder={t("item_description_placeholder")}
-                    style={{ flex: 2 }}
-                    {...form.getInputProps(
-                      `categories.${i}.items.${j}.description`,
-                    )}
-                  />
-                  <NumberInput
-                    placeholder={t("item_price_placeholder")}
-                    min={0}
-                    decimalScale={2}
-                    fixedDecimalScale
-                    hideControls
-                    style={{ flex: 1 }}
-                    {...form.getInputProps(`categories.${i}.items.${j}.price`)}
-                  />
+                <Group
+                  key={item.key}
+                  mb="xs"
+                  wrap="nowrap"
+                  align="center"
+                  style={{ overflow: "auto" }}
+                >
+                  <Group align="flex-start" gap="xs" flex={1}>
+                    <TextInput
+                      miw={150}
+                      placeholder={t("item_name_placeholder")}
+                      style={{ flex: 2 }}
+                      {...form.getInputProps(`categories.${i}.items.${j}.name`)}
+                    />
+                    <TextInput
+                      miw={150}
+                      placeholder={t("item_description_placeholder")}
+                      style={{ flex: 2 }}
+                      {...form.getInputProps(
+                        `categories.${i}.items.${j}.description`,
+                      )}
+                    />
+                    <NumberInput
+                      miw={100}
+                      placeholder={t("item_price_placeholder")}
+                      min={0}
+                      decimalScale={2}
+                      fixedDecimalScale
+                      hideControls
+                      style={{ flex: 1 }}
+                      {...form.getInputProps(
+                        `categories.${i}.items.${j}.price`,
+                      )}
+                    />
+                  </Group>
                   <ActionIcon
                     color="red"
                     variant="subtle"
