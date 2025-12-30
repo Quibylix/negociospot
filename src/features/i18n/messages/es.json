@@ -57,7 +57,8 @@
     "description": "NegocioSpot es una plataforma donde puedes descubrir, reseñar y compartir tus restaurantes locales favoritos. ¡Únete a nuestra comunidad y apoya a los negocios locales hoy mismo!"
   },
   "home": {
-    "title": "NegocioSpot"
+    "title": "NegocioSpot",
+    "welcome_message": "Descubre el sabor local"
   },
   "about": {
     "title": "Redefiniendo el comercio local en El Salvador",
