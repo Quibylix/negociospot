@@ -4,6 +4,7 @@ import { RestaurantCard } from "@/features/restaurants/components/restaurant-car
 import { RestaurantsService } from "@/features/restaurants/service";
 import { PaginationControl } from "@/features/shared/components/pagination-control.component";
 import { PAGE_SEARCH_PARAM } from "@/features/shared/constants/page-search-param.constant";
+import hero from "@/media/imgs/hero.webp";
 
 export default async function HomePage({
   searchParams,
@@ -30,11 +31,16 @@ export default async function HomePage({
       <Container pos="relative" fluid p={0}>
         <Image
           style={{ filter: "brightness(0.65)" }}
-          src="/hero.webp"
+          src={hero.src}
           alt="Hero Image"
           mb="xl"
           radius="md"
+          width={hero.width}
+          height={hero.height}
+          w="100%"
+          h="100%"
           mah={300}
+          loading="eager"
         />
         <Title
           fz={{
