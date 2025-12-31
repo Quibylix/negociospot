@@ -3,6 +3,7 @@
 import {
   Button,
   Divider,
+  LoadingOverlay,
   Paper,
   PasswordInput,
   TextInput,
@@ -11,7 +12,8 @@ import { IconBrandGoogle } from "@tabler/icons-react";
 import { useRegisterForm } from "./use-register-form.hook";
 
 export function RegisterForm() {
-  const { form, t, submitHandler, registerWithGoogle } = useRegisterForm();
+  const { form, t, submitHandler, registerWithGoogle, loading } =
+    useRegisterForm();
 
   return (
     <Paper
@@ -21,7 +23,9 @@ export function RegisterForm() {
       radius="md"
       component="form"
       onSubmit={form.onSubmit(submitHandler)}
+      pos="relative"
     >
+      <LoadingOverlay visible={loading} />
       <TextInput
         label={t("email_label")}
         placeholder={t("email_placeholder")}
@@ -49,7 +53,7 @@ export function RegisterForm() {
         mb="md"
         radius="md"
       />
-      <Button type="submit" fullWidth mt="xl" radius="md">
+      <Button type="submit" fullWidth mt="xl" radius="md" loading={loading}>
         {t("submit_button")}
       </Button>
       <Divider my="lg" label={t("divider")} labelPosition="center" />
@@ -61,6 +65,7 @@ export function RegisterForm() {
         radius="md"
         variant="outline"
         leftSection={<IconBrandGoogle size={18} />}
+        loading={loading}
       >
         {t("google_button")}
       </Button>

@@ -1,5 +1,6 @@
 import { useForm } from "@mantine/form";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import type { z } from "zod";
 import {
   type loginBodySchema,
@@ -22,7 +23,13 @@ export function useLoginForm() {
   });
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   function submitHandler(values: typeof form.values) {
+    if (loading) return;
+
+    setLoading(true);
+
     fetch("/api/v1/auth/login", {
       method: "POST",
       body: JSON.stringify({
@@ -46,7 +53,8 @@ export function useLoginForm() {
           errorsT("generic.unknown_error"),
           errorsT("generic.unknown_error"),
         );
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   function loginWithGoogle() {
@@ -59,5 +67,5 @@ export function useLoginForm() {
     });
   }
 
-  return { form, t, submitHandler, loginWithGoogle };
+  return { form, t, submitHandler, loginWithGoogle, loading };
 }

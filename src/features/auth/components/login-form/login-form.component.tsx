@@ -3,6 +3,7 @@
 import {
   Button,
   Divider,
+  LoadingOverlay,
   Paper,
   PasswordInput,
   TextInput,
@@ -11,7 +12,7 @@ import { IconBrandGoogle } from "@tabler/icons-react";
 import { useLoginForm } from "./use-login-form.hook";
 
 export function LoginForm() {
-  const { form, t, submitHandler, loginWithGoogle } = useLoginForm();
+  const { form, t, submitHandler, loginWithGoogle, loading } = useLoginForm();
 
   return (
     <Paper
@@ -21,7 +22,9 @@ export function LoginForm() {
       radius="md"
       component="form"
       onSubmit={form.onSubmit(submitHandler)}
+      pos="relative"
     >
+      <LoadingOverlay visible={loading} />
       <TextInput
         label={t("email_label")}
         placeholder={t("email_placeholder")}
@@ -40,7 +43,7 @@ export function LoginForm() {
         mb="md"
         radius="md"
       />
-      <Button type="submit" fullWidth mt="xl" radius="md">
+      <Button type="submit" fullWidth mt="xl" radius="md" loading={loading}>
         {t("submit_button")}
       </Button>
       <Divider my="lg" label={t("divider")} labelPosition="center" />
@@ -52,6 +55,7 @@ export function LoginForm() {
         radius="md"
         variant="outline"
         leftSection={<IconBrandGoogle size={18} />}
+        loading={loading}
       >
         {t("google_button")}
       </Button>

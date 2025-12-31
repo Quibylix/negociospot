@@ -1,5 +1,6 @@
 import { useForm } from "@mantine/form";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import type { z } from "zod";
 import {
   type registerBodySchema,
@@ -23,7 +24,13 @@ export function useRegisterForm() {
   });
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   function submitHandler(values: typeof form.values) {
+    if (loading) return;
+
+    setLoading(true);
+
     fetch("/api/v1/auth/register", {
       method: "POST",
       body: JSON.stringify({
@@ -47,6 +54,9 @@ export function useRegisterForm() {
           errorsT("generic.unknown_error"),
           errorsT("generic.unknown_error"),
         );
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -60,5 +70,5 @@ export function useRegisterForm() {
     });
   }
 
-  return { form, t, submitHandler, registerWithGoogle };
+  return { form, t, submitHandler, registerWithGoogle, loading };
 }
