@@ -6,6 +6,7 @@ import {
   restaurantDetailAdapterSchema,
 } from "@/features/restaurants/components/restaurant-detail/service-to-detail-adapter";
 import { RestaurantsService } from "@/features/restaurants/service";
+import { PoweredByFloating } from "@/features/ui/powered-by-floating.component";
 
 export default async function RestaurantWebsitePage({
   params,
@@ -34,12 +35,15 @@ export default async function RestaurantWebsitePage({
   }
 
   return (
-    <RestaurantDetail
-      {...parsedRestaurant}
-      canEdit={false}
-      canCreateMenus={false}
-      canEditMenus={false}
-      slug={slug}
-    />
+    <>
+      <RestaurantDetail
+        {...parsedRestaurant}
+        canEdit={false}
+        canCreateMenus={false}
+        canEditMenus={false}
+        slug={slug}
+      />
+      <PoweredByFloating />
+    </>
   );
 }

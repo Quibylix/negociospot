@@ -253,5 +253,10 @@
       "add_item_button": "Agregar ítem",
       "delete_item_aria_label": "Eliminar ítem"
     }
+  },
+  "powered_by": {
+    "text": "Impulsado por",
+    "app_name": "NegocioSpot",
+    "register_your_business": "Registra tu negocio ahora"
   }
 }
