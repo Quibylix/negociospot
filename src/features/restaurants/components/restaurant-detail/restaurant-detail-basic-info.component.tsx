@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Anchor,
   Button,
   Card,
   Container,
@@ -16,6 +17,7 @@ import {
   IconDirections,
   IconMapPin,
   IconPhone,
+  IconWorld,
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useMap } from "@/lib/google-maps/use-map.hook";
@@ -29,6 +31,7 @@ export type RestaurantDetailBasicInfoProps = {
   whatsapp: RestaurantDetailProps["whatsapp"];
   lat: RestaurantDetailProps["lat"];
   lng: RestaurantDetailProps["lng"];
+  website: string;
 };
 
 export function RestaurantDetailBasicInfo({
@@ -39,6 +42,7 @@ export function RestaurantDetailBasicInfo({
   whatsapp,
   lat,
   lng,
+  website,
 }: RestaurantDetailBasicInfoProps) {
   const t = useTranslations("restaurant.detail");
   const { mapRef } = useMap({ lat: lat ?? 0, lng: lng ?? 0 });
@@ -80,6 +84,21 @@ export function RestaurantDetailBasicInfo({
               <IconClock size={18} />
             </ThemeIcon>
             <Text size="sm">{schedule || t("no_schedule")}</Text>
+          </Group>
+          <Group wrap="nowrap">
+            <ThemeIcon variant="light" color="orange">
+              <IconWorld size={18} />
+            </ThemeIcon>
+            <Text lineClamp={1} size="sm">
+              <Anchor
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+                size="sm"
+              >
+                {website}
+              </Anchor>
+            </Text>
           </Group>
           {phone && (
             <Button

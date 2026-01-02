@@ -9,6 +9,7 @@ import {
   TabsPanel,
   TabsTab,
 } from "@mantine/core";
+import { Result } from "neverthrow";
 import { useTranslations } from "next-intl";
 import { RestaurantDetailBasicInfo } from "./restaurant-detail-basic-info.component";
 import { RestaurantDetailHero } from "./restaurant-detail-hero.component";
@@ -48,6 +49,12 @@ export function RestaurantDetail({
       ? reviews.reduce((a, b) => a + b.rating, 0) / reviews.length
       : 0;
 
+  const website = Result.fromThrowable(
+    () => new URL(process.env.NEXT_PUBLIC_SITE_URL ?? ""),
+  )()
+    .map((url) => `${url.protocol}//${slug}.${url.host}`)
+    .unwrapOr(process.env.NEXT_PUBLIC_SITE_URL ?? "");
+
   return (
     <>
       <RestaurantDetailHero
@@ -70,6 +77,7 @@ export function RestaurantDetail({
               schedule={schedule}
               phone={phone}
               whatsapp={whatsapp}
+              website={website}
             />
           </GridCol>
           <GridCol span={{ base: 12, md: 8 }}>
