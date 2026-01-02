@@ -19,6 +19,8 @@ export const ERRORS = {
     UNAUTHORIZED_CREATION: "restaurants.unauthorized_creation",
     UNAUTHORIZED_EDITION: "restaurants.unauthorized_edition",
     UNAUTHORIZED_FAVORITE: "restaurants.unauthorized_favorite",
+    ALREADY_FAVORITED: "restaurants.already_favorited",
+    NOT_FAVORITED_FOUND: "restaurants.not_favorited_found",
     INVALID_EDITION_DATA: "restaurants.invalid_edition_data",
     INVALID_RESTAURANT_ID: "restaurants.invalid_restaurant_id",
   },
@@ -37,3 +39,5 @@ export const ERRORS = {
 export const ERROR_VALUES = Object.values(ERRORS).flatMap((d) =>
   Object.values(d),
 );
+
+export type ErrorKeys = (typeof ERROR_VALUES)[number];

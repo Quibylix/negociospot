@@ -39,7 +39,11 @@ export const POST = createTypedJsonRoute<
       error: result.error,
     });
 
-    return typedJsonResponse({ error: ERRORS.GENERIC.UNKNOWN_ERROR }, 500);
+    if (result.error === ERRORS.RESTAURANTS.ALREADY_FAVORITED) {
+      return typedJsonResponse({ error: result.error }, 409);
+    }
+
+    return typedJsonResponse({ error: result.error }, 500);
   }
 
   return typedJsonResponse(null);
@@ -72,7 +76,11 @@ export const DELETE = createTypedJsonRoute<
       error: result.error,
     });
 
-    return typedJsonResponse({ error: ERRORS.GENERIC.UNKNOWN_ERROR }, 500);
+    if (result.error === ERRORS.RESTAURANTS.NOT_FAVORITED_FOUND) {
+      return typedJsonResponse({ error: result.error }, 404);
+    }
+
+    return typedJsonResponse({ error: result.error }, 500);
   }
 
   return typedJsonResponse(null);

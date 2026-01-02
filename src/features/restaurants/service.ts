@@ -1,5 +1,7 @@
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { ResultAsync } from "neverthrow";
 import { prisma } from "@/lib/prisma/prisma";
+import { ERRORS, type ErrorKeys } from "../shared/constants/errors";
 
 export const RestaurantsService = {
   getRestaurantsWithCount: async ({
@@ -183,7 +185,17 @@ export function addFavoriteRestaurant({
         },
       },
     }),
-  )();
+  )().mapErr(((err) => {
+    const UNIQUE_CONSTRAINT_CODE = "P2002";
+    if (
+      err instanceof PrismaClientKnownRequestError &&
+      err.code === UNIQUE_CONSTRAINT_CODE
+    ) {
+      return ERRORS.RESTAURANTS.ALREADY_FAVORITED;
+    }
+
+    return ERRORS.GENERIC.UNKNOWN_ERROR;
+  }) satisfies (err: unknown) => ErrorKeys);
 }
 
 export async function removeFavoriteRestaurant({
@@ -213,5 +225,15 @@ export async function removeFavoriteRestaurant({
         },
       });
     }),
-  )();
+  )().mapErr(((err) => {
+    const NOT_FOUND_CODE = "P2025";
+    if (
+      err instanceof PrismaClientKnownRequestError &&
+      err.code === NOT_FOUND_CODE
+    ) {
+      return ERRORS.RESTAURANTS.NOT_FAVORITED_FOUND;
+    }
+
+    return ERRORS.GENERIC.UNKNOWN_ERROR;
+  }) satisfies (err: unknown) => ErrorKeys);
 }
