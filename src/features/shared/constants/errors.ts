@@ -18,6 +18,7 @@ export const ERRORS = {
     INVALID_CREATION_DATA: "restaurants.invalid_creation_data",
     UNAUTHORIZED_CREATION: "restaurants.unauthorized_creation",
     UNAUTHORIZED_EDITION: "restaurants.unauthorized_edition",
+    UNAUTHORIZED_FAVORITE: "restaurants.unauthorized_favorite",
     INVALID_EDITION_DATA: "restaurants.invalid_edition_data",
     INVALID_RESTAURANT_ID: "restaurants.invalid_restaurant_id",
   },

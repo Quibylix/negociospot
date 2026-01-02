@@ -19,7 +19,8 @@
       "invalid_restaurant_id": "ID de restaurante inválido",
       "name_required": "El nombre del restaurante es obligatorio",
       "invalid_edition_data": "Datos de edición de restaurante inválidos",
-      "unauthorized_edition": "No estás autorizado para editar este restaurante"
+      "unauthorized_edition": "No estás autorizado para editar este restaurante",
+      "unauthorized_favorite": "No estás autorizado para agregar o eliminar favoritos"
     },
     "menus": {
       "invalid_creation_data": "Datos de creación de menú inválidos",
