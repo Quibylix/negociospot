@@ -1,3 +1,4 @@
+import { ResultAsync } from "neverthrow";
 import { prisma } from "@/lib/prisma/prisma";
 
 export const RestaurantsService = {
@@ -128,3 +129,89 @@ export const RestaurantsService = {
     });
   },
 };
+
+export function isFavoriteRestaurant({
+  userId,
+  restaurantUniqueIdentifier,
+}: {
+  userId: string;
+  restaurantUniqueIdentifier: { id: number } | { slug: string };
+}) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.$transaction(async (tx) => {
+      const restaurantId = await tx.restaurant
+        .findUniqueOrThrow({
+          where:
+            "id" in restaurantUniqueIdentifier
+              ? { id: restaurantUniqueIdentifier.id }
+              : { slug: restaurantUniqueIdentifier.slug },
+        })
+        .then((restaurant) => restaurant.id);
+
+      const favorite = await tx.favorite.findUnique({
+        where: {
+          profileId_restaurantId: {
+            profileId: userId,
+            restaurantId: restaurantId,
+          },
+        },
+      });
+
+      return Boolean(favorite);
+    }),
+  )();
+}
+
+export function addFavoriteRestaurant({
+  userId,
+  restaurantUniqueIdentifier,
+}: {
+  userId: string;
+  restaurantUniqueIdentifier: { id: number } | { slug: string };
+}) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.favorite.create({
+      data: {
+        profile: {
+          connect: { id: userId },
+        },
+        restaurant: {
+          connect:
+            "id" in restaurantUniqueIdentifier
+              ? { id: restaurantUniqueIdentifier.id }
+              : { slug: restaurantUniqueIdentifier.slug },
+        },
+      },
+    }),
+  )();
+}
+
+export async function removeFavoriteRestaurant({
+  userId,
+  restaurantUniqueIdentifier,
+}: {
+  userId: string;
+  restaurantUniqueIdentifier: { id: number } | { slug: string };
+}) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.$transaction(async (tx) => {
+      const restaurantId = await tx.restaurant
+        .findUniqueOrThrow({
+          where:
+            "id" in restaurantUniqueIdentifier
+              ? { id: restaurantUniqueIdentifier.id }
+              : { slug: restaurantUniqueIdentifier.slug },
+        })
+        .then((restaurant) => restaurant.id);
+
+      return tx.favorite.delete({
+        where: {
+          profileId_restaurantId: {
+            profileId: userId,
+            restaurantId: restaurantId,
+          },
+        },
+      });
+    }),
+  )();
+}
