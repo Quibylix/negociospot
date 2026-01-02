@@ -20,7 +20,9 @@
       "name_required": "El nombre del restaurante es obligatorio",
       "invalid_edition_data": "Datos de edición de restaurante inválidos",
       "unauthorized_edition": "No estás autorizado para editar este restaurante",
-      "unauthorized_favorite": "No estás autorizado para agregar o eliminar favoritos"
+      "unauthorized_favorite": "No estás autorizado para agregar o eliminar favoritos",
+      "already_favorited": "Restaurante ya está en favoritos",
+      "not_favorited_found": "Restaurante no está en favoritos"
     },
     "menus": {
       "invalid_creation_data": "Datos de creación de menú inválidos",
@@ -190,6 +192,13 @@
       "edit_restaurant": "Editar restaurante",
       "create_menu": "Crear menú",
       "edit_menu": "Editar menú"
+    },
+    "favorite": {
+      "add_favorite": "Agregar a favoritos",
+      "remove_favorite": "Eliminar de favoritos",
+      "added_success": "¡Restaurante agregado a favoritos!",
+      "removed_success": "¡Restaurante eliminado de favoritos!",
+      "toggle_error": "Error al actualizar favoritos"
     },
     "form": {
       "creation_success_message": "¡Restaurante creado con éxito!",
