@@ -41,6 +41,8 @@ export default async function RestaurantWebsitePage({
         canEdit={false}
         canCreateMenus={false}
         canEditMenus={false}
+        canFavorite={false}
+        isFavorite={false}
         slug={slug}
       />
       <PoweredByFloating />

@@ -7,7 +7,10 @@ import {
   type RestaurantDetailProps,
   restaurantDetailAdapterSchema,
 } from "@/features/restaurants/components/restaurant-detail/service-to-detail-adapter";
-import { RestaurantsService } from "@/features/restaurants/service";
+import {
+  isFavoriteRestaurant,
+  RestaurantsService,
+} from "@/features/restaurants/service";
 
 export default async function RestaurantPage({
   params,
@@ -76,12 +79,22 @@ export default async function RestaurantPage({
         belongsToRestaurant: true,
       });
 
+  const canFavorite = Boolean(user);
+  const isFavorite = user
+    ? await isFavoriteRestaurant({
+        userId: user.id,
+        restaurantUniqueIdentifier: { slug },
+      }).unwrapOr(false)
+    : false;
+
   return (
     <RestaurantDetail
       {...parsedRestaurant}
+      isFavorite={isFavorite}
       canEdit={canEdit}
       canCreateMenus={canCreateMenus}
       canEditMenus={canEditMenus}
+      canFavorite={canFavorite}
       slug={slug}
     />
   );

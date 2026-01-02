@@ -111,6 +111,8 @@ export function RestaurantForm(props: RestaurantFormProps) {
       canEdit={false}
       canCreateMenus={false}
       canEditMenus={false}
+      canFavorite={false}
+      isFavorite={false}
       slug="preview-restaurant"
     />
   );

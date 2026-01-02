@@ -22,6 +22,8 @@ export type RestaurantDetailProps = BaseRestaurantDetailProps & {
   slug: string;
   canEditMenus: boolean;
   canCreateMenus: boolean;
+  isFavorite: boolean;
+  canFavorite: boolean;
 };
 
 export function RestaurantDetail({
@@ -41,6 +43,8 @@ export function RestaurantDetail({
   menus,
   canEditMenus,
   canCreateMenus,
+  isFavorite,
+  canFavorite,
 }: RestaurantDetailProps) {
   const t = useTranslations("restaurant.detail");
 
@@ -64,6 +68,8 @@ export function RestaurantDetail({
         reviewsCount={reviews.length}
         ratingAvg={ratingAvg}
         canEdit={canEdit}
+        isFavorite={isFavorite}
+        canFavorite={canFavorite}
         slug={slug}
       />
       <Container size="lg" mt={60} mb="xl">

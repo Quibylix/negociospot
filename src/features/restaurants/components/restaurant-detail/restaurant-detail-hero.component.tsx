@@ -16,6 +16,7 @@ import {
 import { IconEdit } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/features/i18n/navigation";
+import { FavoriteRestaurantButton } from "../favorite-restaurant-button/favorite-restaurant-button.component";
 import type { RestaurantDetailProps } from "./service-to-detail-adapter";
 
 export type RestaurantDetailHeroProps = {
@@ -25,6 +26,8 @@ export type RestaurantDetailHeroProps = {
   reviewsCount: number;
   ratingAvg: number;
   canEdit: boolean;
+  isFavorite: boolean;
+  canFavorite: boolean;
   slug: string;
 };
 
@@ -36,6 +39,8 @@ export function RestaurantDetailHero({
   ratingAvg,
   slug,
   canEdit,
+  isFavorite,
+  canFavorite,
 }: RestaurantDetailHeroProps) {
   const t = useTranslations("restaurant.detail");
 
@@ -78,7 +83,7 @@ export function RestaurantDetailHero({
                 ))}
               </Group>
             </div>
-            <Stack gap={0} align="end">
+            <Stack gap={0} align="center">
               <Group gap={5}>
                 <Text fw={700} size="xl">
                   {ratingAvg.toFixed(1)}
@@ -89,6 +94,12 @@ export function RestaurantDetailHero({
                 {t("reviews_count", { count: reviewsCount })}
               </Text>
             </Stack>
+            {canFavorite && (
+              <FavoriteRestaurantButton
+                isFavorite={isFavorite}
+                restaurantSlug={slug}
+              />
+            )}
           </Group>
         </Card>
       </Container>
