@@ -28,6 +28,7 @@ export type RestaurantDetailProps = {
     canCreateMenus: boolean;
     canEditMenus: boolean;
     canClaim?: boolean;
+    canSuggestChanges?: boolean;
   };
 };
 
@@ -58,6 +59,7 @@ export function RestaurantDetail({
         reviewsCount={restaurant.reviews.length}
         ratingAvg={ratingAvg}
         canEdit={allowedActions.canEdit}
+        canSuggestChanges={allowedActions.canSuggestChanges ?? false}
         isFavorite={restaurant.isFavorite}
         canFavorite={allowedActions.canFavorite}
         slug={restaurant.slug}

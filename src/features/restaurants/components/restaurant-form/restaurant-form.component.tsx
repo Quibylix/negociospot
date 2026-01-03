@@ -34,7 +34,7 @@ export type RestaurantFormProps =
       availableTags: { id: number; name: string }[];
     }
   | {
-      mode: "update";
+      mode: "update" | "suggest_changes";
       id: number;
       initialValues: {
         name: string;
@@ -50,11 +50,13 @@ export type RestaurantFormProps =
     };
 
 export function RestaurantForm(props: RestaurantFormProps) {
-  const useRestauranFormParams: ["create"] | ["update", RestaurantFormData] =
+  const useRestauranFormParams:
+    | ["create"]
+    | ["update" | "suggest_changes", RestaurantFormData] =
     props.mode === "create"
       ? ["create"]
       : [
-          "update",
+          props.mode,
           {
             formInitialValues: {
               ...props.initialValues,
@@ -120,6 +122,12 @@ export function RestaurantForm(props: RestaurantFormProps) {
       }}
     />
   );
+
+  const submitButtonText = {
+    create: t("creation_submit_button"),
+    update: t("edition_submit_button"),
+    suggest_changes: t("suggestion_submit_button"),
+  }[props.mode];
 
   return (
     <Box pos="relative">
@@ -243,9 +251,7 @@ export function RestaurantForm(props: RestaurantFormProps) {
               {...form.getInputProps("tags")}
             />
             <Button type="submit" fullWidth mt="lg" loading={loading}>
-              {props.mode === "create"
-                ? t("creation_submit_button")
-                : t("edition_submit_button")}
+              {submitButtonText}
             </Button>
           </Paper>
         </GridCol>

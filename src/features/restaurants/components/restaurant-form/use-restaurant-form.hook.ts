@@ -4,6 +4,7 @@ import { type UseFormReturnType, useForm } from "@mantine/form";
 import { useDebouncedState } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import type { z } from "zod";
 import { useRouter } from "@/features/i18n/navigation";
 import { notifyError, notifySuccess } from "@/features/notifications/notify";
 import { useMapPicker } from "@/lib/google-maps/use-map-picker.hook";
@@ -19,7 +20,7 @@ import {
 } from "../../schemas/update-restaurant.schema";
 import { getValidators } from "./validators";
 
-export type RestaurantFormMode = "create" | "update";
+export type RestaurantFormMode = "create" | "update" | "suggest_changes";
 export type RestaurantFormData = {
   formInitialValues: {
     name: string;
@@ -53,7 +54,7 @@ export type UseRestaurantFormReturnType = {
 
 export function useRestaurantForm(mode: "create"): UseRestaurantFormReturnType;
 export function useRestaurantForm(
-  mode: "update",
+  mode: "update" | "suggest_changes",
   data: RestaurantFormData,
 ): UseRestaurantFormReturnType;
 export function useRestaurantForm(
@@ -165,20 +166,29 @@ export function useRestaurantForm(
       return;
     }
 
-    const isUpdateMode = mode === "update";
-    const endpoint = isUpdateMode
-      ? `/api/v1/restaurants/${restaurantId}`
-      : "/api/v1/restaurants";
-    const method = isUpdateMode ? "PUT" : "POST";
-    const bodySchema = isUpdateMode
-      ? updateRestaurantBodySchema
-      : createRestaurantBodySchema;
-    const responseSchema = isUpdateMode
-      ? updateRestaurantResponseSchema
-      : createRestaurantResponseSchema;
-    const successMessage = isUpdateMode
-      ? t("edition_success_message")
-      : t("creation_success_message");
+    const { endpoint, method, bodySchema, responseSchema, successMessage } = {
+      create: {
+        endpoint: "/api/v1/restaurants",
+        method: "POST",
+        bodySchema: createRestaurantBodySchema,
+        responseSchema: createRestaurantResponseSchema,
+        successMessage: t("creation_success_message"),
+      },
+      update: {
+        endpoint: `/api/v1/restaurants/${restaurantId}`,
+        method: "PUT",
+        bodySchema: updateRestaurantBodySchema,
+        responseSchema: updateRestaurantResponseSchema,
+        successMessage: t("edition_success_message"),
+      },
+      suggest_changes: {
+        endpoint: `/api/v1/restaurants/${restaurantId}/suggest`,
+        method: "POST",
+        bodySchema: updateRestaurantBodySchema,
+        responseSchema: updateRestaurantResponseSchema,
+        successMessage: t("suggestion_success_message"),
+      },
+    }[mode];
 
     const parsedBody = await bodySchema
       .parseAsync({
@@ -190,7 +200,7 @@ export function useRestaurantForm(
         lat: values.lat ?? undefined,
         lng: values.lng ?? undefined,
         tagIds: values.tags.map((tag) => Number(tag)),
-      })
+      } satisfies z.infer<typeof bodySchema>)
       .catch(() => {
         notifyError(
           errorsT("generic.unknown_error"),
