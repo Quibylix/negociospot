@@ -1,6 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { ResultAsync } from "neverthrow";
 import { prisma } from "@/lib/prisma/prisma";
+import { Logger } from "../logger/logger";
 import { ERRORS, type ErrorKeys } from "../shared/constants/errors";
 
 export const RestaurantsService = {
@@ -162,6 +163,42 @@ export function isFavoriteRestaurant({
       return Boolean(favorite);
     }),
   )();
+}
+
+export function getFavoriteRestaurants({
+  userId,
+  offset,
+  limit,
+}: {
+  userId: string;
+  offset: number;
+  limit: number;
+}) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.favorite.findMany({
+      where: { profileId: userId },
+      skip: offset,
+      take: limit,
+      include: { restaurant: { include: { tags: true } } },
+      orderBy: { restaurant: { id: "desc" } },
+    }),
+  )()
+    .map((favorites) => favorites.map((fav) => fav.restaurant))
+    .mapErr((err) => {
+      Logger.error("Error fetching favorite restaurants", err);
+      return ERRORS.GENERIC.UNKNOWN_ERROR;
+    });
+}
+
+export function getFavoriteRestaurantsCount({ userId }: { userId: string }) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.favorite.count({
+      where: { profileId: userId },
+    }),
+  )().mapErr((err) => {
+    Logger.error("Error counting favorite restaurants", err);
+    return ERRORS.GENERIC.UNKNOWN_ERROR;
+  });
 }
 
 export function addFavoriteRestaurant({
