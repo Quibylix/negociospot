@@ -133,12 +133,14 @@ export const RestaurantsService = {
   },
 };
 
+type RestaurantUID = { id: number } | { slug: string };
+
 export function isFavoriteRestaurant({
   userId,
   restaurantUniqueIdentifier,
 }: {
   userId: string;
-  restaurantUniqueIdentifier: { id: number } | { slug: string };
+  restaurantUniqueIdentifier: RestaurantUID;
 }) {
   return ResultAsync.fromThrowable(() =>
     prisma.$transaction(async (tx) => {
@@ -206,7 +208,7 @@ export function addFavoriteRestaurant({
   restaurantUniqueIdentifier,
 }: {
   userId: string;
-  restaurantUniqueIdentifier: { id: number } | { slug: string };
+  restaurantUniqueIdentifier: RestaurantUID;
 }) {
   return ResultAsync.fromThrowable(() =>
     prisma.favorite.create({
@@ -240,7 +242,7 @@ export async function removeFavoriteRestaurant({
   restaurantUniqueIdentifier,
 }: {
   userId: string;
-  restaurantUniqueIdentifier: { id: number } | { slug: string };
+  restaurantUniqueIdentifier: RestaurantUID;
 }) {
   return ResultAsync.fromThrowable(() =>
     prisma.$transaction(async (tx) => {
