@@ -291,3 +291,39 @@ export async function removeFavoriteRestaurant({
     return ERRORS.GENERIC.UNKNOWN_ERROR;
   }) satisfies (err: unknown) => ErrorKeys);
 }
+
+export async function registerRestaurantChangeSuggestion({
+  uid,
+  data,
+  creatorId,
+}: {
+  uid: RestaurantUID;
+  creatorId: string;
+  data: {
+    name: string;
+    address?: string;
+    description?: string;
+    schedule?: string;
+    tagIds?: number[];
+    lat?: number;
+    lng?: number;
+  };
+}) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.changeSuggestion.create({
+      select: { restaurant: { select: { id: true, slug: true } } },
+      data: {
+        restaurant: {
+          connect: "id" in uid ? { id: uid.id } : { slug: uid.slug },
+        },
+        data,
+        creator: {
+          connect: { id: creatorId },
+        },
+      },
+    }),
+  )().mapErr((err) => {
+    Logger.error("Error registering restaurant change suggestion", err);
+    return ERRORS.GENERIC.UNKNOWN_ERROR;
+  });
+}
