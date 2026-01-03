@@ -6,7 +6,7 @@ import { check } from "@/features/auth/utils/permissions.util";
 import { redirect } from "@/features/i18n/navigation/server";
 import { Logger } from "@/features/logger/logger";
 import { CreateMenuForm } from "@/features/menus/components/create-menu-form/create-menu-form.component";
-import { RestaurantsService } from "@/features/restaurants/service";
+import { getRestaurantAccessInfo } from "@/features/restaurants/service";
 
 export default async function CreateMenuPage({
   params,
@@ -24,21 +24,27 @@ export default async function CreateMenuPage({
     return redirect({ href: `/restaurants/${slug}`, locale });
   });
 
-  const admins = await RestaurantsService.getRestaurantAdminsBySlug(slug).catch(
-    (error) => {
-      Logger.error("Error fetching restaurant admins", { error, slug });
-      return redirect({ href: `/restaurants/${slug}`, locale });
-    },
-  );
+  const accessInfoResult = await getRestaurantAccessInfo({ uid: { slug } });
 
-  if (admins === null)
+  if (accessInfoResult.isErr()) {
+    Logger.error("Error fetching restaurant access info", {
+      error: accessInfoResult.error,
+      restaurantSlug: slug,
+    });
+    return redirect({ href: `/restaurants/${slug}`, locale });
+  }
+
+  if (accessInfoResult.value === null)
     return redirect({ href: `/restaurants/${slug}`, locale });
 
   if (
     !check(user)
       .can("create", "Menu")
       .verify({
-        admins: admins.administrators.map((admin) => admin.profile.id),
+        admins: accessInfoResult.value.administrators.map(
+          (admin) => admin.profileId,
+        ),
+        creatorId: accessInfoResult.value.createdById,
       })
   ) {
     return redirect({ href: `/restaurants/${slug}`, locale });

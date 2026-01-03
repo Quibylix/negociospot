@@ -10,7 +10,7 @@ import {
   checkMenuBelongsToRestaurant,
   updateMenu,
 } from "@/features/menus/service";
-import { RestaurantsService } from "@/features/restaurants/service";
+import { getRestaurantAccessInfo } from "@/features/restaurants/service";
 import { ERRORS } from "@/features/shared/constants/errors";
 import {
   createTypedJsonRoute,
@@ -28,20 +28,27 @@ export const PUT = createTypedJsonRoute<
   if (!Number(menuId))
     return typedJsonResponse({ error: ERRORS.MENUS.INVALID_MENU_ID }, 400);
 
-  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
-    restaurantSlug,
-  )
-    .then((res) => res?.administrators.map((admin) => admin.profile.id) ?? [])
-    .catch(() => {
-      Logger.error("Failed to fetch restaurant admins", {
-        restaurantSlug,
-      });
-      return null;
-    });
+  const accessInfoResult = await getRestaurantAccessInfo({
+    uid: { slug: restaurantSlug },
+  });
 
-  if (restaurantAdmins === null) {
+  if (accessInfoResult.isErr()) {
+    Logger.error("Error fetching restaurant access info", {
+      error: accessInfoResult.error,
+      restaurantSlug,
+    });
     return typedJsonResponse({ error: ERRORS.GENERIC.UNKNOWN_ERROR }, 500);
   }
+
+  if (accessInfoResult.value === null)
+    return typedJsonResponse({ error: ERRORS.RESTAURANTS.NOT_FOUND }, 404);
+
+  const accessInfo = {
+    creatorId: accessInfoResult.value.createdById,
+    admins: accessInfoResult.value.administrators.map(
+      (admin) => admin.profileId,
+    ),
+  };
 
   const belongsToRestaurant = await checkMenuBelongsToRestaurant(
     Number(menuId),
@@ -61,7 +68,7 @@ export const PUT = createTypedJsonRoute<
   if (
     !check(user)
       .can("edit", "Menu")
-      .verify({ restaurantAdmins, belongsToRestaurant })
+      .verify({ ...accessInfo, belongsToRestaurant })
   ) {
     return typedJsonResponse({ error: ERRORS.MENUS.UNAUTHORIZED_EDITION }, 403);
   }

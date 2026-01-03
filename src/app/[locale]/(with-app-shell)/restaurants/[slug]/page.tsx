@@ -8,6 +8,7 @@ import {
   restaurantDetailAdapterSchema,
 } from "@/features/restaurants/components/restaurant-detail/service-to-detail-adapter";
 import {
+  getRestaurantAccessInfo,
   isFavoriteRestaurant,
   RestaurantsService,
 } from "@/features/restaurants/service";
@@ -43,52 +44,35 @@ export default async function RestaurantPage({
     return null;
   });
 
-  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
-    slug,
-  ).catch((error) => {
-    Logger.error(`Error fetching restaurant admins for slug "${slug}".`, error);
+  const accessInfoResult = await getRestaurantAccessInfo({ uid: { slug } });
+
+  if (accessInfoResult.isErr()) {
+    Logger.error("Error fetching restaurant access info", {
+      error: accessInfoResult.error,
+      restaurantSlug: slug,
+    });
     return null;
-  });
+  }
 
-  const canEdit =
-    Boolean(restaurantAdmins) &&
-    check(user)
-      .can("edit", "Restaurant")
-      .verify({
-        creatorId: restaurant.createdById,
-        admins:
-          restaurantAdmins?.administrators.map((admin) => admin.profile.id) ??
-          [],
-      });
-  const canCreateMenus =
-    Boolean(restaurantAdmins) &&
-    check(user)
-      .can("create", "Menu")
-      .verify({
-        admins:
-          restaurantAdmins?.administrators.map((admin) => admin.profile.id) ??
-          [],
-      });
-  const canEditMenus =
-    Boolean(restaurantAdmins) &&
-    check(user)
-      .can("edit", "Menu")
-      .verify({
-        restaurantAdmins: restaurantAdmins?.administrators.map(
-          (admin) => admin.profile.id,
-        ) as string[],
-        belongsToRestaurant: true,
-      });
+  if (accessInfoResult.value === null) return null;
 
-  const canClaim =
-    Boolean(restaurantAdmins) &&
-    check(user)
-      .can("claim", "Restaurant")
-      .verify({
-        admins: restaurantAdmins?.administrators.map(
-          (admin) => admin.profile.id,
-        ) as string[],
-      });
+  const accessInfo = {
+    creatorId: accessInfoResult.value.createdById,
+    admins: accessInfoResult.value.administrators.map(
+      (admin) => admin.profileId,
+    ),
+  };
+
+  const canEdit = check(user).can("edit", "Restaurant").verify(accessInfo);
+  const canCreateMenus = check(user).can("create", "Menu").verify(accessInfo);
+  const canEditMenus = check(user)
+    .can("edit", "Menu")
+    .verify({
+      ...accessInfo,
+      belongsToRestaurant: true,
+    });
+
+  const canClaim = check(user).can("claim", "Restaurant").verify(accessInfo);
 
   const canFavorite = Boolean(user);
   const isFavorite = user

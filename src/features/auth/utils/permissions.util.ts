@@ -29,12 +29,21 @@ const POLICIES = {
       (r.admins.length > 0 || r.creatorId !== u.id),
   },
   Menu: {
-    create: (u) => (r: RestaurantPermissionContext) =>
-      u !== null && (r.admins.length === 0 || r.admins.includes(u.id)),
-    edit: (u) => (m: MenuPermissionContext) =>
+    create: (u) => (r: { admins: string[]; creatorId: string | null }) =>
       u !== null &&
-      m.belongsToRestaurant &&
-      (m.restaurantAdmins.length === 0 || m.restaurantAdmins.includes(u.id)),
+      (r.admins.includes(u.id) ||
+        (r.admins.length === 0 && r.creatorId === u.id)),
+    edit:
+      (u) =>
+      (m: {
+        admins: string[];
+        creatorId: string | null;
+        belongsToRestaurant: boolean;
+      }) =>
+        u !== null &&
+        m.belongsToRestaurant &&
+        (m.admins.includes(u.id) ||
+          (m.admins.length === 0 && m.creatorId === u.id)),
     delete: (u) => (m: MenuPermissionContext) =>
       u !== null && m.belongsToRestaurant && m.restaurantAdmins.includes(u.id),
   },

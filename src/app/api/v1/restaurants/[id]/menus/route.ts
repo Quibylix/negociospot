@@ -7,7 +7,7 @@ import {
   type createMenuResponseSchema,
 } from "@/features/menus/schemas/create-menu.schema";
 import { createMenu } from "@/features/menus/service";
-import { RestaurantsService } from "@/features/restaurants/service";
+import { getRestaurantAccessInfo } from "@/features/restaurants/service";
 import { ERRORS } from "@/features/shared/constants/errors";
 import {
   createTypedJsonRoute,
@@ -22,25 +22,29 @@ export const POST = createTypedJsonRoute<
 
   const user = await AuthService.getCurrentUser();
 
-  const restaurantAdmins = await RestaurantsService.getRestaurantAdminsBySlug(
-    restaurantSlug,
-  )
-    .then((res) => res?.administrators.map((admin) => admin.profile.id) ?? [])
-    .catch(() => {
-      Logger.error("Failed to fetch restaurant admins", {
-        restaurantSlug,
-      });
-      return null;
-    });
+  const accessInfoResult = await getRestaurantAccessInfo({
+    uid: { slug: restaurantSlug },
+  });
 
-  if (restaurantAdmins === null) {
+  if (accessInfoResult.isErr()) {
+    Logger.error("Error fetching restaurant access info", {
+      error: accessInfoResult.error,
+      restaurantSlug,
+    });
     return typedJsonResponse({ error: ERRORS.GENERIC.UNKNOWN_ERROR }, 500);
   }
 
-  if (
-    !check(user).can("create", "Menu").verify({ admins: restaurantAdmins }) ||
-    !user
-  ) {
+  if (accessInfoResult.value === null)
+    return typedJsonResponse({ error: ERRORS.RESTAURANTS.NOT_FOUND }, 404);
+
+  const accessInfo = {
+    creatorId: accessInfoResult.value.createdById,
+    admins: accessInfoResult.value.administrators.map(
+      (admin) => admin.profileId,
+    ),
+  };
+
+  if (!check(user).can("create", "Menu").verify(accessInfo) || !user) {
     return typedJsonResponse(
       { error: ERRORS.RESTAURANTS.UNAUTHORIZED_EDITION },
       403,

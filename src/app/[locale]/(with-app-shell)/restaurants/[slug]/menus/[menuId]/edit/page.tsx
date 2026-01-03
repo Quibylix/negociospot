@@ -10,7 +10,7 @@ import {
   checkMenuBelongsToRestaurant,
   getMenuById,
 } from "@/features/menus/service";
-import { RestaurantsService } from "@/features/restaurants/service";
+import { getRestaurantAccessInfo } from "@/features/restaurants/service";
 
 export default async function UpdateMenuPage({
   params,
@@ -33,14 +33,17 @@ export default async function UpdateMenuPage({
     return redirect({ href: `/restaurants/${slug}`, locale });
   });
 
-  const admins = await RestaurantsService.getRestaurantAdminsBySlug(slug).catch(
-    (error) => {
-      Logger.error("Error fetching restaurant admins", { error, slug });
-      return redirect({ href: `/restaurants/${slug}`, locale });
-    },
-  );
+  const accessInfoResult = await getRestaurantAccessInfo({ uid: { slug } });
 
-  if (admins === null)
+  if (accessInfoResult.isErr()) {
+    Logger.error("Error fetching restaurant access info", {
+      error: accessInfoResult.error,
+      restaurantSlug: slug,
+    });
+    return redirect({ href: `/restaurants/${slug}`, locale });
+  }
+
+  if (accessInfoResult.value === null)
     return redirect({ href: `/restaurants/${slug}`, locale });
 
   const belongsToRestaurant = await checkMenuBelongsToRestaurant(
@@ -58,8 +61,9 @@ export default async function UpdateMenuPage({
     !check(user)
       .can("edit", "Menu")
       .verify({
-        restaurantAdmins: admins.administrators.map(
-          (admin) => admin.profile.id,
+        creatorId: accessInfoResult.value.createdById,
+        admins: accessInfoResult.value.administrators.map(
+          (admin) => admin.profileId,
         ),
         belongsToRestaurant,
       })
