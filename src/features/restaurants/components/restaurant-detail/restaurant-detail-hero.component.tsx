@@ -28,6 +28,7 @@ export type RestaurantDetailHeroProps = {
   canEdit: boolean;
   isFavorite: boolean;
   canFavorite: boolean;
+  canSuggestChanges: boolean;
   slug: string;
 };
 
@@ -41,6 +42,7 @@ export function RestaurantDetailHero({
   canEdit,
   isFavorite,
   canFavorite,
+  canSuggestChanges,
 }: RestaurantDetailHeroProps) {
   const t = useTranslations("restaurant.detail");
 
@@ -70,6 +72,18 @@ export function RestaurantDetailHero({
                     color="gray"
                     title={t("edit_restaurant")}
                     aria-label={t("edit_restaurant")}
+                  >
+                    <IconEdit size={20} />
+                  </ActionIcon>
+                )}
+                {canSuggestChanges && (
+                  <ActionIcon
+                    component={Link}
+                    href={`/restaurants/${slug}/suggest-changes`}
+                    variant="outline"
+                    color="gray"
+                    title={t("suggest_changes")}
+                    aria-label={t("suggest_changes")}
                   >
                     <IconEdit size={20} />
                   </ActionIcon>

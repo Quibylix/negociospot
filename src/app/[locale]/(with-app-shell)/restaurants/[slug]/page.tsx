@@ -71,6 +71,9 @@ export default async function RestaurantPage({
       ...accessInfo,
       belongsToRestaurant: true,
     });
+  const canSuggestChanges = check(user)
+    .can("suggestChanges", "Restaurant")
+    .verify(accessInfo);
 
   const canClaim = check(user).can("claim", "Restaurant").verify(accessInfo);
 
@@ -91,6 +94,7 @@ export default async function RestaurantPage({
         canCreateMenus,
         canEditMenus,
         canClaim,
+        canSuggestChanges,
       }}
     />
   );
