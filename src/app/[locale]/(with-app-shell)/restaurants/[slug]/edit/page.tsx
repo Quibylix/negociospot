@@ -37,16 +37,6 @@ export default async function EditRestaurantPage({
     return;
   }
 
-  if (
-    !check(user)
-      .can("edit", "Restaurant")
-      .verify({ admins: restaurantAdmins }) ||
-    !user
-  ) {
-    redirect({ href: "/", locale });
-    return;
-  }
-
   const restaurant = await RestaurantsService.getRestaurantBySlug(slug).catch(
     (error) => {
       Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
@@ -56,6 +46,19 @@ export default async function EditRestaurantPage({
 
   if (!restaurant) {
     notFound();
+  }
+
+  if (
+    !check(user)
+      .can("edit", "Restaurant")
+      .verify({
+        creatorId: restaurant.createdById ?? null,
+        admins: restaurantAdmins,
+      }) ||
+    !user
+  ) {
+    redirect({ href: "/", locale });
+    return;
   }
 
   let tags: { id: number; name: string }[];

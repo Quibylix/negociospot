@@ -55,6 +55,7 @@ export default async function RestaurantPage({
     check(user)
       .can("edit", "Restaurant")
       .verify({
+        creatorId: restaurant.createdById,
         admins:
           restaurantAdmins?.administrators.map((admin) => admin.profile.id) ??
           [],
