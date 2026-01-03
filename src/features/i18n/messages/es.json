@@ -227,6 +227,20 @@
       "form_title": "Detalles del Restaurante",
       "preview_title": "Vista Previa",
       "show_preview_button": "Mostrar Vista Previa"
+    },
+    "claim": {
+      "why_claim": "Si eres el propietario de este negocio, puedes reclamarlo para gestionar su información y presencia en NegocioSpot.",
+      "claim_business": "Reclamar este negocio",
+      "modal": {
+        "title": "Reclamar este negocio",
+        "description_1": "Para reclamar la propiedad de este negocio, por favor envíanos un correo a",
+        "description_2": "con la siguiente información:",
+        "info_1": "Nombre del propietario",
+        "info_2": "Prueba de propiedad o gestión del negocio",
+        "info_3": "Número de contacto",
+        "info_4": "Cualquier otra información relevante",
+        "closing": "Nuestro equipo revisará tu solicitud y se pondrá en contacto contigo para completar el proceso de verificación."
+      }
     }
   },
   "restaurants": {
