@@ -14,6 +14,7 @@
       "passwords_do_not_match": "Las contraseñas no coinciden"
     },
     "restaurants": {
+      "not_found": "Restaurante no encontrado",
       "invalid_creation_data": "Datos de creación de restaurante inválidos",
       "unauthorized_creation": "No estás autorizado para crear un restaurante",
       "invalid_restaurant_id": "ID de restaurante inválido",

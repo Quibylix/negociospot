@@ -15,6 +15,7 @@ export const ERRORS = {
     USER_ALREADY_EXISTS: "auth.user_already_exists",
   },
   RESTAURANTS: {
+    NOT_FOUND: "restaurants.not_found",
     INVALID_CREATION_DATA: "restaurants.invalid_creation_data",
     UNAUTHORIZED_CREATION: "restaurants.unauthorized_creation",
     UNAUTHORIZED_EDITION: "restaurants.unauthorized_edition",
