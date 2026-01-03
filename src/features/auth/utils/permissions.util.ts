@@ -23,10 +23,11 @@ const POLICIES = {
       u !== null && r.admins.includes(u.id),
     claim: (u) => (r: RestaurantPermissionContext) =>
       u !== null && r.admins.length === 0,
-    suggestChanges: (u) => (r: { creatorId?: string; admins: string[] }) =>
-      u !== null &&
-      !r.admins.includes(u.id) &&
-      (r.admins.length > 0 || r.creatorId !== u.id),
+    suggestChanges:
+      (u) => (r: { creatorId: string | null; admins: string[] }) =>
+        u !== null &&
+        !r.admins.includes(u.id) &&
+        (r.admins.length > 0 || r.creatorId !== u.id),
   },
   Menu: {
     create: (u) => (r: { admins: string[]; creatorId: string | null }) =>
