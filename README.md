@@ -30,6 +30,7 @@ DATABASE_URL="postgres://postgres.[ref]:[password]@[host]:5432/postgres?pgbounce
 NEXT_PUBLIC_SUPABASE_URL="[ref].supabase.co"
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="[your-supabase-publishable-key]"
 NEXT_PUBLIC_SITE_URL="[your-site-url]"
+NEXT_PUBLIC_SUPPORT_EMAIL="[your-support-email]"
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="[your-google-maps-api-key]"
 NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID="[your-google-maps-map-id]"
 ```
