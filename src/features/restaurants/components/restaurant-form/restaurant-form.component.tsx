@@ -292,7 +292,11 @@ export function RestaurantForm(props: RestaurantFormProps) {
           display={opened ? "none" : undefined}
           onClick={open}
           variant="outline"
-          style={{ marginRight: 10 }}
+          mr={10}
+          bg="rgba(255, 255, 255, 0.6)"
+          style={{
+            backdropFilter: "blur(10px)",
+          }}
         >
           {t("show_preview_button")}
         </Button>
