@@ -68,7 +68,7 @@ export async function RestaurantCard({
             </Title>
           </Group>
           <Group gap={5} mt={5} c="dimmed" wrap="nowrap">
-            <IconMapPin size={16} />
+            <IconMapPin size={16} style={{ flexShrink: 0 }} />
             <Text lineClamp={1} size="sm">
               {address || "Sin dirección"}
             </Text>

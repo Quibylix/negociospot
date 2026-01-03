@@ -1,3 +1,4 @@
+import { Container } from "@mantine/core";
 import { notFound } from "next/navigation";
 import { Logger } from "@/features/logger/logger";
 import { RestaurantDetail } from "@/features/restaurants/components/restaurant-detail/restaurant-detail.component";
@@ -35,7 +36,7 @@ export default async function RestaurantWebsitePage({
   }
 
   return (
-    <>
+    <Container fluid p={0} pb="xl">
       <RestaurantDetail
         restaurant={{ ...parsedRestaurant, slug, isFavorite: false }}
         allowedActions={{
@@ -46,6 +47,6 @@ export default async function RestaurantWebsitePage({
         }}
       />
       <PoweredByFloating />
-    </>
+    </Container>
   );
 }

@@ -1,6 +1,13 @@
 "use client";
 
-import { Center, Pagination } from "@mantine/core";
+import {
+  Center,
+  Group,
+  PaginationItems,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationRoot,
+} from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { usePathname, useRouter } from "@/features/i18n/navigation";
 import { PAGE_SEARCH_PARAM } from "@/features/shared/constants/page-search-param.constant";
@@ -19,11 +26,19 @@ export function PaginationControl({ totalPages }: { totalPages: number }) {
 
   return (
     <Center mt="xl">
-      <Pagination
+      <PaginationRoot
         total={totalPages}
         value={currentPage}
         onChange={handleChange}
-      />
+      >
+        <Group wrap="nowrap" gap={5}>
+          <PaginationPrevious />
+          <Group gap={5} justify="center">
+            <PaginationItems />
+          </Group>
+          <PaginationNext />
+        </Group>
+      </PaginationRoot>
     </Center>
   );
 }
