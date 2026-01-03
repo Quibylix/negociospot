@@ -37,13 +37,13 @@ export default async function RestaurantWebsitePage({
   return (
     <>
       <RestaurantDetail
-        {...parsedRestaurant}
-        canEdit={false}
-        canCreateMenus={false}
-        canEditMenus={false}
-        canFavorite={false}
-        isFavorite={false}
-        slug={slug}
+        restaurant={{ ...parsedRestaurant, slug, isFavorite: false }}
+        allowedActions={{
+          canEdit: false,
+          canFavorite: false,
+          canCreateMenus: false,
+          canEditMenus: false,
+        }}
       />
       <PoweredByFloating />
     </>

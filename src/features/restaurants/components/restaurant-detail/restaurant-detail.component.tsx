@@ -17,72 +17,61 @@ import { RestaurantDetailMenus } from "./restaurant-detail-menus.component";
 import { RestaurantDetailReviews } from "./restaurant-detail-reviews.component";
 import type { RestaurantDetailProps as BaseRestaurantDetailProps } from "./service-to-detail-adapter";
 
-export type RestaurantDetailProps = BaseRestaurantDetailProps & {
-  canEdit: boolean;
-  slug: string;
-  canEditMenus: boolean;
-  canCreateMenus: boolean;
-  isFavorite: boolean;
-  canFavorite: boolean;
+export type RestaurantDetailProps = {
+  restaurant: BaseRestaurantDetailProps & {
+    slug: string;
+    isFavorite: boolean;
+  };
+  allowedActions: {
+    canEdit: boolean;
+    canFavorite: boolean;
+    canCreateMenus: boolean;
+    canEditMenus: boolean;
+  };
 };
 
 export function RestaurantDetail({
-  coverImgUrl,
-  name,
-  tags,
-  reviews,
-  description,
-  address,
-  schedule,
-  phone,
-  whatsapp,
-  lat,
-  lng,
-  canEdit,
-  slug,
-  menus,
-  canEditMenus,
-  canCreateMenus,
-  isFavorite,
-  canFavorite,
+  restaurant,
+  allowedActions,
 }: RestaurantDetailProps) {
   const t = useTranslations("restaurant.detail");
 
   const ratingAvg =
-    reviews.length > 0
-      ? reviews.reduce((a, b) => a + b.rating, 0) / reviews.length
+    restaurant.reviews.length > 0
+      ? restaurant.reviews.reduce((a, b) => a + b.rating, 0) /
+        restaurant.reviews.length
       : 0;
 
   const website = Result.fromThrowable(
     () => new URL(process.env.NEXT_PUBLIC_SITE_URL ?? ""),
   )()
-    .map((url) => `${url.protocol}//${slug}.${url.host}`)
+    .map((url) => `${url.protocol}//${restaurant.slug}.${url.host}`)
     .unwrapOr(process.env.NEXT_PUBLIC_SITE_URL ?? "");
 
   return (
     <>
       <RestaurantDetailHero
-        coverImgUrl={coverImgUrl}
-        name={name}
-        tags={tags}
-        reviewsCount={reviews.length}
+        coverImgUrl={restaurant.coverImgUrl}
+        name={restaurant.name}
+        tags={restaurant.tags}
+        reviewsCount={restaurant.reviews.length}
         ratingAvg={ratingAvg}
-        canEdit={canEdit}
-        isFavorite={isFavorite}
-        canFavorite={canFavorite}
-        slug={slug}
+        canEdit={allowedActions.canEdit}
+        isFavorite={restaurant.isFavorite}
+        canFavorite={allowedActions.canFavorite}
+        slug={restaurant.slug}
       />
       <Container size="lg" mt={60} mb="xl">
         <Grid gutter="xl">
           <GridCol span={{ base: 12, md: 4 }}>
             <RestaurantDetailBasicInfo
-              description={description}
-              address={address}
-              lat={lat}
-              lng={lng}
-              schedule={schedule}
-              phone={phone}
-              whatsapp={whatsapp}
+              description={restaurant.description}
+              address={restaurant.address}
+              lat={restaurant.lat}
+              lng={restaurant.lng}
+              schedule={restaurant.schedule}
+              phone={restaurant.phone}
+              whatsapp={restaurant.whatsapp}
               website={website}
             />
           </GridCol>
@@ -94,14 +83,14 @@ export function RestaurantDetail({
               </TabsList>
               <TabsPanel value="menus">
                 <RestaurantDetailMenus
-                  menus={menus}
-                  canEditMenus={canEditMenus}
-                  canCreateMenus={canCreateMenus}
-                  slug={slug}
+                  menus={restaurant.menus}
+                  canEditMenus={allowedActions.canEditMenus}
+                  canCreateMenus={allowedActions.canCreateMenus}
+                  slug={restaurant.slug}
                 />
               </TabsPanel>
               <TabsPanel value="reviews">
-                <RestaurantDetailReviews reviews={reviews} />
+                <RestaurantDetailReviews reviews={restaurant.reviews} />
               </TabsPanel>
             </Tabs>
           </GridCol>

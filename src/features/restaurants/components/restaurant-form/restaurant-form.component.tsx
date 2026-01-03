@@ -93,27 +93,31 @@ export function RestaurantForm(props: RestaurantFormProps) {
 
   const restaurantPreview = (
     <RestaurantDetail
-      name={debouncedValues.name || t("default_name")}
-      lat={debouncedValues.lat ?? undefined}
-      lng={debouncedValues.lng ?? undefined}
-      description={debouncedValues.description}
-      address={debouncedValues.address}
-      coverImgUrl={coverImgUrl ? coverImgUrl : undefined}
-      tags={debouncedValues.tags.map((tagId) => ({
-        id: parseInt(tagId, 10),
-        name: tagIdToNameMap[tagId],
-      }))}
-      reviews={[]}
-      menus={[]}
-      schedule={debouncedValues.schedule}
-      phone=""
-      whatsapp=""
-      canEdit={false}
-      canCreateMenus={false}
-      canEditMenus={false}
-      canFavorite={false}
-      isFavorite={false}
-      slug="preview-restaurant"
+      restaurant={{
+        name: debouncedValues.name || t("default_name"),
+        coverImgUrl: coverImgUrl ? coverImgUrl : undefined,
+        tags: debouncedValues.tags.map((tagId) => ({
+          id: parseInt(tagId, 10),
+          name: tagIdToNameMap[tagId],
+        })),
+        description: debouncedValues.description,
+        address: debouncedValues.address,
+        lat: debouncedValues.lat ?? undefined,
+        lng: debouncedValues.lng ?? undefined,
+        reviews: [],
+        menus: [],
+        schedule: debouncedValues.schedule,
+        phone: "",
+        whatsapp: "",
+        isFavorite: false,
+        slug: "preview-restaurant",
+      }}
+      allowedActions={{
+        canEdit: false,
+        canFavorite: false,
+        canCreateMenus: false,
+        canEditMenus: false,
+      }}
     />
   );
 

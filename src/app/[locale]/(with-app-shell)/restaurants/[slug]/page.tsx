@@ -89,13 +89,13 @@ export default async function RestaurantPage({
 
   return (
     <RestaurantDetail
-      {...parsedRestaurant}
-      isFavorite={isFavorite}
-      canEdit={canEdit}
-      canCreateMenus={canCreateMenus}
-      canEditMenus={canEditMenus}
-      canFavorite={canFavorite}
-      slug={slug}
+      restaurant={{ ...parsedRestaurant, slug, isFavorite }}
+      allowedActions={{
+        canEdit,
+        canFavorite,
+        canCreateMenus,
+        canEditMenus,
+      }}
     />
   );
 }
