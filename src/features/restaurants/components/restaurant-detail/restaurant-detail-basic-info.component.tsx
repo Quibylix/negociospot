@@ -21,6 +21,7 @@ import {
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useMap } from "@/lib/google-maps/use-map.hook";
+import { ClaimRestaurantModal } from "../claim-restaurant-modal/claim-restaurant-modal.component";
 import type { RestaurantDetailProps } from "./service-to-detail-adapter";
 
 export type RestaurantDetailBasicInfoProps = {
@@ -32,6 +33,7 @@ export type RestaurantDetailBasicInfoProps = {
   lat: RestaurantDetailProps["lat"];
   lng: RestaurantDetailProps["lng"];
   website: string;
+  canClaim: boolean;
 };
 
 export function RestaurantDetailBasicInfo({
@@ -43,6 +45,7 @@ export function RestaurantDetailBasicInfo({
   lat,
   lng,
   website,
+  canClaim,
 }: RestaurantDetailBasicInfoProps) {
   const t = useTranslations("restaurant.detail");
   const { mapRef } = useMap({ lat: lat ?? 0, lng: lng ?? 0 });
@@ -122,6 +125,7 @@ export function RestaurantDetailBasicInfo({
               {t("whatsapp")}
             </Button>
           )}
+          {canClaim && <ClaimRestaurantModal />}
         </Stack>
       </Card>
     </Stack>

@@ -79,6 +79,16 @@ export default async function RestaurantPage({
         belongsToRestaurant: true,
       });
 
+  const canClaim =
+    Boolean(restaurantAdmins) &&
+    check(user)
+      .can("claim", "Restaurant")
+      .verify({
+        admins: restaurantAdmins?.administrators.map(
+          (admin) => admin.profile.id,
+        ) as string[],
+      });
+
   const canFavorite = Boolean(user);
   const isFavorite = user
     ? await isFavoriteRestaurant({
@@ -95,6 +105,7 @@ export default async function RestaurantPage({
         canFavorite,
         canCreateMenus,
         canEditMenus,
+        canClaim,
       }}
     />
   );

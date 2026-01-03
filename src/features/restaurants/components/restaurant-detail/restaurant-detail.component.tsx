@@ -27,6 +27,7 @@ export type RestaurantDetailProps = {
     canFavorite: boolean;
     canCreateMenus: boolean;
     canEditMenus: boolean;
+    canClaim?: boolean;
   };
 };
 
@@ -73,6 +74,7 @@ export function RestaurantDetail({
               phone={restaurant.phone}
               whatsapp={restaurant.whatsapp}
               website={website}
+              canClaim={allowedActions.canClaim ?? false}
             />
           </GridCol>
           <GridCol span={{ base: 12, md: 8 }}>
