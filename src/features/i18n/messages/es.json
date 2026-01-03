@@ -52,7 +52,8 @@
       "login": "Iniciar sesión",
       "register": "Registrarse",
       "logout": "Cerrar sesión",
-      "create_restaurant": "Crear restaurante"
+      "create_restaurant": "Crear restaurante",
+      "favorites": "Favoritos"
     }
   },
   "layout": {
@@ -226,6 +227,14 @@
       "form_title": "Detalles del Restaurante",
       "preview_title": "Vista Previa",
       "show_preview_button": "Mostrar Vista Previa"
+    }
+  },
+  "restaurants": {
+    "favorites": {
+      "title": "Tus restaurantes favoritos",
+      "subtitle": "Aquí puedes ver y gestionar los restaurantes que has marcado como favoritos.",
+      "no_favorites": "Tu lista de favoritos está vacía.",
+      "add_to_favorites": "Agrega restaurantes a tus favoritos para verlos aquí."
     }
   },
   "create_menu": {

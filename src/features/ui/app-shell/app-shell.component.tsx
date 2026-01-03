@@ -14,6 +14,8 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
   if (check(user).can("create", "Session").verify()) {
     navbarLinks.push(baseNavbarLinks.LOGIN);
     navbarLinks.push(baseNavbarLinks.REGISTER);
+  } else {
+    navbarLinks.push(baseNavbarLinks.FAVORITES);
   }
 
   if (check(user).can("create", "Restaurant").verify()) {
