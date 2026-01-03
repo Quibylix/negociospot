@@ -145,6 +145,7 @@ export function RestaurantForm(props: RestaurantFormProps) {
             <Title order={2} mb="md">
               {t("form_title")}
             </Title>
+
             <TextInput
               label={t("name_label")}
               placeholder={t("name_placeholder")}
@@ -253,6 +254,12 @@ export function RestaurantForm(props: RestaurantFormProps) {
             <Button type="submit" fullWidth mt="lg" loading={loading}>
               {submitButtonText}
             </Button>
+            {props.mode === "suggest_changes" && (
+              <Text size="sm" mt="lg" c="dimmed">
+                {t("more_suggested_changes")}
+                {process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
+              </Text>
+            )}
           </Paper>
         </GridCol>
         <GridCol span={{ base: 12, md: 8 }} visibleFrom="lg">

@@ -232,7 +232,8 @@
       "default_name": "Nombre del Restaurante",
       "form_title": "Detalles del Restaurante",
       "preview_title": "Vista Previa",
-      "show_preview_button": "Mostrar Vista Previa"
+      "show_preview_button": "Mostrar Vista Previa",
+      "more_suggested_changes": "Si tienes más cambios que sugerir, como menús o fotos, por favor envíanos un correo a: "
     },
     "claim": {
       "why_claim": "Si eres el propietario de este negocio, puedes reclamarlo para gestionar su información y presencia en NegocioSpot.",
