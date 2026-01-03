@@ -23,7 +23,9 @@
       "unauthorized_edition": "No estás autorizado para editar este restaurante",
       "unauthorized_favorite": "No estás autorizado para agregar o eliminar favoritos",
       "already_favorited": "Restaurante ya está en favoritos",
-      "not_favorited_found": "Restaurante no está en favoritos"
+      "not_favorited_found": "Restaurante no está en favoritos",
+      "unauthorized_suggestion": "No estás autorizado para sugerir cambios a este restaurante",
+      "invalid_suggestion_data": "Datos de sugerencia de restaurante inválidos"
     },
     "menus": {
       "invalid_creation_data": "Datos de creación de menú inválidos",
@@ -192,6 +194,7 @@
       "be_the_first_review": "Sé el primero en opinar.",
       "reviews_soon": "Podrás ver y escribir reseñas aquí pronto.",
       "edit_restaurant": "Editar restaurante",
+      "suggest_changes": "Sugerir cambios",
       "create_menu": "Crear menú",
       "edit_menu": "Editar menú"
     },
@@ -207,6 +210,8 @@
       "creation_submit_button": "Crear restaurante",
       "edition_success_message": "¡Restaurante actualizado con éxito!",
       "edition_submit_button": "Actualizar restaurante",
+      "suggestion_success_message": "Gracias por tu sugerencia. Nuestro equipo la revisará pronto.",
+      "suggestion_submit_button": "Enviar sugerencia",
       "name_label": "Nombre del restaurante",
       "name_placeholder": "Mi Restaurante",
       "description_label": "Descripción",

@@ -19,10 +19,12 @@ export const ERRORS = {
     INVALID_CREATION_DATA: "restaurants.invalid_creation_data",
     UNAUTHORIZED_CREATION: "restaurants.unauthorized_creation",
     UNAUTHORIZED_EDITION: "restaurants.unauthorized_edition",
+    UNAUTHORIZED_SUGGESTION: "restaurants.unauthorized_suggestion",
     UNAUTHORIZED_FAVORITE: "restaurants.unauthorized_favorite",
     ALREADY_FAVORITED: "restaurants.already_favorited",
     NOT_FAVORITED_FOUND: "restaurants.not_favorited_found",
     INVALID_EDITION_DATA: "restaurants.invalid_edition_data",
+    INVALID_SUGGESTION_DATA: "restaurants.invalid_suggestion_data",
     INVALID_RESTAURANT_ID: "restaurants.invalid_restaurant_id",
   },
   MENUS: {
