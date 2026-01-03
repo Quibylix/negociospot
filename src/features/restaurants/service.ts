@@ -135,6 +135,21 @@ export const RestaurantsService = {
 
 type RestaurantUID = { id: number } | { slug: string };
 
+export function getRestaurantAccessInfo({ uid }: { uid: RestaurantUID }) {
+  return ResultAsync.fromThrowable(() =>
+    prisma.restaurant.findUnique({
+      where: uid,
+      select: {
+        createdById: true,
+        administrators: { select: { profileId: true } },
+      },
+    }),
+  )().mapErr((err) => {
+    Logger.error("Error fetching restaurant access info", err);
+    return ERRORS.GENERIC.UNKNOWN_ERROR;
+  });
+}
+
 export function isFavoriteRestaurant({
   userId,
   restaurantUniqueIdentifier,
