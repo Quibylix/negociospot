@@ -16,9 +16,13 @@ const POLICIES = {
   Restaurant: {
     create: (u) => u !== null,
     edit: (u) => (r: RestaurantPermissionContext) =>
-      u !== null && (r.admins.length === 0 || r.admins.includes(u.id)),
+      u !== null && r.admins.includes(u.id),
     delete: (u) => (r: RestaurantPermissionContext) =>
       u !== null && r.admins.includes(u.id),
+    claim: (u) => (r: RestaurantPermissionContext) =>
+      u !== null && r.admins.length === 0,
+    suggestChanges: (u) => (r: RestaurantPermissionContext) =>
+      u !== null && !r.admins.includes(u.id),
   },
   Menu: {
     create: (u) => (r: RestaurantPermissionContext) =>
