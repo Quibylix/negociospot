@@ -1,5 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { ResultAsync } from "neverthrow";
+import z from "zod";
+import { Prisma } from "@/lib/prisma/generated/client";
 import { prisma } from "@/lib/prisma/prisma";
 import { Logger } from "../logger/logger";
 import { ERRORS, type ErrorKeys } from "../shared/constants/errors";
@@ -134,6 +136,137 @@ export const RestaurantsService = {
 };
 
 type RestaurantUID = { id: number } | { slug: string };
+
+export function getRestaurantsWithCount({
+  offset,
+  limit,
+  filters,
+}: {
+  offset?: number;
+  limit?: number;
+  filters?: {
+    query?: string;
+    tagIds?: number[];
+    location?: {
+      lat: number;
+      lng: number;
+      radiusKm: number;
+    };
+  };
+}) {
+  return ResultAsync.fromThrowable(async () => {
+    const whereConditions: Prisma.Sql[] = [];
+
+    if (filters?.query) {
+      whereConditions.push(
+        Prisma.sql`fts @@ websearch_to_tsquery('spanish', ${filters.query})`,
+      );
+    }
+
+    let distanceColumn = Prisma.sql`NULL::float`;
+    if (filters?.location) {
+      const { lat, lng, radiusKm } = filters.location;
+
+      whereConditions.push(Prisma.sql`lat IS NOT NULL AND lng IS NOT NULL`);
+
+      const averageEarthRadiusKm = 6371;
+      const haversineFormula = Prisma.sql`
+      (${averageEarthRadiusKm} * acos(
+        cos(radians(${lat})) * cos(radians(lat)) *
+        cos(radians(lng) - radians(${lng})) +
+        sin(radians(${lat})) * sin(radians(lat))
+      ))
+    `;
+
+      distanceColumn = Prisma.sql`${haversineFormula}`;
+      whereConditions.push(Prisma.sql`${haversineFormula} <= ${radiusKm}`);
+    }
+
+    if (filters?.tagIds && filters.tagIds.length > 0) {
+      whereConditions.push(Prisma.sql`
+      id IN (
+        SELECT "A" FROM "_RestaurantToTag" 
+        WHERE "B" IN (${Prisma.join(filters.tagIds)})
+      )
+    `);
+    }
+
+    const whereClause =
+      whereConditions.length > 0
+        ? Prisma.sql`WHERE ${Prisma.join(whereConditions, " AND ")}`
+        : Prisma.empty;
+
+    let orderByClause = Prisma.sql`ORDER BY id DESC`;
+    if (filters?.query && filters?.location) {
+      orderByClause = Prisma.sql`ORDER BY rank DESC, distance ASC`;
+    } else if (filters?.query) {
+      orderByClause = Prisma.sql`ORDER BY rank DESC`;
+    } else if (filters?.location) {
+      orderByClause = Prisma.sql`ORDER BY distance ASC`;
+    }
+
+    const totalCountRawSchema = z
+      .array(
+        z.object({
+          count: z.bigint(),
+        }),
+      )
+      .min(1);
+
+    const idsSchema = z.array(
+      z.object({
+        id: z.number(),
+      }),
+    );
+
+    const totalCountRaw = await prisma.$queryRaw`
+      SELECT COUNT(*) as count
+      FROM "Restaurant"
+      ${whereClause}
+    `;
+
+    const rawIds = await prisma.$queryRaw`
+    SELECT 
+      id, 
+      ${
+        filters?.query
+          ? Prisma.sql`ts_rank(fts, websearch_to_tsquery('spanish', ${filters.query}))`
+          : Prisma.sql`0`
+      } as rank,
+      ${distanceColumn} as distance
+    FROM "Restaurant"
+    ${whereClause}
+    ${orderByClause}
+    LIMIT ${limit}
+    OFFSET ${offset}
+  `;
+
+    const restaurantIds = idsSchema.parse(rawIds);
+    const totalCount = totalCountRawSchema.parse(totalCountRaw);
+
+    const restaurants = await prisma.restaurant.findMany({
+      where: { id: { in: restaurantIds.map((r) => r.id) } },
+      include: { tags: true },
+    });
+
+    const restaurantMap = new Map(
+      restaurants.map((restaurant) => [restaurant.id, restaurant]),
+    );
+    const sortedRestaurants = restaurantIds
+      .map((r) => restaurantMap.get(r.id))
+      .filter((restaurant): restaurant is NonNullable<typeof restaurant> =>
+        Boolean(restaurant),
+      );
+
+    return {
+      restaurants: sortedRestaurants,
+      totalCount: Number(totalCount[0].count),
+    };
+  })().mapErr((err) => {
+    Logger.error("Error fetching restaurants with filters", err);
+    return ERRORS.GENERIC.UNKNOWN_ERROR;
+  });
+}
 
 export function getRestaurantAccessInfo({ uid }: { uid: RestaurantUID }) {
   return ResultAsync.fromThrowable(() =>
