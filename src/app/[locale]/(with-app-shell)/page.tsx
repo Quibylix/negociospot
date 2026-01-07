@@ -1,15 +1,29 @@
 import { Container, Image, rem, SimpleGrid, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
+import z from "zod";
 import { RestaurantCard } from "@/features/restaurants/components/restaurant-card/restaurant-card.component";
-import { RestaurantsService } from "@/features/restaurants/service";
+import { getRestaurantsWithCount } from "@/features/restaurants/service";
 import { PaginationControl } from "@/features/shared/components/pagination-control.component";
 import { PAGE_SEARCH_PARAM } from "@/features/shared/constants/page-search-param.constant";
 import hero from "@/media/imgs/hero.webp";
 
+const QUERY_SEARCH_PARAM = "query";
+const TAGS_SEARCH_PARAM = "tags";
+const LATITUDE_SEARCH_PARAM = "lat";
+const LONGITUDE_SEARCH_PARAM = "lng";
+const RADIUS_KM_SEARCH_PARAM = "radiuskm";
+
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ [PAGE_SEARCH_PARAM]: string }>;
+  searchParams: Promise<{
+    [PAGE_SEARCH_PARAM]: string;
+    [QUERY_SEARCH_PARAM]?: string;
+    [TAGS_SEARCH_PARAM]?: string;
+    [LATITUDE_SEARCH_PARAM]?: string;
+    [LONGITUDE_SEARCH_PARAM]?: string;
+    [RADIUS_KM_SEARCH_PARAM]?: string;
+  }>;
 }) {
   const t = await getTranslations("home");
 
@@ -18,13 +32,46 @@ export default async function HomePage({
   if (page < 1) page = 1;
   const pageSize = 9;
 
-  const { restaurants, totalCount } =
-    await RestaurantsService.getRestaurantsWithCount({
-      page,
-      pageSize,
+  const {
+    [QUERY_SEARCH_PARAM]: query,
+    [TAGS_SEARCH_PARAM]: tags,
+    [LATITUDE_SEARCH_PARAM]: latitude,
+    [LONGITUDE_SEARCH_PARAM]: longitude,
+    [RADIUS_KM_SEARCH_PARAM]: radiusKm,
+  } = searchParamsResolved;
+
+  const tagsIdsResult = z
+    .array(z.int())
+    .safeParse(tags ? tags.split(",").map((t) => Number(t)) : []);
+
+  const locationResult = z
+    .object({
+      lat: z.number().min(-90).max(90),
+      lng: z.number().min(-180).max(180),
+      radiusKm: z.number().min(0),
+    })
+    .safeParse({
+      lat: Number(latitude),
+      lng: Number(longitude),
+      radiusKm: Number(radiusKm),
     });
 
-  const totalPages = Math.ceil(totalCount / pageSize);
+  const restaurantResults = await getRestaurantsWithCount({
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
+    filters: {
+      query,
+      tagIds: tagsIdsResult.success ? tagsIdsResult.data : undefined,
+      location: locationResult.success ? locationResult.data : undefined,
+    },
+  });
+
+  if (restaurantResults.isErr()) {
+    return null;
+  }
+
+  const restaurants = restaurantResults.value.restaurants.slice(0, pageSize);
+  const totalPages = Math.ceil(restaurantResults.value.totalCount / pageSize);
 
   return (
     <Container fluid p={0}>
