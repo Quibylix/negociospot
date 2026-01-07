@@ -1,7 +1,10 @@
 import { Container, Image, rem, SimpleGrid, Title } from "@mantine/core";
+import { ResultAsync } from "neverthrow";
 import { getTranslations } from "next-intl/server";
 import z from "zod";
+import { Logger } from "@/features/logger/logger";
 import { RestaurantCard } from "@/features/restaurants/components/restaurant-card/restaurant-card.component";
+import { RestaurantsFilter } from "@/features/restaurants/components/restaurant-filter/restaurant-filter.component";
 import {
   LATITUDE_SEARCH_PARAM,
   LONGITUDE_SEARCH_PARAM,
@@ -12,6 +15,7 @@ import {
 import { getRestaurantsWithCount } from "@/features/restaurants/service";
 import { PaginationControl } from "@/features/shared/components/pagination-control.component";
 import { PAGE_SEARCH_PARAM } from "@/features/shared/constants/page-search-param.constant";
+import { TagService } from "@/features/tags/service";
 import hero from "@/media/imgs/hero.webp";
 
 export default async function HomePage({
@@ -74,6 +78,16 @@ export default async function HomePage({
   const restaurants = restaurantResults.value.restaurants.slice(0, pageSize);
   const totalPages = Math.ceil(restaurantResults.value.totalCount / pageSize);
 
+  const availableTags = await ResultAsync.fromThrowable(() =>
+    TagService.getAllTags(),
+  )()
+    .mapErr((e) => {
+      Logger.error("Failed to fetch tags for restaurant creation", {
+        error: e,
+      });
+    })
+    .unwrapOr([]);
+
   return (
     <Container fluid p={0}>
       <Container pos="relative" fluid p={0}>
@@ -114,6 +128,7 @@ export default async function HomePage({
           {t("welcome_message")}
         </Title>
       </Container>
+      <RestaurantsFilter availableTags={availableTags} />
       <Container size="lg" py="xl">
         <SimpleGrid
           cols={{
