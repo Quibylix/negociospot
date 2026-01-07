@@ -72,9 +72,9 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
     if (pQuery) setQuery(pQuery);
     if (pTags) setSelectedTags(pTags.split(","));
     if (pLat && pLng) {
-      setLocation({ lat: parseFloat(pLat), lng: parseFloat(pLng) });
+      setLocation({ lat: parseFloat(pLat) || 0, lng: parseFloat(pLng) || 0 });
     }
-    if (pRadius) setRadius(parseInt(pRadius, 10));
+    if (pRadius) setRadius(parseInt(pRadius, 10) || 10);
 
     setLoading(false);
   }, [searchParams]);
@@ -131,53 +131,59 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
   return (
     <Card withBorder shadow="sm" radius="md" mb="xl">
       <LoadingOverlay visible={loading} />
-      <Grid align="end" gutter="md">
-        <GridCol span={{ base: 12, md: 5 }}>
-          <TextInput
-            label={t("search_label")}
-            placeholder={t("search_placeholder")}
-            leftSection={<IconSearch size={16} />}
-            value={query}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          />
-        </GridCol>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch();
+        }}
+      >
+        <Grid align="end" gutter="md">
+          <GridCol span={{ base: 12, md: 5 }}>
+            <TextInput
+              label={t("search_label")}
+              placeholder={t("search_placeholder")}
+              leftSection={<IconSearch size={16} />}
+              value={query}
+              onChange={(e) => setQuery(e.currentTarget.value)}
+            />
+          </GridCol>
 
-        <GridCol span={{ base: 12, md: 4 }}>
-          <MultiSelect
-            label={t("tags_label")}
-            placeholder={t("tags_placeholder")}
-            limit={50}
-            data={availableTags.map((t) => ({
-              value: t.id.toString(),
-              label: t.name,
-            }))}
-            value={selectedTags}
-            onChange={setSelectedTags}
-            searchable
-            maxValues={3}
-            hidePickedOptions
-          />
-        </GridCol>
+          <GridCol span={{ base: 12, md: 4 }}>
+            <MultiSelect
+              label={t("tags_label")}
+              placeholder={t("tags_placeholder")}
+              limit={50}
+              data={availableTags.map((t) => ({
+                value: t.id.toString(),
+                label: t.name,
+              }))}
+              value={selectedTags}
+              onChange={setSelectedTags}
+              searchable
+              maxValues={3}
+              hidePickedOptions
+            />
+          </GridCol>
 
-        <GridCol span={{ base: 12, md: 3 }}>
-          <Group gap="xs" grow>
-            <Button onClick={handleSearch} variant="filled" color="primary">
-              {t("search_button")}
-            </Button>
-            <Tooltip label={t("advanced_filters")}>
-              <ActionIcon
-                variant={isFiltersOpen || location ? "light" : "default"}
-                size="lg"
-                onClick={toggleFilters}
-                color={location ? "blue" : "gray"}
-              >
-                <IconFilter size={18} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-        </GridCol>
-      </Grid>
+          <GridCol span={{ base: 12, md: 3 }}>
+            <Group gap="xs" grow>
+              <Button type="submit" variant="filled" color="primary">
+                {t("search_button")}
+              </Button>
+              <Tooltip label={t("advanced_filters")}>
+                <ActionIcon
+                  variant={isFiltersOpen ? "light" : "default"}
+                  size="lg"
+                  onClick={toggleFilters}
+                  color={location ? "blue" : "gray"}
+                >
+                  <IconFilter size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+          </GridCol>
+        </Grid>
+      </form>
 
       <Collapse in={isFiltersOpen} mt={isFiltersOpen ? "md" : 0}>
         <Card withBorder radius="md" bg="gray.0" p="sm">
