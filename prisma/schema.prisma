@@ -38,6 +38,8 @@ model Restaurant {
   lat     Float?
   lng     Float?
 
+  fts Unsupported("tsvector")? @default(dbgenerated())
+
   reviews     Review[]
   favoritedBy Favorite[]
 
@@ -49,6 +51,8 @@ model Restaurant {
   menus             Menu[]
   administrators    RestaurantAdmin[]
   changeSuggestions ChangeSuggestion[]
+
+  @@index([fts], type: Gin)
 }
 
 model Menu {
