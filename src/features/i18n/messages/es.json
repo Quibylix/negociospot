@@ -256,6 +256,26 @@
       "subtitle": "Aquí puedes ver y gestionar los restaurantes que has marcado como favoritos.",
       "no_favorites": "Tu lista de favoritos está vacía.",
       "add_to_favorites": "Agrega restaurantes a tus favoritos para verlos aquí."
+    },
+    "filter": {
+      "search_label": "Búsqueda",
+      "search_placeholder": "Buscar restaurantes...",
+      "tags_label": "Etiquetas",
+      "tags_placeholder": "Selecciona etiquetas",
+      "search_button": "Buscar",
+      "advanced_filters": "Filtros avanzados",
+      "location_filter_title": "Filtro de ubicación",
+      "near_me_button": "Cerca de mí",
+      "select_on_map_button": "Seleccionar en el mapa",
+      "change_location_button": "Cambiar ubicación",
+      "clear_location": "Limpiar ubicación",
+      "radius_label": "Radio (km)",
+      "selected_coordinates": "Coordenadas seleccionadas:",
+      "select_location_modal_title": "Seleccionar ubicación en el mapa",
+      "confirm_location_button": "Confirmar ubicación",
+      "clear_all_filters": "Limpiar todos los filtros",
+      "geolocation_not_supported": "Tu navegador no soporta geolocalización.",
+      "geolocation_error": "Error al obtener tu ubicación."
     }
   },
   "create_menu": {
