@@ -2,16 +2,17 @@ import { Container, Image, rem, SimpleGrid, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import z from "zod";
 import { RestaurantCard } from "@/features/restaurants/components/restaurant-card/restaurant-card.component";
+import {
+  LATITUDE_SEARCH_PARAM,
+  LONGITUDE_SEARCH_PARAM,
+  QUERY_SEARCH_PARAM,
+  RADIUS_KM_SEARCH_PARAM,
+  TAGS_SEARCH_PARAM,
+} from "@/features/restaurants/components/restaurant-filter/search-params.constant";
 import { getRestaurantsWithCount } from "@/features/restaurants/service";
 import { PaginationControl } from "@/features/shared/components/pagination-control.component";
 import { PAGE_SEARCH_PARAM } from "@/features/shared/constants/page-search-param.constant";
 import hero from "@/media/imgs/hero.webp";
-
-const QUERY_SEARCH_PARAM = "query";
-const TAGS_SEARCH_PARAM = "tags";
-const LATITUDE_SEARCH_PARAM = "lat";
-const LONGITUDE_SEARCH_PARAM = "lng";
-const RADIUS_KM_SEARCH_PARAM = "radiuskm";
 
 export default async function HomePage({
   searchParams,
