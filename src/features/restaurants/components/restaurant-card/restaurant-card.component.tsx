@@ -8,9 +8,14 @@ import {
   Image,
   Stack,
   Text,
+  ThemeIcon,
   Title,
+  Tooltip,
 } from "@mantine/core";
-import { IconMapPin } from "@tabler/icons-react";
+import {
+  IconMapPin,
+  IconRosetteDiscountCheckFilled,
+} from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/features/i18n/navigation";
 import styles from "./restaurant-card.module.css";
@@ -22,6 +27,7 @@ export type RestaurantCardProps = {
   description: string | null;
   coverImgUrl: string | null;
   tags: { id: number; name: string }[];
+  isClaimed?: boolean;
 };
 
 export async function RestaurantCard({
@@ -31,6 +37,7 @@ export async function RestaurantCard({
   description,
   coverImgUrl,
   tags,
+  isClaimed = false,
 }: RestaurantCardProps) {
   const t = await getTranslations("restaurant.card");
 
@@ -66,6 +73,17 @@ export async function RestaurantCard({
             <Title order={3} fw={700} lineClamp={1} size="lg">
               {name}
             </Title>
+            {isClaimed && (
+              <Tooltip
+                label={t("claimed")}
+                withArrow
+                events={{ hover: true, focus: true, touch: true }}
+              >
+                <ThemeIcon ml={-5} color="blue" variant="transparent">
+                  <IconRosetteDiscountCheckFilled size={30} />
+                </ThemeIcon>
+              </Tooltip>
+            )}
           </Group>
           <Group gap={5} mt={5} c="dimmed" wrap="nowrap">
             <IconMapPin size={16} style={{ flexShrink: 0 }} />

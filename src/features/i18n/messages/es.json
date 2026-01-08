@@ -176,7 +176,8 @@
   },
   "restaurant": {
     "card": {
-      "view_restaurant": "Ver restaurante"
+      "view_restaurant": "Ver restaurante",
+      "claimed": "Reclamado"
     },
     "detail": {
       "reviews_count": "{count, plural, =0 {# reseñas} one {# reseña} other {# reseñas}}",

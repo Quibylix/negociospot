@@ -124,6 +124,7 @@ export default async function FavoritesRestaurantsPage({
                 address={r.address}
                 description={r.description}
                 coverImgUrl={r.coverImgUrl}
+                isClaimed={r._count.administrators > 0}
                 tags={r.tags.map((t) => ({ id: t.id, name: t.name }))}
               />
             ))}
