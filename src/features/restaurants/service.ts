@@ -31,6 +31,7 @@ export const RestaurantsService = {
     return prisma.restaurant.findUnique({
       where: { slug },
       include: {
+        _count: { select: { administrators: true } },
         tags: true,
         reviews: { include: { profile: true } },
         menus: {
@@ -246,7 +247,7 @@ export function getRestaurantsWithCount({
 
     const restaurants = await prisma.restaurant.findMany({
       where: { id: { in: restaurantIds.map((r) => r.id) } },
-      include: { tags: true },
+      include: { tags: true, _count: { select: { administrators: true } } },
     });
 
     const restaurantMap = new Map(
@@ -329,7 +330,18 @@ export function getFavoriteRestaurants({
       where: { profileId: userId },
       skip: offset,
       take: limit,
-      include: { restaurant: { include: { tags: true } } },
+      include: {
+        restaurant: {
+          include: {
+            tags: true,
+            _count: {
+              select: {
+                administrators: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: { restaurant: { id: "desc" } },
     }),
   )()
