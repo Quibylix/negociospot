@@ -17,7 +17,6 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import {
   IconCurrentLocation,
   IconFilter,
@@ -25,126 +24,49 @@ import {
   IconSearch,
   IconX,
 } from "@tabler/icons-react";
-import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "@/features/i18n/navigation";
-import { notifyError } from "@/features/notifications/notify";
 import { MapPicker } from "@/lib/google-maps/map-picker.component";
-import {
-  LATITUDE_SEARCH_PARAM,
-  LONGITUDE_SEARCH_PARAM,
-  QUERY_SEARCH_PARAM,
-  RADIUS_KM_SEARCH_PARAM,
-  TAGS_SEARCH_PARAM,
-} from "./search-params.constant";
+import { useRestaurantFilter } from "./use-restaurant-filter.hook";
 
 interface RestaurantsFilterProps {
+  initialValues: {
+    query?: string;
+    tags?: string[];
+    location?: { lat: number; lng: number };
+    radiusInKm?: number;
+  };
   availableTags: { id: number; name: string }[];
 }
 
-export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
-  const t = useTranslations("restaurants.filter");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export function RestaurantsFilter({
+  initialValues,
+  availableTags,
+}: RestaurantsFilterProps) {
+  const {
+    form,
+    t,
+    isFiltersOpen,
+    toggleFilters,
+    isMapOpen,
+    openMap,
+    closeMap,
+    isLoadingGeo,
+    handleNearMe,
+    handleSearch,
+    handleClear,
+  } = useRestaurantFilter(initialValues);
 
-  const [query, setQuery] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
-    null,
-  );
-  const [radius, setRadius] = useState<number>(10);
-
-  const [loading, setLoading] = useState(true);
-  const [isFiltersOpen, { toggle: toggleFilters }] = useDisclosure(false);
-  const [isMapOpen, { open: openMap, close: closeMap }] = useDisclosure(false);
-  const [isLoadingGeo, setIsLoadingGeo] = useState(false);
-
-  useEffect(() => {
-    const pQuery = searchParams.get(QUERY_SEARCH_PARAM);
-    const pTags = searchParams.get(TAGS_SEARCH_PARAM);
-    const pLat = searchParams.get(LATITUDE_SEARCH_PARAM);
-    const pLng = searchParams.get(LONGITUDE_SEARCH_PARAM);
-    const pRadius = searchParams.get(RADIUS_KM_SEARCH_PARAM);
-
-    if (pQuery) setQuery(pQuery);
-    if (pTags) setSelectedTags(pTags.split(","));
-    if (pLat && pLng) {
-      setLocation({ lat: parseFloat(pLat) || 0, lng: parseFloat(pLng) || 0 });
-    }
-    if (pRadius) setRadius(parseInt(pRadius, 10) || 10);
-
-    setLoading(false);
-  }, [searchParams]);
-
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-
-    if (query.trim()) params.set(QUERY_SEARCH_PARAM, query);
-    if (selectedTags.length > 0)
-      params.set(TAGS_SEARCH_PARAM, selectedTags.join(","));
-
-    if (location) {
-      params.set(LATITUDE_SEARCH_PARAM, location.lat.toString());
-      params.set(LONGITUDE_SEARCH_PARAM, location.lng.toString());
-      params.set(RADIUS_KM_SEARCH_PARAM, radius.toString());
-    }
-
-    router.push(`${pathname}?${params.toString()}`);
-  };
-
-  const handleClear = () => {
-    setQuery("");
-    setSelectedTags([]);
-    setLocation(null);
-    setRadius(10);
-    router.push(pathname);
-  };
-
-  const handleNearMe = () => {
-    if (!navigator.geolocation) {
-      notifyError(
-        t("geolocation_not_supported"),
-        t("geolocation_not_supported"),
-      );
-      return;
-    }
-
-    setIsLoadingGeo(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-        setIsLoadingGeo(false);
-      },
-      () => {
-        notifyError(t("geolocation_error"), t("geolocation_error"));
-        setIsLoadingGeo(false);
-      },
-    );
-  };
+  const { query, tags, location, radiusInKm } = form.getValues();
 
   return (
     <Card withBorder shadow="sm" radius="md" mb="xl">
-      <LoadingOverlay visible={loading} />
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSearch();
-        }}
-      >
+      <form onSubmit={form.onSubmit(handleSearch)}>
         <Grid align="end" gutter="md">
           <GridCol span={{ base: 12, md: 5 }}>
             <TextInput
               label={t("search_label")}
               placeholder={t("search_placeholder")}
               leftSection={<IconSearch size={16} />}
-              value={query}
-              onChange={(e) => setQuery(e.currentTarget.value)}
+              {...form.getInputProps("query")}
             />
           </GridCol>
 
@@ -157,8 +79,7 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
                 value: t.id.toString(),
                 label: t.name,
               }))}
-              value={selectedTags}
-              onChange={setSelectedTags}
+              {...form.getInputProps("tags")}
               searchable
               maxValues={3}
               hidePickedOptions
@@ -222,7 +143,7 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
                   variant="subtle"
                   color="red"
                   size="xs"
-                  onClick={() => setLocation(null)}
+                  onClick={() => form.setFieldValue("location", null)}
                 >
                   {t("clear_location")}
                 </Button>
@@ -232,19 +153,21 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
             {location && (
               <Flex align="center" gap="sm" flex={1}>
                 <Text size="xs" c="dimmed" style={{ whiteSpace: "nowrap" }}>
-                  {t("radius_label")}: {radius} km
+                  {t("radius_label")}: {radiusInKm} km
                 </Text>
                 <RangeSlider
                   min={1}
                   max={50}
                   step={1}
-                  value={[0, radius]}
-                  onChange={(val) => setRadius(val[1])}
+                  value={[0, radiusInKm]}
+                  onChange={(val) => form.setFieldValue("radiusInKm", val[1])}
                   label={null}
                   flex={1}
                   color="blue"
                   thumbSize={14}
-                  onChangeEnd={(val) => setRadius(val[1])}
+                  onChangeEnd={(val) =>
+                    form.setFieldValue("radiusInKm", val[1])
+                  }
                   minRange={0}
                 />
               </Flex>
@@ -259,7 +182,7 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
         </Card>
       </Collapse>
 
-      {(query || selectedTags.length > 0 || location) && (
+      {(query || tags.length > 0 || location) && (
         <Group justify="flex-end" mt="xs">
           <Button variant="subtle" color="gray" size="xs" onClick={handleClear}>
             {t("clear_all_filters")}
@@ -275,8 +198,7 @@ export function RestaurantsFilter({ availableTags }: RestaurantsFilterProps) {
         centered
       >
         <MapPicker
-          value={location}
-          onChange={(val) => setLocation(val)}
+          {...form.getInputProps("location")}
           defaultCenter={location || undefined}
         />
         <Group justify="flex-end" mt="md">

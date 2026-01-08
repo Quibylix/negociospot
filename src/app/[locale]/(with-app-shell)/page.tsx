@@ -128,7 +128,20 @@ export default async function HomePage({
           {t("welcome_message")}
         </Title>
       </Container>
-      <RestaurantsFilter availableTags={availableTags} />
+      <RestaurantsFilter
+        initialValues={{
+          query: query,
+          tags: tagsIdsResult.data?.map((tg) => String(tg)) ?? [],
+          location: locationResult.success
+            ? {
+                lat: locationResult.data.lat,
+                lng: locationResult.data.lng,
+              }
+            : undefined,
+          radiusInKm: locationResult.data?.radiusKm,
+        }}
+        availableTags={availableTags}
+      />
       <Container size="lg" py="xl">
         <SimpleGrid
           cols={{
