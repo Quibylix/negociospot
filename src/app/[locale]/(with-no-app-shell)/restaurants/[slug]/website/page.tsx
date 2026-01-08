@@ -1,4 +1,4 @@
-import { Container } from "@mantine/core";
+import { Box, Container, Paper } from "@mantine/core";
 import { notFound } from "next/navigation";
 import { Logger } from "@/features/logger/logger";
 import { RestaurantDetail } from "@/features/restaurants/components/restaurant-detail/restaurant-detail.component";
@@ -36,18 +36,22 @@ export default async function RestaurantWebsitePage({
   }
 
   return (
-    <Container fluid p={0} pb="xl">
-      <RestaurantDetail
-        restaurant={{ ...parsedRestaurant, slug, isFavorite: false }}
-        allowedActions={{
-          canEdit: false,
-          canFavorite: false,
-          canCreateMenus: false,
-          canEditMenus: false,
-          canSeeReviews: false,
-        }}
-      />
-      <PoweredByFloating />
-    </Container>
+    <Box mih="100vh" bg="var(--mantine-color-gray-light)">
+      <Container size="xl" p={0}>
+        <Paper shadow="md" radius="md" pb="xl">
+          <RestaurantDetail
+            restaurant={{ ...parsedRestaurant, slug, isFavorite: false }}
+            allowedActions={{
+              canEdit: false,
+              canFavorite: false,
+              canCreateMenus: false,
+              canEditMenus: false,
+              canSeeReviews: false,
+            }}
+          />
+          <PoweredByFloating />
+        </Paper>
+      </Container>
+    </Box>
   );
 }
