@@ -20,31 +20,34 @@ import { FavoriteRestaurantButton } from "../favorite-restaurant-button/favorite
 import type { RestaurantDetailProps } from "./service-to-detail-adapter";
 
 export type RestaurantDetailHeroProps = {
-  coverImgUrl: RestaurantDetailProps["coverImgUrl"];
-  name: RestaurantDetailProps["name"];
-  tags: RestaurantDetailProps["tags"];
-  reviewsCount: number;
-  ratingAvg: number;
-  canEdit: boolean;
-  isFavorite: boolean;
-  canFavorite: boolean;
-  canSuggestChanges: boolean;
-  slug: string;
-  canSeeReviews: boolean;
+  restaurant: {
+    coverImgUrl: RestaurantDetailProps["coverImgUrl"];
+    name: RestaurantDetailProps["name"];
+    tags: RestaurantDetailProps["tags"];
+    slug: string;
+    reviewsCount: number;
+    isFavorite: boolean;
+    ratingAvg: number;
+  };
+  allowedActions: {
+    canEdit: boolean;
+    canFavorite: boolean;
+    canSuggestChanges: boolean;
+    canSeeReviews: boolean;
+  };
 };
 
 export function RestaurantDetailHero({
-  coverImgUrl,
-  name,
-  tags,
-  reviewsCount,
-  ratingAvg,
-  slug,
-  canEdit,
-  isFavorite,
-  canFavorite,
-  canSuggestChanges,
-  canSeeReviews,
+  restaurant: {
+    coverImgUrl,
+    name,
+    tags,
+    reviewsCount,
+    ratingAvg,
+    slug,
+    isFavorite,
+  },
+  allowedActions: { canEdit, canFavorite, canSuggestChanges, canSeeReviews },
 }: RestaurantDetailHeroProps) {
   const t = useTranslations("restaurant.detail");
 

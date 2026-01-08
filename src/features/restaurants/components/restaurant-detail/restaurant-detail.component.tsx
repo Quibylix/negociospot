@@ -54,17 +54,21 @@ export function RestaurantDetail({
   return (
     <>
       <RestaurantDetailHero
-        coverImgUrl={restaurant.coverImgUrl}
-        name={restaurant.name}
-        tags={restaurant.tags}
-        reviewsCount={restaurant.reviews.length}
-        ratingAvg={ratingAvg}
-        canEdit={allowedActions.canEdit}
-        canSuggestChanges={allowedActions.canSuggestChanges ?? false}
-        isFavorite={restaurant.isFavorite}
-        canFavorite={allowedActions.canFavorite}
-        canSeeReviews={canSeeReviews}
-        slug={restaurant.slug}
+        restaurant={{
+          coverImgUrl: restaurant.coverImgUrl,
+          name: restaurant.name,
+          tags: restaurant.tags,
+          reviewsCount: restaurant.reviews.length,
+          ratingAvg,
+          isFavorite: restaurant.isFavorite,
+          slug: restaurant.slug,
+        }}
+        allowedActions={{
+          canEdit: allowedActions.canEdit,
+          canSuggestChanges: allowedActions.canSuggestChanges ?? false,
+          canFavorite: allowedActions.canFavorite,
+          canSeeReviews: canSeeReviews,
+        }}
       />
       <Container size="lg" mt={60} mb="xl">
         <Grid gutter="xl">
