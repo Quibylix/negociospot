@@ -30,6 +30,7 @@ export type RestaurantDetailHeroProps = {
   canFavorite: boolean;
   canSuggestChanges: boolean;
   slug: string;
+  canSeeReviews: boolean;
 };
 
 export function RestaurantDetailHero({
@@ -43,6 +44,7 @@ export function RestaurantDetailHero({
   isFavorite,
   canFavorite,
   canSuggestChanges,
+  canSeeReviews,
 }: RestaurantDetailHeroProps) {
   const t = useTranslations("restaurant.detail");
 
@@ -97,17 +99,19 @@ export function RestaurantDetailHero({
                 ))}
               </Group>
             </div>
-            <Stack gap={0} align="center">
-              <Group gap={5}>
-                <Text fw={700} size="xl">
-                  {ratingAvg.toFixed(1)}
+            {canSeeReviews && (
+              <Stack gap={0} align="center">
+                <Group gap={5}>
+                  <Text fw={700} size="xl">
+                    {ratingAvg.toFixed(1)}
+                  </Text>
+                  <Rating value={ratingAvg} readOnly fractions={2} />
+                </Group>
+                <Text size="sm" c="dimmed">
+                  {t("reviews_count", { count: reviewsCount })}
                 </Text>
-                <Rating value={ratingAvg} readOnly fractions={2} />
-              </Group>
-              <Text size="sm" c="dimmed">
-                {t("reviews_count", { count: reviewsCount })}
-              </Text>
-            </Stack>
+              </Stack>
+            )}
             {canFavorite && (
               <FavoriteRestaurantButton
                 isFavorite={isFavorite}

@@ -29,12 +29,13 @@ export type RestaurantDetailProps = {
     canEditMenus: boolean;
     canClaim?: boolean;
     canSuggestChanges?: boolean;
+    canSeeReviews?: boolean;
   };
 };
 
 export function RestaurantDetail({
   restaurant,
-  allowedActions,
+  allowedActions: { canSeeReviews = true, ...allowedActions },
 }: RestaurantDetailProps) {
   const t = useTranslations("restaurant.detail");
 
@@ -62,6 +63,7 @@ export function RestaurantDetail({
         canSuggestChanges={allowedActions.canSuggestChanges ?? false}
         isFavorite={restaurant.isFavorite}
         canFavorite={allowedActions.canFavorite}
+        canSeeReviews={canSeeReviews}
         slug={restaurant.slug}
       />
       <Container size="lg" mt={60} mb="xl">
@@ -83,7 +85,9 @@ export function RestaurantDetail({
             <Tabs defaultValue="menus" variant="outline">
               <TabsList mb="md">
                 <TabsTab value="menus">{t("menu")}</TabsTab>
-                <TabsTab value="reviews">{t("reviews")}</TabsTab>
+                {canSeeReviews && (
+                  <TabsTab value="reviews">{t("reviews")}</TabsTab>
+                )}
               </TabsList>
               <TabsPanel value="menus">
                 <RestaurantDetailMenus
@@ -94,7 +98,9 @@ export function RestaurantDetail({
                 />
               </TabsPanel>
               <TabsPanel value="reviews">
-                <RestaurantDetailReviews reviews={restaurant.reviews} />
+                {canSeeReviews && (
+                  <RestaurantDetailReviews reviews={restaurant.reviews} />
+                )}
               </TabsPanel>
             </Tabs>
           </GridCol>

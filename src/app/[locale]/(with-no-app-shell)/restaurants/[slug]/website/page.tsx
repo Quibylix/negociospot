@@ -44,6 +44,7 @@ export default async function RestaurantWebsitePage({
           canFavorite: false,
           canCreateMenus: false,
           canEditMenus: false,
+          canSeeReviews: false,
         }}
       />
       <PoweredByFloating />
