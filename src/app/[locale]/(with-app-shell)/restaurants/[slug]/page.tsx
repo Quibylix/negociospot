@@ -85,9 +85,11 @@ export default async function RestaurantPage({
       }).unwrapOr(false)
     : false;
 
+  const isClaimed = accessInfo.admins.length > 0;
+
   return (
     <RestaurantDetail
-      restaurant={{ ...parsedRestaurant, slug, isFavorite }}
+      restaurant={{ ...parsedRestaurant, slug, isFavorite, isClaimed }}
       allowedActions={{
         canEdit,
         canFavorite,

@@ -21,6 +21,7 @@ export type RestaurantDetailProps = {
   restaurant: BaseRestaurantDetailProps & {
     slug: string;
     isFavorite: boolean;
+    isClaimed?: boolean;
   };
   allowedActions: {
     canEdit: boolean;
@@ -62,6 +63,7 @@ export function RestaurantDetail({
           ratingAvg,
           isFavorite: restaurant.isFavorite,
           slug: restaurant.slug,
+          isClaimed: Boolean(restaurant.isClaimed),
         }}
         allowedActions={{
           canEdit: allowedActions.canEdit,

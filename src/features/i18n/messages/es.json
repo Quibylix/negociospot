@@ -196,7 +196,8 @@
       "edit_restaurant": "Editar restaurante",
       "suggest_changes": "Sugerir cambios",
       "create_menu": "Crear menú",
-      "edit_menu": "Editar menú"
+      "edit_menu": "Editar menú",
+      "claimed": "Reclamado"
     },
     "favorite": {
       "add_favorite": "Agregar a favoritos",

@@ -11,9 +11,11 @@ import {
   Rating,
   Stack,
   Text,
+  ThemeIcon,
   Title,
+  Tooltip,
 } from "@mantine/core";
-import { IconEdit } from "@tabler/icons-react";
+import { IconEdit, IconRosetteDiscountCheckFilled } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/features/i18n/navigation";
 import { FavoriteRestaurantButton } from "../favorite-restaurant-button/favorite-restaurant-button.component";
@@ -28,6 +30,7 @@ export type RestaurantDetailHeroProps = {
     reviewsCount: number;
     isFavorite: boolean;
     ratingAvg: number;
+    isClaimed: boolean;
   };
   allowedActions: {
     canEdit: boolean;
@@ -46,6 +49,7 @@ export function RestaurantDetailHero({
     ratingAvg,
     slug,
     isFavorite,
+    isClaimed,
   },
   allowedActions: { canEdit, canFavorite, canSuggestChanges, canSeeReviews },
 }: RestaurantDetailHeroProps) {
@@ -69,6 +73,17 @@ export function RestaurantDetailHero({
             <div>
               <Group align="center">
                 <Title order={1}>{name}</Title>
+                {isClaimed && (
+                  <Tooltip
+                    label={t("claimed")}
+                    withArrow
+                    events={{ hover: true, focus: true, touch: true }}
+                  >
+                    <ThemeIcon ml={-5} color="blue" variant="transparent">
+                      <IconRosetteDiscountCheckFilled size={30} />
+                    </ThemeIcon>
+                  </Tooltip>
+                )}
                 {canEdit && (
                   <ActionIcon
                     component={Link}
