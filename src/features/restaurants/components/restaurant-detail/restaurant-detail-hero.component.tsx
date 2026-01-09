@@ -56,23 +56,23 @@ export function RestaurantDetailHero({
   const t = useTranslations("restaurant.detail");
 
   return (
-    <Box h={300} style={{ position: "relative" }}>
+    <Box maw={1200} m="auto">
       <Image
         src={coverImgUrl || "https://placehold.co/1200x400?text=Cover"}
-        h="100%"
+        style={{ aspectRatio: "8 / 3" }}
+        h="auto"
         w="100%"
         fit="cover"
         alt="Cover"
       />
-      <Container
-        size="lg"
-        style={{ position: "absolute", bottom: -40, left: 0, right: 0 }}
-      >
-        <Card shadow="md" radius="md" p="lg">
+      <Container size="lg" pos="relative">
+        <Card shadow="md" radius="md" p="lg" pos="relative" top={-40} mb={-40}>
           <Group justify="space-between" align="start">
             <div>
               <Group align="center">
-                <Title order={1}>{name}</Title>
+                <Title textWrap="wrap" order={1}>
+                  {name}
+                </Title>
                 {isClaimed && (
                   <Tooltip
                     label={t("claimed")}

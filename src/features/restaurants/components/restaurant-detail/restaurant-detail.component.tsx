@@ -72,7 +72,7 @@ export function RestaurantDetail({
           canSeeReviews: canSeeReviews,
         }}
       />
-      <Container size="lg" mt={60} mb="xl">
+      <Container size="lg" mt="md" mb="xl">
         <Grid gutter="xl">
           <GridCol span={{ base: 12, md: 4 }}>
             <RestaurantDetailBasicInfo
