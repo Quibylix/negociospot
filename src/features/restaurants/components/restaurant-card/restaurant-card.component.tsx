@@ -98,7 +98,7 @@ export async function RestaurantCard({
           )}
           {tags.length > 0 && (
             <Group gap="xs" mt="sm">
-              {tags.map((t) => (
+              {tags.slice(0, 3).map((t) => (
                 <Badge key={t.id} color="gray">
                   {t.name}
                 </Badge>
