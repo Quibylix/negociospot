@@ -23,7 +23,7 @@ export function getPublishedPosts() {
       Logger.error("Error fetching published posts", err);
       return ERRORS.GENERIC.UNKNOWN_ERROR;
     },
-  );
+  )();
 }
 
 export function getPost({ uid }: { uid: BlogUID }) {
@@ -40,5 +40,5 @@ export function getPost({ uid }: { uid: BlogUID }) {
       Logger.error("Error fetching post", { err, uid });
       return ERRORS.GENERIC.UNKNOWN_ERROR;
     },
-  );
+  )();
 }
