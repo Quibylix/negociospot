@@ -7,8 +7,8 @@ export type BlogUID = { id: number } | { slug: string };
 
 export function getPublishedPosts() {
   return ResultAsync.fromThrowable(
-    () =>
-      prisma.blogPost.findMany({
+    async () => {
+      const posts = await prisma.blogPost.findMany({
         where: { published: true },
         orderBy: { publishedAt: "desc" },
         select: {
@@ -17,8 +17,27 @@ export function getPublishedPosts() {
           slug: true,
           publishedAt: true,
           coverImgUrl: true,
+          content: true,
         },
-      }),
+      });
+
+      return posts.map((post) => {
+        const excerpt = post.content
+          .replace(
+            /#{1,6}\s.*|\*\*.+?\*\*|`.+?`|!\[.*?\]\(.*?\)|\[.*?\]\(.*?\)/g,
+            "",
+          )
+          .replace(/\s\s+/g, " ")
+          .trim()
+          .slice(0, 150);
+
+        const { content: _, ...postWithoutContent } = post;
+        return {
+          ...postWithoutContent,
+          excerpt: `${excerpt}...`,
+        };
+      });
+    },
     (err) => {
       Logger.error("Error fetching published posts", err);
       return ERRORS.GENERIC.UNKNOWN_ERROR;
