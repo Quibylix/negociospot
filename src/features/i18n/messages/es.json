@@ -320,5 +320,12 @@
     "text": "Impulsado por",
     "app_name": "NegocioSpot",
     "register_your_business": "Registra tu negocio ahora"
+  },
+  "blog": {
+    "title": "Blog",
+    "no_posts": "No hay posts publicados todavía.",
+    "read_more": "Leer más",
+    "published_on": "Publicado el",
+    "post_not_found": "Post no encontrado"
   }
 }
