@@ -4,6 +4,7 @@ import {
   CardSection,
   Container,
   Image,
+  rem,
   SimpleGrid,
   Text,
   Title,
@@ -32,7 +33,14 @@ export default async function BlogListPage() {
 
   return (
     <Container py="xl">
-      <Title order={1} mb="xl">
+      <Title
+        fz={{
+          base: rem(24),
+          md: rem(32),
+        }}
+        ta="center"
+        mb="xl"
+      >
         {t("title")}
       </Title>
       {posts.length === 0 ? (
