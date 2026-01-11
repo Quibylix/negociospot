@@ -1,7 +1,17 @@
-import { Container, Image, rem, SimpleGrid, Title } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Group,
+  rem,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { ResultAsync } from "neverthrow";
 import { getTranslations } from "next-intl/server";
 import z from "zod";
+import { Link } from "@/features/i18n/navigation";
 import { Logger } from "@/features/logger/logger";
 import { RestaurantCard } from "@/features/restaurants/components/restaurant-card/restaurant-card.component";
 import { RestaurantsFilter } from "@/features/restaurants/components/restaurant-filter/restaurant-filter.component";
@@ -90,58 +100,85 @@ export default async function HomePage({
 
   return (
     <Container fluid p={0}>
-      <Container pos="relative" fluid p={0}>
-        <Image
-          style={{ filter: "brightness(0.65)" }}
-          src={hero.src}
-          alt="Hero Image"
-          mb="xl"
-          radius="md"
-          width={hero.width}
-          height={hero.height}
+      <Group
+        align="center"
+        pos="relative"
+        p={0}
+        mb="xl"
+        bg={`url(${hero.src}) no-repeat center / cover`}
+        w="100%"
+        style={{
+          aspectRatio: hero.width / hero.height,
+        }}
+        mah={400}
+      >
+        <Stack
+          align="center"
+          justify="center"
           w="100%"
           h="100%"
-          mah={300}
-          loading="eager"
-        />
-        <Title
-          fz={{
-            base: rem(24),
-            sm: rem(32),
-            md: rem(48),
-          }}
-          w="max-content"
-          h="max-content"
-          pos="absolute"
-          top={0}
-          bottom={0}
-          left={0}
-          right={0}
-          m="auto"
-          c="primary.5"
+          mih="max-content"
+          p="lg"
           style={{
-            textTransform: "capitalize",
-            zIndex: 1,
-            filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7))",
+            backdropFilter: "brightness(0.8)",
           }}
         >
-          {t("welcome_message")}
-        </Title>
+          <Title
+            fz={{
+              base: rem(32),
+              sm: rem(32),
+              md: rem(48),
+            }}
+            ta="center"
+            h="max-content"
+            c="primary.5"
+            style={{
+              textTransform: "capitalize",
+              filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7))",
+            }}
+          >
+            {t("welcome_message")}
+          </Title>{" "}
+          <Text
+            fz={{ base: rem(18), md: rem(22) }}
+            mx="auto"
+            ta="center"
+            c="gray.1"
+            w={rem(600)}
+            maw="90%"
+            style={{
+              filter: "drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.7))",
+            }}
+          >
+            {t("hero_subtitle")}
+          </Text>
+          <Button
+            size="md"
+            component={Link}
+            href="/restaurants/create"
+            variant="filled"
+            color="teal"
+          >
+            {t("register_business_cta")}
+          </Button>
+        </Stack>
+      </Group>
+      <Container size="lg">
+        <RestaurantsFilter
+          initialValues={{
+            query: query,
+            tags: tagsIdsResult.data?.map((tg) => String(tg)) ?? [],
+            location: locationResult.success
+              ? {
+                  lat: locationResult.data.lat,
+                  lng: locationResult.data.lng,
+                }
+              : undefined,
+            radiusInKm: locationResult.data?.radiusKm,
+          }}
+          availableTags={availableTags}
+        />
       </Container>
-      <RestaurantsFilter
-        initialValues={{
-          query: query,
-          tags: tagsIdsResult.data?.map((tg) => String(tg)) ?? [],
-          location: locationResult.success
-            ? {
-                lat: locationResult.data.lat,
-                lng: locationResult.data.lng,
-              }
-            : undefined,
-          radiusInKm: locationResult.data?.radiusKm,
-        }}
-        availableTags={availableTags}
-      />
       <Container size="lg" py="xl">
         <SimpleGrid
           cols={{

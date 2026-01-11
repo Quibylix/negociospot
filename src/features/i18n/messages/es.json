@@ -65,7 +65,9 @@
   },
   "home": {
     "title": "NegocioSpot",
-    "welcome_message": "Descubre el sabor local"
+    "welcome_message": "Descubre el sabor local",
+    "hero_subtitle": "La guía definitiva para descubrir y apoyar negocios cercanos a tí.",
+    "register_business_cta": "Registra tu Restaurante"
   },
   "about": {
     "title": "Redefiniendo el comercio local en El Salvador",
