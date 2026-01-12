@@ -48,7 +48,7 @@ export function useCreateMenuForm(restaurantSlug: string) {
           items: category.items.map((item) => ({
             name: item.name,
             description: item.description,
-            price: item.price * 100,
+            price: Math.round(item.price * 100),
           })),
         })),
       })

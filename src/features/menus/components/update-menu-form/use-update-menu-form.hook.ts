@@ -78,7 +78,7 @@ export function useUpdateMenuForm(
             id: item.id,
             name: item.name,
             description: item.description,
-            price: item.price * 100,
+            price: Math.round(item.price * 100),
           })),
         })),
       })
