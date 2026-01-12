@@ -56,7 +56,8 @@
       "register": "Registrarse",
       "logout": "Cerrar sesión",
       "create_restaurant": "Crear restaurante",
-      "favorites": "Favoritos"
+      "favorites": "Favoritos",
+      "blog": "Blog"
     }
   },
   "layout": {

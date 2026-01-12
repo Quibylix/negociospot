@@ -12,5 +12,6 @@ export function generateNavbarLinks(
       href: "/restaurants/create",
     },
     FAVORITES: { label: t("favorites"), href: "/restaurants/favorites" },
+    BLOG: { label: t("blog"), href: "/blog" },
   };
 }

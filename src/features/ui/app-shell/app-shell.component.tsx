@@ -22,5 +22,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
     navbarLinks.push(baseNavbarLinks.CREATE_RESTAURANT);
   }
 
+  navbarLinks.push(baseNavbarLinks.BLOG);
+
   return <AppShellView navbarLinks={navbarLinks}>{children}</AppShellView>;
 }
