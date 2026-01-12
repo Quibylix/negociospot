@@ -2,15 +2,15 @@ import { z } from "zod";
 import { ERROR_VALUES } from "@/features/shared/constants/errors";
 
 export const createMenuBodySchema = z.object({
-  name: z.string().min(1).max(100),
+  name: z.string().min(1).max(200),
   categories: z
     .array(
       z.object({
-        name: z.string().min(1).max(100),
+        name: z.string().min(1).max(200),
         items: z
           .array(
             z.object({
-              name: z.string().min(1).max(100),
+              name: z.string().min(1).max(200),
               description: z.string().max(500).optional(),
               price: z.int().min(0),
             }),
