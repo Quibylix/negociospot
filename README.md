@@ -33,6 +33,7 @@ NEXT_PUBLIC_SITE_URL="[your-site-url]"
 NEXT_PUBLIC_SUPPORT_EMAIL="[your-support-email]"
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="[your-google-maps-api-key]"
 NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID="[your-google-maps-map-id]"
+NEXT_PUBLIC_UMAMI_WEBSITE_ID="[your-umami-website-id]" # Optional for analytics
 ```
 
 ### 2. Supabase Dashboard Configuration

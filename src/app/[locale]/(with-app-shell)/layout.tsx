@@ -16,6 +16,7 @@ import {
 import { getTranslations } from "next-intl/server";
 import { Logger } from "@/features/logger/logger";
 import { AppShell } from "@/features/ui/app-shell/app-shell.component";
+import { AnalyticsScript } from "@/lib/analytics/script.component";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("layout").catch(() => {
@@ -108,6 +109,7 @@ export default async function LocaleLayout({
     <html lang={locale} {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
+        <AnalyticsScript />
       </head>
       <body>
         <MantineProvider theme={theme}>
