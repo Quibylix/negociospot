@@ -52,7 +52,7 @@ export function useRestaurantFilter(initialValues: {
           params.set(RADIUS_KM_SEARCH_PARAM, radiusInKm.toString());
         }
 
-        router.push(`${pathname}?${params.toString()}`);
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
       }, DEBOUNCE_DELAY_MS);
     },
   });
@@ -75,7 +75,7 @@ export function useRestaurantFilter(initialValues: {
       params.set(RADIUS_KM_SEARCH_PARAM, radiusInKm.toString());
     }
 
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const handleClear = () => {
@@ -85,7 +85,7 @@ export function useRestaurantFilter(initialValues: {
       location: null,
       radiusInKm: 10,
     });
-    router.push(pathname);
+    router.push(pathname, { scroll: false });
   };
 
   const handleNearMe = () => {
