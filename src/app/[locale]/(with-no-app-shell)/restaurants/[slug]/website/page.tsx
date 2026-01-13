@@ -1,5 +1,8 @@
 import { Box, Container, Paper } from "@mantine/core";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import { cache } from "react";
 import { Logger } from "@/features/logger/logger";
 import { RestaurantDetail } from "@/features/restaurants/components/restaurant-detail/restaurant-detail.component";
 import {
@@ -8,6 +11,10 @@ import {
 } from "@/features/restaurants/components/restaurant-detail/service-to-detail-adapter";
 import { RestaurantsService } from "@/features/restaurants/service";
 
+const getRestaurantBySlug = cache(async (slug: string) => {
+  return RestaurantsService.getRestaurantBySlug(slug);
+});
+
 export default async function RestaurantWebsitePage({
   params,
 }: {
@@ -15,12 +22,10 @@ export default async function RestaurantWebsitePage({
 }) {
   const { slug } = await params;
 
-  const restaurant = await RestaurantsService.getRestaurantBySlug(slug).catch(
-    (error) => {
-      Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
-      return null;
-    },
-  );
+  const restaurant = await getRestaurantBySlug(slug).catch((error) => {
+    Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
+    return null;
+  });
 
   if (!restaurant) {
     notFound();
@@ -52,4 +57,43 @@ export default async function RestaurantWebsitePage({
       </Container>
     </Box>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const t = await getTranslations();
+
+  const restaurant = await getRestaurantBySlug(slug).catch((error) => {
+    Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
+    return null;
+  });
+
+  if (!restaurant) {
+    return {
+      title: t("errors.restaurants.not_found"),
+    };
+  }
+
+  return {
+    title: restaurant.name,
+    ...(restaurant.description ? { description: restaurant.description } : {}),
+    openGraph: {
+      title: restaurant.name,
+      description: restaurant.description || undefined,
+      images: restaurant.coverImgUrl
+        ? [
+            {
+              url: restaurant.coverImgUrl,
+              width: 800,
+              height: 300,
+              alt: restaurant.name,
+            },
+          ]
+        : undefined,
+    },
+  };
 }

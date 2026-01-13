@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import { cache } from "react";
 import { AuthService } from "@/features/auth/service";
 import { check } from "@/features/auth/utils/permissions.util";
 import { Logger } from "@/features/logger/logger";
@@ -13,6 +16,10 @@ import {
   RestaurantsService,
 } from "@/features/restaurants/service";
 
+const getRestaurantBySlug = cache((slug: string) =>
+  RestaurantsService.getRestaurantBySlug(slug),
+);
+
 export default async function RestaurantPage({
   params,
 }: {
@@ -20,12 +27,10 @@ export default async function RestaurantPage({
 }) {
   const { slug } = await params;
 
-  const restaurant = await RestaurantsService.getRestaurantBySlug(slug).catch(
-    (error) => {
-      Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
-      return null;
-    },
-  );
+  const restaurant = await getRestaurantBySlug(slug).catch((error) => {
+    Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
+    return null;
+  });
 
   if (!restaurant) {
     notFound();
@@ -100,4 +105,43 @@ export default async function RestaurantPage({
       }}
     />
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const t = await getTranslations();
+
+  const restaurant = await getRestaurantBySlug(slug).catch((error) => {
+    Logger.warn(`Restaurant with slug "${slug}" not found.`, error);
+    return null;
+  });
+
+  if (!restaurant) {
+    return {
+      title: t("errors.restaurants.not_found"),
+    };
+  }
+
+  return {
+    title: restaurant.name,
+    ...(restaurant.description ? { description: restaurant.description } : {}),
+    openGraph: {
+      title: restaurant.name,
+      description: restaurant.description || undefined,
+      images: restaurant.coverImgUrl
+        ? [
+            {
+              url: restaurant.coverImgUrl,
+              width: 800,
+              height: 300,
+              alt: restaurant.name,
+            },
+          ]
+        : undefined,
+    },
+  };
 }
