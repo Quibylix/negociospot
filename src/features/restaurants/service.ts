@@ -79,6 +79,7 @@ export const RestaurantsService = {
     schedule?: string;
     coverImgUrl?: string;
     phone?: string;
+    whatsapp?: string;
     creatorId: string;
     tagIds?: number[];
     lat?: number;
@@ -94,6 +95,7 @@ export const RestaurantsService = {
         schedule: data.schedule ?? null,
         coverImgUrl: data.coverImgUrl ?? null,
         phone: data.phone ?? null,
+        whatsapp: data.whatsapp ?? null,
         createdById: data.creatorId,
         lat: data.lat ?? null,
         lng: data.lng ?? null,
@@ -115,6 +117,7 @@ export const RestaurantsService = {
       schedule?: string;
       coverImgUrl?: string;
       phone?: string;
+      whatsapp?: string;
       tagIds?: number[];
       lat?: number;
       lng?: number;
@@ -130,6 +133,7 @@ export const RestaurantsService = {
         schedule: data.schedule ?? null,
         coverImgUrl: data.coverImgUrl ?? null,
         phone: data.phone ?? null,
+        whatsapp: data.whatsapp ?? null,
         lat: data.lat ?? null,
         lng: data.lng ?? null,
         tags: {
