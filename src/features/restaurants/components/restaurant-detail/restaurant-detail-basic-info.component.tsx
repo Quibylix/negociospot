@@ -104,15 +104,16 @@ export function RestaurantDetailBasicInfo({
             </Text>
           </Group>
           {phone && (
-            <Button
-              component="a"
-              href={`tel:${phone}`}
-              variant="outline"
-              leftSection={<IconPhone size={18} />}
-              fullWidth
-            >
-              {t("call")}
-            </Button>
+            <Group wrap="nowrap">
+              <ThemeIcon variant="light" color="orange">
+                <IconPhone size={18} />
+              </ThemeIcon>
+              <Text lineClamp={1} size="sm">
+                <Anchor href={`tel:${phone}`} size="sm">
+                  {phone}
+                </Anchor>
+              </Text>
+            </Group>
           )}
           {whatsapp && (
             <Button
