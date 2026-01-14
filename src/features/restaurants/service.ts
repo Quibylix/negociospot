@@ -78,6 +78,7 @@ export const RestaurantsService = {
     description?: string;
     schedule?: string;
     coverImgUrl?: string;
+    phone?: string;
     creatorId: string;
     tagIds?: number[];
     lat?: number;
@@ -92,6 +93,7 @@ export const RestaurantsService = {
         description: data.description ?? null,
         schedule: data.schedule ?? null,
         coverImgUrl: data.coverImgUrl ?? null,
+        phone: data.phone ?? null,
         createdById: data.creatorId,
         lat: data.lat ?? null,
         lng: data.lng ?? null,
@@ -112,6 +114,7 @@ export const RestaurantsService = {
       description?: string;
       schedule?: string;
       coverImgUrl?: string;
+      phone?: string;
       tagIds?: number[];
       lat?: number;
       lng?: number;
@@ -126,6 +129,7 @@ export const RestaurantsService = {
         description: data.description ?? null,
         schedule: data.schedule ?? null,
         coverImgUrl: data.coverImgUrl ?? null,
+        phone: data.phone ?? null,
         lat: data.lat ?? null,
         lng: data.lng ?? null,
         tags: {
