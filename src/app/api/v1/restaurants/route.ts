@@ -45,6 +45,7 @@ export const POST = createTypedJsonRoute<
     tagIds,
     coverImgUrl,
     phone,
+    whatsapp,
     lat,
     lng,
   } = parsedBody;
@@ -64,6 +65,7 @@ export const POST = createTypedJsonRoute<
       description,
       coverImgUrl,
       phone,
+      whatsapp,
       tagIds,
       lat,
       lng,
