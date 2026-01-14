@@ -6,6 +6,7 @@ export const updateRestaurantBodySchema = z.object({
   description: z.string().min(1).max(800).optional(),
   schedule: z.string().min(1).max(300).optional(),
   address: z.string().min(1).max(200).optional(),
+  phone: z.string().min(1).max(20).optional(),
   lat: z.number().min(-90).max(90).optional(),
   lng: z.number().min(-180).max(180).optional(),
   tagIds: z.array(z.int().min(1)).optional(),

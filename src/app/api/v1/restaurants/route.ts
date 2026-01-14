@@ -44,6 +44,7 @@ export const POST = createTypedJsonRoute<
     schedule,
     tagIds,
     coverImgUrl,
+    phone,
     lat,
     lng,
   } = parsedBody;
@@ -62,6 +63,7 @@ export const POST = createTypedJsonRoute<
       schedule,
       description,
       coverImgUrl,
+      phone,
       tagIds,
       lat,
       lng,
