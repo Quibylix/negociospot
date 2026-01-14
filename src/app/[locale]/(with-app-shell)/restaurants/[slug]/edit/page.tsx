@@ -80,6 +80,8 @@ export default async function EditRestaurantPage({
           address: restaurant.address ?? "",
           coverImgUrl: restaurant.coverImgUrl ?? "",
           schedule: restaurant.schedule ?? "",
+          phone: restaurant.phone ?? "",
+          whatsapp: restaurant.whatsapp ?? "",
           tags: restaurant.tags.map((tag) => tag.id),
           lat: restaurant.lat,
           lng: restaurant.lng,

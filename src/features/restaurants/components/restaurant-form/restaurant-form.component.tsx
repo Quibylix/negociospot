@@ -43,6 +43,8 @@ export type RestaurantFormProps =
         coverImgUrl: string;
         tags: number[];
         schedule: string;
+        phone: string;
+        whatsapp: string;
         lat: number | null;
         lng: number | null;
       };
@@ -109,8 +111,8 @@ export function RestaurantForm(props: RestaurantFormProps) {
         reviews: [],
         menus: [],
         schedule: debouncedValues.schedule,
-        phone: "",
-        whatsapp: "",
+        phone: debouncedValues.phone,
+        whatsapp: debouncedValues.whatsapp,
         isFavorite: false,
         slug: "preview-restaurant",
       }}
@@ -191,6 +193,18 @@ export function RestaurantForm(props: RestaurantFormProps) {
               placeholder={t("schedule_placeholder")}
               mt="md"
               {...form.getInputProps("schedule")}
+            />
+            <TextInput
+              label={t("phone_label")}
+              placeholder={t("phone_placeholder")}
+              mt="md"
+              {...form.getInputProps("phone")}
+            />
+            <TextInput
+              label={t("whatsapp_label")}
+              placeholder={t("whatsapp_placeholder")}
+              mt="md"
+              {...form.getInputProps("whatsapp")}
             />
             <Text size="sm" mt="md" fw={500} mb="xs">
               {t("cover_img_label")}

@@ -27,6 +27,8 @@ export type RestaurantFormData = {
     description: string;
     address: string;
     schedule: string;
+    phone: string;
+    whatsapp: string;
     tags: string[];
     lat: number | null;
     lng: number | null;
@@ -67,6 +69,8 @@ export function useRestaurantForm(
       description: "",
       address: "",
       schedule: "",
+      phone: "",
+      whatsapp: "",
       lat: null,
       lng: null,
       tags: [],
@@ -196,6 +200,8 @@ export function useRestaurantForm(
         description: values.description.trim() || undefined,
         schedule: values.schedule.trim() || undefined,
         address: values.address.trim() || undefined,
+        phone: values.phone.trim() || undefined,
+        whatsapp: values.whatsapp.trim() || undefined,
         coverImgUrl: finalCoverImgUrl ? finalCoverImgUrl : undefined,
         lat: values.lat ?? undefined,
         lng: values.lng ?? undefined,
