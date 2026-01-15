@@ -3,12 +3,13 @@ import {
   Card,
   CardSection,
   Container,
+  Group,
   Image,
-  rem,
   SimpleGrid,
   Text,
   Title,
 } from "@mantine/core";
+import { IconBooks } from "@tabler/icons-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { getPublishedPosts } from "@/features/blog/service";
 import { Link } from "@/features/i18n/navigation";
@@ -33,16 +34,9 @@ export default async function BlogListPage() {
 
   return (
     <Container py="xl">
-      <Title
-        fz={{
-          base: rem(24),
-          md: rem(32),
-        }}
-        ta="center"
-        mb="xl"
-      >
-        {t("title")}
-      </Title>
+      <Group component={Title} ta="center" mb="xl" justify="center" gap="xs">
+        {t("title")} <IconBooks size={32} />
+      </Group>
       {posts.length === 0 ? (
         <Text>{t("no_posts")}</Text>
       ) : (

@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = postResult.value;
 
   return (
-    <Container component="article" size="md" py="xl">
+    <Container component="article" size="md" p={0}>
       <Box maw={1200} m="auto">
         <Image
           src={post.coverImgUrl || "https://placehold.co/1200x400?text=Cover"}
@@ -107,7 +107,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             mb={-40}
           >
             <Group justify="space-between" align="center">
-              <Title textWrap="wrap" order={1}>
+              <Title
+                textWrap="wrap"
+                order={1}
+                fz={{ base: "h3", sm: "h2", md: "h1" }}
+              >
                 {post.title}
               </Title>
               {post.publishedAt && (
