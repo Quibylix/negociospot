@@ -335,6 +335,15 @@
     "published_on": "Publicado el",
     "post_not_found": "Post no encontrado"
   },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "q1": "¿Qué es NegocioSpot?",
+    "a1": "NegocioSpot es una plataforma web dedicada a conectar negocios locales con sus clientes. Ayudamos a los negocios a tener presencia digital y a los usuarios a descubrir servicios y productos cerca de ellos.",
+    "q2": "¿Es gratis registrar mi negocio en NegocioSpot?",
+    "a2": "Sí, registrar tu negocio y crear un perfil en NegocioSpot es completamente gratis. Todos nuestros servicios son completamente gratis por el momento.",
+    "q3": "¿Cómo puedo contactar al soporte de NegocioSpot?",
+    "a3": "Puedes contactarnos a través de nuestro formulario en la página de contacto o enviándonos un correo electrónico a {supportEmail}. Nuestro equipo estará encantado de ayudarte."
+  },
   "footer": {
     "app_name": "NegocioSpot",
     "description": "La guía definitiva para descubrir y apoyar negocios cercanos a tí.",
