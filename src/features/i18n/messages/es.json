@@ -177,6 +177,13 @@
     "not_found": "¿No lo encuentras? Revisa tu carpeta de spam",
     "go_back": "Volver al inicio de sesión"
   },
+  "contact": {
+    "title": "Contáctanos",
+    "description": "Tienes alguna pregunta, sugerencia o simplemente quieres saludar? ¡Nos encantaría saber de ti! Envíanos un correo electrónico directamente.",
+    "mailto_cta": "Enviar correo a soporte",
+    "mailto_subject": "Consulta desde NegocioSpot",
+    "mailto_body": "Hola, tengo una pregunta sobre..."
+  },
   "restaurant": {
     "card": {
       "view_restaurant": "Ver restaurante",
