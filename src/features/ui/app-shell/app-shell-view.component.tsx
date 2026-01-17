@@ -6,13 +6,16 @@ import {
   AppShellMain,
   AppShellNavbar,
   Burger,
+  Container,
   Group,
   AppShell as MantineAppShell,
   NavLink,
+  Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/features/i18n/navigation";
+import { Footer, type FooterProps } from "../footer/footer.component";
 import { Logo } from "../logo.component";
 
 const MENU_WIDTH = 300;
@@ -20,9 +23,14 @@ const MENU_WIDTH = 300;
 export type AppShellViewProps = {
   children: React.ReactNode;
   navbarLinks: { label: string; href: string }[];
+  footerLinks: FooterProps["links"];
 };
 
-export function AppShellView({ children, navbarLinks }: AppShellViewProps) {
+export function AppShellView({
+  children,
+  navbarLinks,
+  footerLinks,
+}: AppShellViewProps) {
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname();
   const t = useTranslations("app_shell");
@@ -35,7 +43,6 @@ export function AppShellView({ children, navbarLinks }: AppShellViewProps) {
         breakpoint: "md",
         collapsed: { mobile: !opened },
       }}
-      padding="md"
     >
       <AppShellHeader>
         <Group h="100%" px="md">
@@ -63,7 +70,14 @@ export function AppShellView({ children, navbarLinks }: AppShellViewProps) {
           />
         ))}
       </AppShellNavbar>
-      <AppShellMain>{children}</AppShellMain>
+      <AppShellMain display="flex">
+        <Stack w="100%">
+          <Container flex="1 0 auto" w="100%" fluid p="md">
+            {children}
+          </Container>
+          <Footer links={footerLinks} />
+        </Stack>
+      </AppShellMain>
     </MantineAppShell>
   );
 }

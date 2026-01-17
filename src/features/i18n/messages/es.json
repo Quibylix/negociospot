@@ -334,5 +334,16 @@
     "read_more": "Leer más",
     "published_on": "Publicado el",
     "post_not_found": "Post no encontrado"
+  },
+  "footer": {
+    "app_name": "NegocioSpot",
+    "description": "La guía definitiva para descubrir y apoyar negocios cercanos a tí.",
+    "about_us": "Sobre nosotros",
+    "faq": "Preguntas frecuentes",
+    "contact": "Contacto",
+    "blog": "Blog",
+    "legal": "Legal",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad"
   }
 }
